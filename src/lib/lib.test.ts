@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { COLOR_MEANINGS } from "./color/meaning";
 import { generateColors, midpoint } from "./color/generate";
@@ -7,6 +8,7 @@ import { DEFAULT_PALETTE } from "./color/types";
 import { EXPORT_FORMATS, toSlug, uniqueSlugs } from "./export";
 import { parseImportText } from "./import";
 import { renderPaletteSvg } from "./palette-image";
+import { OG_IMAGE_SIZE, ogImagePath, SITE_TAGLINES } from "./site";
 
 const build = (id: string) => EXPORT_FORMATS.find((format) => format.id === id)!.build;
 
@@ -206,6 +208,19 @@ describe("meaning statements", () => {
         expect(source.url, `${family}: source link of "${claim.en}"`).toMatch(/^https:\/\//);
         if (source.doi) expect(source.url, "DOI sources link to doi.org").toBe(`https://doi.org/${source.doi}`);
       }
+    }
+  });
+});
+
+describe("link preview image", () => {
+  // A PNG starts with an 8-byte signature and the IHDR chunk; width and height are its first two fields.
+  const pngSize = (file: Buffer) => ({ width: file.readUInt32BE(16), height: file.readUInt32BE(20) });
+
+  it("exists in public/ for every language at the path the metadata links", () => {
+    for (const locale of Object.keys(SITE_TAGLINES) as (keyof typeof SITE_TAGLINES)[]) {
+      const file = new URL(`../../public${ogImagePath(locale)}`, import.meta.url);
+      expect(existsSync(file), `${locale}: missing public${ogImagePath(locale)}, run pnpm og-image`).toBe(true);
+      expect(pngSize(readFileSync(file)), `${locale}: image size`).toEqual(OG_IMAGE_SIZE);
     }
   });
 });

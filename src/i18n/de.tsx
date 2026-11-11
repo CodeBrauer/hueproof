@@ -21,6 +21,7 @@ export const de: Dictionary = {
       "Farbenblindheit Simulator",
       "Farben umrechnen",
     ],
+    imageAlt: `${SITE_NAME}: eine Farbpalette als fünf senkrechte Streifen mit ihren Hex-Codes.`,
   },
 
   common: {

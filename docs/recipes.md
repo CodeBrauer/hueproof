@@ -41,7 +41,7 @@ Add it to `REFERENCES` in `src/lib/references.ts` and render it with `SourceLink
 ## Change the default palette, the name or a tagline
 
 Edit `DEFAULT_PALETTE` in `src/lib/color/types.ts` or the constants in `src/lib/site.ts`, then run
-`pnpm og-image`. It rewrites `src/app/icon.svg` and the link preview image of each language.
+`pnpm og-image`. It rewrites `src/app/icon.svg` and the link preview image of each language in `public/og/`.
 
 ## Add a language
 

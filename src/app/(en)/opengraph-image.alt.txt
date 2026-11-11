@@ -1,1 +1,0 @@
-Hueproof: a color palette shown as five vertical stripes with their hex codes.

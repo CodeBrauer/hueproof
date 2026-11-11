@@ -5,18 +5,16 @@ import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
 import { DEFAULT_PALETTE } from "../src/lib/color/types.ts";
 import { renderIconSvg, renderPaletteSvg } from "../src/lib/palette-image.ts";
-import { SITE_NAME, SITE_TAGLINES } from "../src/lib/site.ts";
+import { OG_IMAGE_SIZE, ogImagePath, SITE_NAME, SITE_TAGLINES } from "../src/lib/site.ts";
 
-/** Folder of each language's page inside `src/app`. */
-const TARGETS = { en: "(en)", de: "(de)/de" };
-const appFile = (path) => fileURLToPath(new URL(`../src/app/${path}`, import.meta.url));
+const repoFile = (path) => fileURLToPath(new URL(`../${path}`, import.meta.url));
 
-writeFileSync(appFile("icon.svg"), `${renderIconSvg(DEFAULT_PALETTE.map((color) => color.hex))}\n`);
+writeFileSync(repoFile("src/app/icon.svg"), `${renderIconSvg(DEFAULT_PALETTE.map((color) => color.hex))}\n`);
 console.log("icon: written");
 
-for (const [locale, folder] of Object.entries(TARGETS)) {
-  const svg = renderPaletteSvg(DEFAULT_PALETTE, { caption: { title: SITE_NAME, subtitle: SITE_TAGLINES[locale] } });
+for (const [locale, subtitle] of Object.entries(SITE_TAGLINES)) {
+  const svg = renderPaletteSvg(DEFAULT_PALETTE, { ...OG_IMAGE_SIZE, caption: { title: SITE_NAME, subtitle } });
   const png = new Resvg(svg, { font: { loadSystemFonts: true } }).render().asPng();
-  writeFileSync(appFile(`${folder}/opengraph-image.png`), png);
+  writeFileSync(repoFile(`public${ogImagePath(locale)}`), png);
   console.log(`${locale}: wrote ${png.length} bytes`);
 }

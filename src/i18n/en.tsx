@@ -29,6 +29,7 @@ export const en = {
       "color blindness simulator",
       "color converter",
     ],
+    imageAlt: `${SITE_NAME}: a color palette shown as five vertical stripes with their hex codes.`,
   },
 
   common: {
