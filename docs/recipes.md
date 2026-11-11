@@ -43,6 +43,18 @@ Add it to `REFERENCES` in `src/lib/references.ts` and render it with `SourceLink
 Edit `DEFAULT_PALETTE` in `src/lib/color/types.ts` or the constants in `src/lib/site.ts`, then run
 `pnpm og-image`. It rewrites `src/app/icon.svg` and the link preview image of each language in `public/og/`.
 
+## Update the README screenshots
+
+`docs/images/screenshot-light.png` and `-dark.png` show the default palette in English at 1440 px width,
+2× pixel density, cut below the tab row. Take each from the live site with your installed Chrome, then
+crop it to 1190 px height (`sips -c 1190 2880 --cropOffset 0 0 <file>` on macOS):
+
+```bash
+npx playwright screenshot --channel chrome --device "Desktop Chrome HiDPI" --viewport-size 1440,700 \
+  --lang en-US --color-scheme light --wait-for-timeout 3000 \
+  "https://tools.codebrauer.com/hueproof/#d5ac85-f5e9d9-132c29-751729-7a8f6e" screenshot-light.png
+```
+
 ## Add a language
 
 See "Languages" in the [README](../README.md).

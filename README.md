@@ -5,6 +5,15 @@ text contrast (WCAG 2 and APCA), color blindness simulation, one-click lightness
 color conversions and export. No backend: the palette lives in the URL fragment
 (`/#d5ac85-f5e9d9-132c29`), saved palettes in `localStorage`.
 
+**Try it: https://tools.codebrauer.com/hueproof/** (English and German)
+
+<a href="https://tools.codebrauer.com/hueproof/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/screenshot-dark.png">
+    <img src="docs/images/screenshot-light.png" width="1440" alt="Hueproof with a palette of five colors, their hex codes and names, and the Contrast, Color vision, Temperature and Preview tabs below.">
+  </picture>
+</a>
+
 ## Features
 
 - Palette of 2–10 colors: pick, name, lock, reorder by drag, generate the unlocked ones (Space).
