@@ -1,0 +1,877 @@
+{
+  "families": {
+    "red": [
+      {
+        "claim": {
+          "en": "A systematic review of 132 articles ties red to arousing, powerful emotions of both valences: most often anger (about 70% of relevant studies), also love and joy.",
+          "de": "Eine systematische Übersichtsarbeit über 132 Artikel verbindet Rot mit erregenden, kraftvollen Emotionen beider Richtungen: am häufigsten Wut (etwa 70 % der einschlägigen Studien), außerdem Liebe und Freude."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Mostly abstract associations, not felt emotion; a 30-nation study found such pairings broadly shared but shaped by language and geography.",
+          "de": "Überwiegend abstrakte Assoziationen, keine empfundenen Emotionen; eine Studie in 30 Ländern fand solche Zuordnungen weitgehend geteilt, aber von Sprache und Geografie geprägt."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Adams & Osgood",
+            "year": 1973,
+            "title": "A Cross-Cultural Study of the Affective Meanings of Color",
+            "container": "Journal of Cross-Cultural Psychology, 4(2), 135–156",
+            "doi": "10.1177/002202217300400201",
+            "url": "https://doi.org/10.1177/002202217300400201"
+          },
+          {
+            "authors": "Jonauskaite et al.",
+            "year": 2020,
+            "title": "Universal Patterns in Color-Emotion Associations Are Further Shaped by Linguistic and Geographic Proximity",
+            "container": "Psychological Science, 31(10), 1245–1260",
+            "doi": "10.1177/0956797620948810",
+            "url": "https://doi.org/10.1177/0956797620948810"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "Red marks prohibition, danger alarms and fire-fighting equipment on EU workplace signs, means stop at traffic lights, and denotes danger in ISO color-coded alerts.",
+          "de": "Rot kennzeichnet auf EU-Sicherheitszeichen am Arbeitsplatz Verbote, Gefahrenalarm und Material zur Brandbekämpfung, bedeutet an Ampeln Halt und steht in farbcodierten ISO-Warnungen für Gefahr."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "The ISO meaning is taken from ISO's own summary of ISO 22324:2015, which was revised in 2022.",
+          "de": "Die ISO-Bedeutung stammt aus der ISO-eigenen Zusammenfassung von ISO 22324:2015; die Norm wurde 2022 überarbeitet."
+        },
+        "sources": [
+          {
+            "authors": "Council of the European Communities",
+            "year": 1992,
+            "title": "Council Directive 92/58/EEC of 24 June 1992 on the minimum requirements for the provision of safety and/or health signs at work",
+            "container": "Official Journal of the European Communities, L 245, 26.8.1992 (Annex I, point 4)",
+            "doi": null,
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:31992L0058"
+          },
+          {
+            "authors": "United Nations",
+            "year": 1968,
+            "title": "Convention on Road Signs and Signals",
+            "container": "United Nations Treaty Series, vol. 1091, No. 16743 (Vienna, 8 November 1968), Article 23",
+            "doi": null,
+            "url": "https://treaties.un.org/doc/Publication/UNTS/Volume%201091/volume-1091-I-16743-English.pdf"
+          },
+          {
+            "authors": "International Organization for Standardization (ISO)",
+            "year": 2015,
+            "title": "Improving public alerts in emergency situations",
+            "container": "ISO news item summarising ISO 22324:2015, Societal security — Emergency management — Guidelines for colour-coded alerts",
+            "doi": null,
+            "url": "https://www.iso.org/news/2015/11/Ref2022.html"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "A meta-analysis found that red slightly raised men's attractiveness ratings of women (d ≈ 0.26) and barely affected women's ratings of men (d ≈ 0.13).",
+          "de": "Eine Metaanalyse ergab, dass Rot die Attraktivitätsbewertung von Frauen durch Männer leicht erhöhte (d ≈ 0,26) und die von Männern durch Frauen kaum beeinflusste (d ≈ 0,13)."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Strong heterogeneity, signs of upward bias, and effects that appear to shrink in newer and preregistered studies.",
+          "de": "Starke Heterogenität, Anzeichen für eine Überschätzung und Effekte, die in neueren und präregistrierten Studien kleiner auszufallen scheinen."
+        },
+        "sources": [
+          {
+            "authors": "Lehmann, Elliot & Calin-Jageman",
+            "year": 2018,
+            "title": "Meta-Analysis of the Effect of Red on Perceived Attractiveness",
+            "container": "Evolutionary Psychology, 16(4)",
+            "doi": "10.1177/1474704918802412",
+            "url": "https://doi.org/10.1177/1474704918802412"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In four lab experiments, briefly seeing red before a test such as an IQ test lowered performance, which the authors attribute to avoidance motivation.",
+          "de": "In vier Laborexperimenten senkte ein kurzer Blick auf Rot vor einem Test, etwa einem IQ-Test, die Leistung; die Autoren führen das auf Vermeidungsmotivation zurück."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Contested: a 2020 meta-analysis of 67 effect sizes found no evidential value after correcting for publication bias, and close replications failed.",
+          "de": "Umstritten: Eine Metaanalyse von 2020 über 67 Effektstärken fand nach Korrektur des Publikationsbias keinen Beleg, und direkte Replikationen scheiterten."
+        },
+        "sources": [
+          {
+            "authors": "Elliot, Maier, Moller, Friedman & Meinhardt",
+            "year": 2007,
+            "title": "Color and psychological functioning: The effect of red on performance attainment",
+            "container": "Journal of Experimental Psychology: General, 136(1), 154–168",
+            "doi": "10.1037/0096-3445.136.1.154",
+            "url": "https://doi.org/10.1037/0096-3445.136.1.154"
+          },
+          {
+            "authors": "Gnambs",
+            "year": 2020,
+            "title": "Limited evidence for the effect of red color on cognitive performance: A meta-analysis",
+            "container": "Psychonomic Bulletin & Review, 27(6), 1374–1382",
+            "doi": "10.3758/s13423-020-01772-1",
+            "url": "https://doi.org/10.3758/s13423-020-01772-1"
+          }
+        ]
+      }
+    ],
+    "orange": [
+      {
+        "claim": {
+          "en": "Orange was linked to joy in about three quarters of the studies that examined it, and less often to fun, pleasure and excitement.",
+          "de": "Orange wurde in etwa drei Vierteln der Studien, die es untersuchten, mit Freude verbunden, seltener mit Spaß, Vergnügen und Aufregung."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Only 17 studies paired orange with emotion terms, and its ratings on valence and arousal scales were statistically inconclusive.",
+          "de": "Nur 17 Studien ordneten Orange Emotionsbegriffe zu, und die Bewertungen auf Valenz- und Erregungsskalen waren statistisch nicht eindeutig."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Jonauskaite, Parraga, Quiblier & Mohr",
+            "year": 2020,
+            "title": "Feeling Blue or Seeing Red? Similar Patterns of Emotion Associations With Colour Patches and Colour Terms",
+            "container": "i-Perception, 11(1)",
+            "doi": "10.1177/2041669520902484",
+            "url": "https://doi.org/10.1177/2041669520902484"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "On US road signs, orange is the color assigned to temporary traffic control.",
+          "de": "Auf US-Verkehrsschildern ist Orange die Farbe für vorübergehende Verkehrsführung."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "US national standard, not an international convention.",
+          "de": "Nationaler US-Standard, keine internationale Konvention."
+        },
+        "sources": [
+          {
+            "authors": "Federal Highway Administration (FHWA)",
+            "year": 2023,
+            "title": "Manual on Uniform Traffic Control Devices for Streets and Highways, 11th Edition",
+            "container": "U.S. Department of Transportation, FHWA — Part 1, Section 1D.05 Color Code",
+            "doi": null,
+            "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Edition/part1.pdf"
+          }
+        ]
+      }
+    ],
+    "yellow": [
+      {
+        "claim": {
+          "en": "Yellow with joy is one of the most consistently reported pairings in a 132-article review, found in about 90% of relevant studies; yellow was also rated positive and arousing.",
+          "de": "Gelb und Freude ist eine der beständigsten Zuordnungen in einer Übersichtsarbeit über 132 Artikel, berichtet in etwa 90 % der einschlägigen Studien; Gelb wurde zudem als positiv und anregend bewertet."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "These are associations; the review notes it is unknown whether looking at yellow actually makes people feel happier.",
+          "de": "Es handelt sich um Assoziationen; laut der Übersichtsarbeit ist unbekannt, ob der Anblick von Gelb Menschen tatsächlich fröhlicher macht."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In a survey of 6,625 people in 55 countries, yellow was more likely to be linked with joy in rainier countries farther from the equator.",
+          "de": "In einer Befragung von 6.625 Menschen in 55 Ländern wurde Gelb in regenreicheren, äquatorferneren Ländern häufiger mit Freude verbunden."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Correlational; no seasonal effect was found, and a published commentary raised methodological concerns.",
+          "de": "Korrelativ; ein jahreszeitlicher Effekt wurde nicht gefunden, und ein veröffentlichter Kommentar äußerte methodische Bedenken."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite et al.",
+            "year": 2019,
+            "title": "The sun is no fun without rain: Physical environments affect how we feel about yellow across 55 countries",
+            "container": "Journal of Environmental Psychology, 66, 101350",
+            "doi": "10.1016/j.jenvp.2019.101350",
+            "url": "https://doi.org/10.1016/j.jenvp.2019.101350"
+          },
+          {
+            "authors": "Azer",
+            "year": 2020,
+            "title": "The sun and how do we feel about the color yellow? Methodological concerns",
+            "container": "Journal of Environmental Psychology, 67, 101380",
+            "doi": "10.1016/j.jenvp.2019.101380",
+            "url": "https://doi.org/10.1016/j.jenvp.2019.101380"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "Yellow or amber marks warning signs in EU workplaces and on US roads, and stands for caution in ISO color-coded alerts.",
+          "de": "Gelb oder Gelb-Orange kennzeichnet Warnzeichen an Arbeitsplätzen in der EU und auf US-Straßen und steht in farbcodierten ISO-Warnungen für Vorsicht."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "The ISO meaning is taken from ISO's own summary of ISO 22324:2015, which was revised in 2022.",
+          "de": "Die ISO-Bedeutung stammt aus der ISO-eigenen Zusammenfassung von ISO 22324:2015; die Norm wurde 2022 überarbeitet."
+        },
+        "sources": [
+          {
+            "authors": "Council of the European Communities",
+            "year": 1992,
+            "title": "Council Directive 92/58/EEC of 24 June 1992 on the minimum requirements for the provision of safety and/or health signs at work",
+            "container": "Official Journal of the European Communities, L 245, 26.8.1992 (Annex I, point 4)",
+            "doi": null,
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:31992L0058"
+          },
+          {
+            "authors": "Federal Highway Administration (FHWA)",
+            "year": 2023,
+            "title": "Manual on Uniform Traffic Control Devices for Streets and Highways, 11th Edition",
+            "container": "U.S. Department of Transportation, FHWA — Part 1, Section 1D.05 Color Code",
+            "doi": null,
+            "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Edition/part1.pdf"
+          },
+          {
+            "authors": "International Organization for Standardization (ISO)",
+            "year": 2015,
+            "title": "Improving public alerts in emergency situations",
+            "container": "ISO news item summarising ISO 22324:2015, Societal security — Emergency management — Guidelines for colour-coded alerts",
+            "doi": null,
+            "url": "https://www.iso.org/news/2015/11/Ref2022.html"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In a US preference study of 32 colors, dark yellow (olive) was liked least, significantly less than lighter and more saturated yellows.",
+          "de": "In einer US-Präferenzstudie mit 32 Farben war dunkles Gelb (Oliv) am unbeliebtesten, signifikant weniger beliebt als hellere und gesättigtere Gelbtöne."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "48 Americans sampled in Berkeley; correlational, and the theory itself predicts differences between cultures.",
+          "de": "48 US-Amerikaner aus Berkeley; korrelativ, und die Theorie selbst sagt Unterschiede zwischen Kulturen voraus."
+        },
+        "sources": [
+          {
+            "authors": "Palmer & Schloss",
+            "year": 2010,
+            "title": "An ecological valence theory of human color preference",
+            "container": "Proceedings of the National Academy of Sciences, 107(19), 8877–8882",
+            "doi": "10.1073/pnas.0906172107",
+            "url": "https://doi.org/10.1073/pnas.0906172107"
+          }
+        ]
+      }
+    ],
+    "green": [
+      {
+        "claim": {
+          "en": "Green was rated positive and low in arousal across studies, most often paired with calm and relaxation; a minority of studies also linked it to envy.",
+          "de": "Grün wurde studienübergreifend als positiv und wenig erregend bewertet und am häufigsten mit Ruhe und Entspannung verbunden; eine Minderheit der Studien verband es auch mit Neid."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Associations, not felt emotion; pairings were many-to-many, and a few studies linked green to disgust.",
+          "de": "Assoziationen, keine empfundenen Emotionen; die Zuordnungen waren mehrdeutig, und einige Studien verbanden Grün mit Ekel."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Adams & Osgood",
+            "year": 1973,
+            "title": "A Cross-Cultural Study of the Affective Meanings of Color",
+            "container": "Journal of Cross-Cultural Psychology, 4(2), 135–156",
+            "doi": "10.1177/002202217300400201",
+            "url": "https://doi.org/10.1177/002202217300400201"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "Green marks emergency exits, first aid and 'no danger' on EU workplace signs, means proceed at traffic lights, and signals a safe status in ISO color-coded alerts.",
+          "de": "Grün kennzeichnet auf EU-Sicherheitszeichen am Arbeitsplatz Notausgänge, Erste Hilfe und Gefahrlosigkeit, bedeutet an Ampeln freie Fahrt und signalisiert in farbcodierten ISO-Warnungen einen sicheren Zustand."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "The ISO meaning is taken from ISO's own summary of ISO 22324:2015, which was revised in 2022.",
+          "de": "Die ISO-Bedeutung stammt aus der ISO-eigenen Zusammenfassung von ISO 22324:2015; die Norm wurde 2022 überarbeitet."
+        },
+        "sources": [
+          {
+            "authors": "Council of the European Communities",
+            "year": 1992,
+            "title": "Council Directive 92/58/EEC of 24 June 1992 on the minimum requirements for the provision of safety and/or health signs at work",
+            "container": "Official Journal of the European Communities, L 245, 26.8.1992 (Annex I, point 4)",
+            "doi": null,
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:31992L0058"
+          },
+          {
+            "authors": "United Nations",
+            "year": 1968,
+            "title": "Convention on Road Signs and Signals",
+            "container": "United Nations Treaty Series, vol. 1091, No. 16743 (Vienna, 8 November 1968), Article 23",
+            "doi": null,
+            "url": "https://treaties.un.org/doc/Publication/UNTS/Volume%201091/volume-1091-I-16743-English.pdf"
+          },
+          {
+            "authors": "International Organization for Standardization (ISO)",
+            "year": 2015,
+            "title": "Improving public alerts in emergency situations",
+            "container": "ISO news item summarising ISO 22324:2015, Societal security — Emergency management — Guidelines for colour-coded alerts",
+            "doi": null,
+            "url": "https://www.iso.org/news/2015/11/Ref2022.html"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "Four experiments reported that a brief glimpse of green before a task improved creative performance.",
+          "de": "Vier Experimente berichteten, dass ein kurzer Blick auf Grün vor einer Aufgabe die kreative Leistung verbesserte."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Not robust: a later experiment by the same group found no creativity benefit from ambient green on a workspace wall.",
+          "de": "Nicht robust: Ein späteres Experiment derselben Gruppe fand keinen Kreativitätsvorteil durch Grün an einer Wand des Arbeitsplatzes."
+        },
+        "sources": [
+          {
+            "authors": "Lichtenfeld, Elliot, Maier & Pekrun",
+            "year": 2012,
+            "title": "Fertile Green: Green Facilitates Creative Performance",
+            "container": "Personality and Social Psychology Bulletin, 38(6), 784–797",
+            "doi": "10.1177/0146167212436611",
+            "url": "https://doi.org/10.1177/0146167212436611"
+          },
+          {
+            "authors": "Lichtenfeld, Maier, Buechner & Elliot",
+            "year": 2018,
+            "title": "Ambient Green and Creativity",
+            "container": "Creativity Research Journal, 30(3), 305–309",
+            "doi": "10.1080/10400419.2018.1488197",
+            "url": "https://doi.org/10.1080/10400419.2018.1488197"
+          }
+        ]
+      }
+    ],
+    "blue": [
+      {
+        "claim": {
+          "en": "Blue was rated positive, calm and low in power across studies; relaxation was a frequent pairing, yet about half of the studies also linked blue to sadness.",
+          "de": "Blau wurde studienübergreifend als positiv, ruhig und wenig machtvoll bewertet; Entspannung war eine häufige Zuordnung, doch etwa die Hälfte der Studien verband Blau auch mit Traurigkeit."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Associations rather than felt emotion; blue carried both positive and negative meanings.",
+          "de": "Assoziationen statt empfundener Emotionen; Blau trug sowohl positive als auch negative Bedeutungen."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Adams & Osgood",
+            "year": 1973,
+            "title": "A Cross-Cultural Study of the Affective Meanings of Color",
+            "container": "Journal of Cross-Cultural Psychology, 4(2), 135–156",
+            "doi": "10.1177/002202217300400201",
+            "url": "https://doi.org/10.1177/002202217300400201"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In a US study of 32 colors, preference peaked at blue, in line with how much people like blue things such as clear sky and clean water.",
+          "de": "In einer US-Studie mit 32 Farben war Blau am beliebtesten, passend dazu, wie sehr Menschen blaue Dinge wie klaren Himmel und sauberes Wasser mögen."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "48 Americans sampled in Berkeley; correlational, and the theory itself predicts differences between cultures.",
+          "de": "48 US-Amerikaner aus Berkeley; korrelativ, und die Theorie selbst sagt Unterschiede zwischen Kulturen voraus."
+        },
+        "sources": [
+          {
+            "authors": "Palmer & Schloss",
+            "year": 2010,
+            "title": "An ecological valence theory of human color preference",
+            "container": "Proceedings of the National Academy of Sciences, 107(19), 8877–8882",
+            "doi": "10.1073/pnas.0906172107",
+            "url": "https://doi.org/10.1073/pnas.0906172107"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "A research review lists blue store and logo colors as raising quality and trustworthiness ratings, a finding it says at least five independent labs support.",
+          "de": "Eine Forschungsübersicht führt an, dass blaue Laden- und Logofarben die Bewertung von Qualität und Vertrauenswürdigkeit erhöhen; laut ihr stützen das mindestens fünf unabhängige Labore."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "The review also cites non-supportive studies, calls the field nascent and urges caution about real-world application.",
+          "de": "Die Übersicht nennt auch Studien ohne Bestätigung, bezeichnet das Feld als jung und mahnt zur Vorsicht bei der Anwendung in der Praxis."
+        },
+        "sources": [
+          {
+            "authors": "Elliot",
+            "year": 2015,
+            "title": "Color and psychological functioning: a review of theoretical and empirical work",
+            "container": "Frontiers in Psychology, 6, 368",
+            "doi": "10.3389/fpsyg.2015.00368",
+            "url": "https://doi.org/10.3389/fpsyg.2015.00368"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "Blue marks mandatory-action signs in EU workplaces and is the default color of mandatory road signs under the Vienna Convention.",
+          "de": "Blau kennzeichnet Gebotszeichen an Arbeitsplätzen in der EU und ist nach dem Wiener Übereinkommen die Standardfarbe von Gebotsschildern im Straßenverkehr."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "Per the original 1968 treaty text, which also permits white mandatory signs with a red rim.",
+          "de": "Nach dem ursprünglichen Vertragstext von 1968, der auch weiße Gebotsschilder mit rotem Rand zulässt."
+        },
+        "sources": [
+          {
+            "authors": "Council of the European Communities",
+            "year": 1992,
+            "title": "Council Directive 92/58/EEC of 24 June 1992 on the minimum requirements for the provision of safety and/or health signs at work",
+            "container": "Official Journal of the European Communities, L 245, 26.8.1992 (Annex I, point 4)",
+            "doi": null,
+            "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:31992L0058"
+          },
+          {
+            "authors": "United Nations",
+            "year": 1968,
+            "title": "Convention on Road Signs and Signals",
+            "container": "United Nations Treaty Series, vol. 1091, No. 16743 (Vienna, 8 November 1968), Annex 4, Section B",
+            "doi": null,
+            "url": "https://treaties.un.org/doc/Publication/UNTS/Volume%201091/volume-1091-I-16743-English.pdf"
+          }
+        ]
+      }
+    ],
+    "purple": [
+      {
+        "claim": {
+          "en": "Purple was linked to high-power emotions in a 132-article review, but its valence was mixed: sadness (30%) and pride (25%) were the most common specific pairings.",
+          "de": "Violett wurde in einer Übersichtsarbeit über 132 Artikel mit machtvollen Emotionen verbunden, die Valenz war jedoch gemischt: Traurigkeit (30 %) und Stolz (25 %) waren die häufigsten konkreten Zuordnungen."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Based on 20 studies; in one experiment purple was the only color whose associations differed between color words and color patches.",
+          "de": "Grundlage sind 20 Studien; in einem Experiment war Violett die einzige Farbe, deren Assoziationen sich zwischen Farbwort und Farbfläche unterschieden."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Jonauskaite, Parraga, Quiblier & Mohr",
+            "year": 2020,
+            "title": "Feeling Blue or Seeing Red? Similar Patterns of Emotion Associations With Colour Patches and Colour Terms",
+            "container": "i-Perception, 11(1)",
+            "doi": "10.1177/2041669520902484",
+            "url": "https://doi.org/10.1177/2041669520902484"
+          }
+        ]
+      }
+    ],
+    "pink": [
+      {
+        "claim": {
+          "en": "Pink was almost uniformly positive in a 132-article review: love (69%) and joy (63%) were the most frequent pairings among studies that tested pink.",
+          "de": "Rosa war in einer Übersichtsarbeit über 132 Artikel fast durchgehend positiv: Liebe (69 %) und Freude (63 %) waren die häufigsten Zuordnungen in den Studien, die Rosa untersuchten."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Only 16 studies paired pink with emotion terms; these are associations, not felt emotion.",
+          "de": "Nur 16 Studien ordneten Rosa Emotionsbegriffe zu; es handelt sich um Assoziationen, keine empfundenen Emotionen."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Jonauskaite, Parraga, Quiblier & Mohr",
+            "year": 2020,
+            "title": "Feeling Blue or Seeing Red? Similar Patterns of Emotion Associations With Colour Patches and Colour Terms",
+            "container": "i-Perception, 11(1)",
+            "doi": "10.1177/2041669520902484",
+            "url": "https://doi.org/10.1177/2041669520902484"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "A controlled experiment did not replicate the claimed calming effect of Baker-Miller pink on aggressive behavior, challenging its use in prison detention cells.",
+          "de": "Ein kontrolliertes Experiment konnte die behauptete beruhigende Wirkung von Baker-Miller-Pink auf aggressives Verhalten nicht replizieren und stellt den Einsatz in Arrestzellen infrage."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Single experiment; it tested claims from studies over 30 years old whose methods the authors question.",
+          "de": "Einzelnes Experiment; es prüfte Behauptungen aus über 30 Jahre alten Studien, deren Methoden die Autoren anzweifeln."
+        },
+        "sources": [
+          {
+            "authors": "Genschow, Noll, Wänke & Gersbach",
+            "year": 2015,
+            "title": "Does Baker-Miller pink reduce aggression in prison detention cells? A critical empirical examination",
+            "container": "Psychology, Crime & Law, 21(5), 482–489",
+            "doi": "10.1080/1068316X.2014.989172",
+            "url": "https://doi.org/10.1080/1068316X.2014.989172"
+          }
+        ]
+      }
+    ],
+    "brown": [
+      {
+        "claim": {
+          "en": "Brown carried negative valence in a 132-article review; disgust was its most frequent and most distinctive pairing (about 46% of studies), followed by sadness and boredom.",
+          "de": "Braun hatte in einer Übersichtsarbeit über 132 Artikel eine negative Valenz; Ekel war die häufigste und charakteristischste Zuordnung (etwa 46 % der Studien), gefolgt von Traurigkeit und Langeweile."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Only 13 studies paired brown with emotion terms.",
+          "de": "Nur 13 Studien ordneten Braun Emotionsbegriffe zu."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Jonauskaite, Parraga, Quiblier & Mohr",
+            "year": 2020,
+            "title": "Feeling Blue or Seeing Red? Similar Patterns of Emotion Associations With Colour Patches and Colour Terms",
+            "container": "i-Perception, 11(1)",
+            "doi": "10.1177/2041669520902484",
+            "url": "https://doi.org/10.1177/2041669520902484"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In a US preference study, dark orange (brown) was liked significantly less than other oranges, in line with dislike of brown things such as rotten food.",
+          "de": "In einer US-Präferenzstudie war dunkles Orange (Braun) signifikant weniger beliebt als andere Orangetöne, passend zur Abneigung gegen braune Dinge wie verdorbenes Essen."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "48 Americans sampled in Berkeley; correlational, and liked brown things such as chocolate and coffee made the model under-predict the aversion.",
+          "de": "48 US-Amerikaner aus Berkeley; korrelativ, und beliebte braune Dinge wie Schokolade und Kaffee ließen das Modell die Abneigung unterschätzen."
+        },
+        "sources": [
+          {
+            "authors": "Palmer & Schloss",
+            "year": 2010,
+            "title": "An ecological valence theory of human color preference",
+            "container": "Proceedings of the National Academy of Sciences, 107(19), 8877–8882",
+            "doi": "10.1073/pnas.0906172107",
+            "url": "https://doi.org/10.1073/pnas.0906172107"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "On US road signs, brown is the color assigned to guidance for recreational and cultural interest areas.",
+          "de": "Auf US-Verkehrsschildern ist Braun die Farbe für Hinweise auf Erholungsgebiete und kulturelle Sehenswürdigkeiten."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "US national standard, not an international convention.",
+          "de": "Nationaler US-Standard, keine internationale Konvention."
+        },
+        "sources": [
+          {
+            "authors": "Federal Highway Administration (FHWA)",
+            "year": 2023,
+            "title": "Manual on Uniform Traffic Control Devices for Streets and Highways, 11th Edition",
+            "container": "U.S. Department of Transportation, FHWA — Part 1, Section 1D.05 Color Code",
+            "doi": null,
+            "url": "https://mutcd.fhwa.dot.gov/pdfs/11th_Edition/part1.pdf"
+          }
+        ]
+      }
+    ],
+    "black": [
+      {
+        "claim": {
+          "en": "Black was consistently negative and high in power in a 132-article review: sadness (75%) and fear (68%) led, followed by anger, hate and evil.",
+          "de": "Schwarz war in einer Übersichtsarbeit über 132 Artikel durchgehend negativ und machtvoll: Traurigkeit (75 %) und Angst (68 %) lagen vorn, gefolgt von Wut, Hass und dem Bösen."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Associations, not felt emotion; in one experiment the word 'black' drew stronger negative associations than a black color patch.",
+          "de": "Assoziationen, keine empfundenen Emotionen; in einem Experiment rief das Wort „Schwarz“ stärkere negative Assoziationen hervor als eine schwarze Farbfläche."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Adams & Osgood",
+            "year": 1973,
+            "title": "A Cross-Cultural Study of the Affective Meanings of Color",
+            "container": "Journal of Cross-Cultural Psychology, 4(2), 135–156",
+            "doi": "10.1177/002202217300400201",
+            "url": "https://doi.org/10.1177/002202217300400201"
+          },
+          {
+            "authors": "Jonauskaite, Parraga, Quiblier & Mohr",
+            "year": 2020,
+            "title": "Feeling Blue or Seeing Red? Similar Patterns of Emotion Associations With Colour Patches and Colour Terms",
+            "container": "i-Perception, 11(1)",
+            "doi": "10.1177/2041669520902484",
+            "url": "https://doi.org/10.1177/2041669520902484"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In Stroop tasks, people named the ink color faster when immoral words appeared in black and moral words in white, suggesting an automatic black–immorality link.",
+          "de": "In Stroop-Aufgaben benannten Menschen die Schriftfarbe schneller, wenn unmoralische Wörter schwarz und moralische weiß erschienen, was auf eine automatische Verknüpfung von Schwarz und Unmoral hindeutet."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Three small samples of US undergraduates (22 to 53 people); a reaction-time association, not behavior.",
+          "de": "Drei kleine Stichproben von US-Studierenden (22 bis 53 Personen); eine Assoziation in Reaktionszeiten, kein Verhalten."
+        },
+        "sources": [
+          {
+            "authors": "Sherman & Clore",
+            "year": 2009,
+            "title": "The Color of Sin: White and Black Are Perceptual Symbols of Moral Purity and Pollution",
+            "container": "Psychological Science, 20(8), 1019–1025",
+            "doi": "10.1111/j.1467-9280.2009.02403.x",
+            "url": "https://doi.org/10.1111/j.1467-9280.2009.02403.x"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "A 1988 study reported that NFL and NHL teams wearing black uniforms drew more penalties than other teams.",
+          "de": "Eine Studie von 1988 berichtete, dass NFL- und NHL-Teams in schwarzen Trikots mehr Strafen erhielten als andere Teams."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Failed to replicate: a 2026 reanalysis with original and expanded league data did not find the effect.",
+          "de": "Nicht repliziert: Eine erneute Auswertung von 2026 mit den ursprünglichen und erweiterten Ligadaten fand den Effekt nicht."
+        },
+        "sources": [
+          {
+            "authors": "Frank & Gilovich",
+            "year": 1988,
+            "title": "The dark side of self- and social perception: Black uniforms and aggression in professional sports",
+            "container": "Journal of Personality and Social Psychology, 54(1), 74–85",
+            "doi": "10.1037/0022-3514.54.1.74",
+            "url": "https://doi.org/10.1037/0022-3514.54.1.74"
+          },
+          {
+            "authors": "Goldschmied, Raphaeli & Furley",
+            "year": 2026,
+            "title": "Black Uniforms and Aggression in Professional Sports: Failure to Replicate Frank and Gilovich (1988) With Original and Expanded NFL and NHL Data",
+            "container": "Collabra: Psychology, 12(1)",
+            "doi": "10.1525/collabra.163080",
+            "url": "https://doi.org/10.1525/collabra.163080"
+          }
+        ]
+      }
+    ],
+    "white": [
+      {
+        "claim": {
+          "en": "White was rated positive and low in arousal across studies, most often paired with calm and peace and, in some studies, with hope and relief.",
+          "de": "Weiß wurde studienübergreifend als positiv und wenig erregend bewertet, am häufigsten mit Ruhe und Frieden verbunden und in einigen Studien mit Hoffnung und Erleichterung."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Hope and relief each appeared in under a fifth of 23 studies; these are associations, not felt emotion.",
+          "de": "Hoffnung und Erleichterung kamen jeweils in weniger als einem Fünftel von 23 Studien vor; es handelt sich um Assoziationen, keine empfundenen Emotionen."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Adams & Osgood",
+            "year": 1973,
+            "title": "A Cross-Cultural Study of the Affective Meanings of Color",
+            "container": "Journal of Cross-Cultural Psychology, 4(2), 135–156",
+            "doi": "10.1177/002202217300400201",
+            "url": "https://doi.org/10.1177/002202217300400201"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In Stroop tasks, moral words were color-named faster in white ink and immoral words in black, suggesting an automatic link between white and moral purity.",
+          "de": "In Stroop-Aufgaben wurde die Schriftfarbe moralischer Wörter in Weiß und unmoralischer in Schwarz schneller benannt, was auf eine automatische Verknüpfung von Weiß und moralischer Reinheit hindeutet."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Three small samples of US undergraduates (22 to 53 people); a reaction-time association, not behavior.",
+          "de": "Drei kleine Stichproben von US-Studierenden (22 bis 53 Personen); eine Assoziation in Reaktionszeiten, kein Verhalten."
+        },
+        "sources": [
+          {
+            "authors": "Sherman & Clore",
+            "year": 2009,
+            "title": "The Color of Sin: White and Black Are Perceptual Symbols of Moral Purity and Pollution",
+            "container": "Psychological Science, 20(8), 1019–1025",
+            "doi": "10.1111/j.1467-9280.2009.02403.x",
+            "url": "https://doi.org/10.1111/j.1467-9280.2009.02403.x"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "Under the 1907 Hague Regulations, an envoy advancing under a white flag is inviolable; customary law reads the flag as a request to communicate, e.g. to negotiate or surrender.",
+          "de": "Nach der Haager Landkriegsordnung von 1907 ist ein Parlamentär unter weißer Flagge unverletzlich; das Gewohnheitsrecht versteht die Flagge als Bitte um Verständigung, etwa um zu verhandeln oder sich zu ergeben."
+        },
+        "kind": "convention",
+        "caveat": {
+          "en": "Applies to armed conflict; improper use of the white flag is prohibited.",
+          "de": "Gilt im bewaffneten Konflikt; der Missbrauch der weißen Flagge ist verboten."
+        },
+        "sources": [
+          {
+            "authors": "Hague Convention (IV)",
+            "year": 1907,
+            "title": "Convention (IV) respecting the Laws and Customs of War on Land and its annex: Regulations concerning the Laws and Customs of War on Land — Regulations: Art. 32",
+            "container": "The Hague, 18 October 1907; text as published in the ICRC IHL Treaties database",
+            "doi": null,
+            "url": "https://ihl-databases.icrc.org/en/ihl-treaties/hague-conv-iv-1907/regulations-art-32"
+          },
+          {
+            "authors": "International Committee of the Red Cross (ICRC)",
+            "year": 2005,
+            "title": "Rule 58. Improper Use of the White Flag of Truce",
+            "container": "ICRC Customary IHL Database (online edition of the ICRC study Customary International Humanitarian Law, Cambridge University Press, 2005)",
+            "doi": null,
+            "url": "https://ihl-databases.icrc.org/en/customary-ihl/v1/rule58"
+          }
+        ]
+      }
+    ],
+    "gray": [
+      {
+        "claim": {
+          "en": "Gray was negative in every study that rated its valence, and low in arousal and power; sadness was the leading pairing (75%), followed by fear, boredom and disappointment.",
+          "de": "Grau war in jeder Studie, die seine Valenz bewertete, negativ sowie wenig erregend und wenig machtvoll; Traurigkeit war die führende Zuordnung (75 %), gefolgt von Angst, Langeweile und Enttäuschung."
+        },
+        "kind": "review",
+        "caveat": {
+          "en": "Associations, not felt emotion; 20 studies paired gray with emotion terms.",
+          "de": "Assoziationen, keine empfundenen Emotionen; 20 Studien ordneten Grau Emotionsbegriffe zu."
+        },
+        "sources": [
+          {
+            "authors": "Jonauskaite & Mohr",
+            "year": 2025,
+            "title": "Do we feel colours? A systematic review of 128 years of psychological research linking colours and emotions",
+            "container": "Psychonomic Bulletin & Review, 32(4), 1457–1486",
+            "doi": "10.3758/s13423-024-02615-z",
+            "url": "https://doi.org/10.3758/s13423-024-02615-z"
+          },
+          {
+            "authors": "Adams & Osgood",
+            "year": 1973,
+            "title": "A Cross-Cultural Study of the Affective Meanings of Color",
+            "container": "Journal of Cross-Cultural Psychology, 4(2), 135–156",
+            "doi": "10.1177/002202217300400201",
+            "url": "https://doi.org/10.1177/002202217300400201"
+          },
+          {
+            "authors": "Jonauskaite, Parraga, Quiblier & Mohr",
+            "year": 2020,
+            "title": "Feeling Blue or Seeing Red? Similar Patterns of Emotion Associations With Colour Patches and Colour Terms",
+            "container": "i-Perception, 11(1)",
+            "doi": "10.1177/2041669520902484",
+            "url": "https://doi.org/10.1177/2041669520902484"
+          }
+        ]
+      },
+      {
+        "claim": {
+          "en": "In a lab study, achromatic (gray) stimuli briefly slowed viewers' heart rate, whereas chromatic colors sped it up.",
+          "de": "In einer Laborstudie verlangsamten unbunte (graue) Reize kurzzeitig die Herzfrequenz der Betrachtenden, während bunte Farben sie beschleunigten."
+        },
+        "kind": "study",
+        "caveat": {
+          "en": "Single lab study with 62 participants and 30-second exposures on an LED display.",
+          "de": "Einzelne Laborstudie mit 62 Teilnehmenden und Darbietungen von je 30 Sekunden auf einem LED-Display."
+        },
+        "sources": [
+          {
+            "authors": "Wilms & Oberfeld",
+            "year": 2018,
+            "title": "Color and emotion: effects of hue, saturation, and brightness",
+            "container": "Psychological Research, 82(5), 896–914",
+            "doi": "10.1007/s00426-017-0880-8",
+            "url": "https://doi.org/10.1007/s00426-017-0880-8"
+          }
+        ]
+      }
+    ]
+  }
+}
