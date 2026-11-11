@@ -45,22 +45,22 @@ pnpm dev
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Public address of the site without a trailing slash. Used for the absolute Open Graph image link, canonical and `hreflang` links, `robots.txt` and the sitemap. Its path, if any, becomes Next's `basePath` (`https://tools.codebrauer.com/hueproof` → `/hueproof`). Defaults to `http://localhost:3000`. |
 
-Copy `.env.example` to `.env.local` for local builds.
+| `DEPLOY_HOST`, `DEPLOY_PATH` | Only for `pnpm ship`: the SSH target (`user@host`) and the directory on it that `out/` is copied to. No defaults. |
+
+Copy `.env.example` to `.env.local` for local builds and deploys; `.env.local` is not committed.
 
 ## Deployment
 
-Live at **https://tools.codebrauer.com/hueproof/**, a sub-folder of the `tools.codebrauer.com` site:
-static files served by a web server from
-`/var/www/example.com/hueproof/`.
+Live at **https://tools.codebrauer.com/hueproof/**.
 
 ```bash
 pnpm ship
 ```
 
 `scripts/deploy.sh` runs lint, typecheck and tests, builds with
-`NEXT_PUBLIC_SITE_URL=https://tools.codebrauer.com/hueproof`, copies `out/` with `rsync --delete` over SSH
-and checks that both languages answer. `SITE_URL`, `DEPLOY_HOST` and `DEPLOY_PATH` override the defaults.
-Needs SSH access to the server with your own key.
+`NEXT_PUBLIC_SITE_URL=https://tools.codebrauer.com/hueproof` (override with `SITE_URL`), copies `out/` with
+`rsync --delete` over SSH to `DEPLOY_HOST:DEPLOY_PATH` and checks that both languages answer. Needs SSH access
+to that host with your own key.
 
 `pnpm build` writes a fully static site to `out/`, so any other static host works too. To serve it at
 the root of a domain, set `NEXT_PUBLIC_SITE_URL` without a path. `.github/workflows/ci.yml` runs the

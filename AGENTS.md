@@ -26,7 +26,7 @@ Node 24 or newer, pnpm.
 | `pnpm test` | Vitest, the color logic and the helpers in `src/lib/` |
 | `pnpm build` | Static export to `out/` |
 | `pnpm og-image` | Regenerates the icon and the link preview images |
-| `pnpm ship` | Checks, builds and rsyncs to https://tools.codebrauer.com/hueproof/ (needs SSH access) |
+| `pnpm ship` | Checks, builds and rsyncs to `DEPLOY_HOST:DEPLOY_PATH` from `.env.local` (needs SSH access) |
 
 A change is done when lint, typecheck, test and build all pass. For anything visible, also look at it in
 the browser: light and dark, English and German, and at 375 px and 320 px width.
