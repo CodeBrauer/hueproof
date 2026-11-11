@@ -129,7 +129,7 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
       </div>
 
       {/* Quiet words instead of buttons; the one button in the bar is Generate. */}
-      <div className="hidden items-center md:flex">
+      <div className="hidden items-center lg:flex">
         {DIALOG_ICONS.map(({ id }) => (
           <Button key={id} variant="ghost" className="px-3" disabled={!ready} onClick={() => onOpenDialog(id)}>
             {dialogLabels[id]}
@@ -186,7 +186,7 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden" aria-label={t.toolbar.more} disabled={!ready}>
+            <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t.toolbar.more} disabled={!ready}>
               <Ellipsis />
             </Button>
           </DropdownMenuTrigger>
@@ -213,8 +213,8 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
         </DropdownMenu>
 
         <LanguageSwitch />
-        {/* On phones the toggle lives in the menu above; the bar has no room for it. */}
-        <ThemeToggle className="max-md:hidden" />
+        {/* Below lg the toggle lives in the menu above; the bar has no room for it. */}
+        <ThemeToggle className="max-lg:hidden" />
 
         <Tooltip>
           <TooltipTrigger asChild>
