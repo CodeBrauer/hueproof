@@ -44,7 +44,8 @@ function SwatchMenu({ hex, context }: { hex: string; context: SwatchContext }) {
   const label = `#${displayHex(hex)}`;
   const isBase = hex === target.hex;
   return (
-    <DropdownMenu>
+    // Not modal, like the drawer: a modal menu locks page scrolling, and the vanishing scrollbar shifts the layout.
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
@@ -134,15 +135,21 @@ function FormatsTab({ hex }: { hex: string }) {
                 <span className="w-12 shrink-0 text-xs font-medium text-muted-foreground">{format.label}</span>
                 <span className="truncate tabular-nums text-sm">{format.plain}</span>
               </button>
-              {format.css && (
-                <Button
-                  variant="ghost"
-                  size="xs"
-                  onClick={() => copy(format.css!)}
-                  aria-label={t.drawer.copyAsCss(format.label)}
-                >
-                  CSS
+              {format.id === "hex" ? (
+                <Button variant="ghost" size="xs" onClick={() => copy(`#${format.plain}`)} aria-label={t.drawer.copyWithHash}>
+                  {t.drawer.withHash}
                 </Button>
+              ) : (
+                format.css && (
+                  <Button
+                    variant="ghost"
+                    size="xs"
+                    onClick={() => copy(format.css!)}
+                    aria-label={t.drawer.copyAsCss(format.label)}
+                  >
+                    CSS
+                  </Button>
+                )
               )}
             </li>
           ))}

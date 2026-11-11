@@ -306,8 +306,10 @@ export const en = {
     addToPalette: "Add to palette",
     copyRow: "Select to copy",
     copyAsCss: (format: string) => `Copy ${format} as CSS`,
+    withHash: "with #",
+    copyWithHash: "Copy hex code with #",
     formatsNote:
-      "Select a row to copy its values, comma-separated; “CSS” copies the CSS notation. LAB, LCH and LUV use the D50 white point as CSS does, XYZ uses D65. CMYK is an approximation without a print profile.",
+      "Select a row to copy its values, comma-separated; “with #” copies the hex code with its hash, “CSS” the CSS notation. LAB, LCH and LUV use the D50 white point as CSS does, XYZ uses D65. CMYK is an approximation without a print profile.",
     inUse: "In use",
     textOnWhite: "Text on white",
     textOnBlack: "Text on black",

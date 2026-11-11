@@ -297,8 +297,10 @@ export const de: Dictionary = {
     addToPalette: "Zur Palette hinzufügen",
     copyRow: "Zum Kopieren auswählen",
     copyAsCss: (format) => `${format} als CSS kopieren`,
+    withHash: "mit #",
+    copyWithHash: "Hex-Code mit # kopieren",
     formatsNote:
-      "Wähle eine Zeile, um ihre Werte kommagetrennt zu kopieren; „CSS“ kopiert die CSS-Schreibweise. LAB, LCH und LUV verwenden wie CSS den Weißpunkt D50, XYZ verwendet D65. CMYK ist eine Näherung ohne Druckprofil.",
+      "Wähle eine Zeile, um ihre Werte kommagetrennt zu kopieren; „mit #“ kopiert den Hex-Code mit Raute, „CSS“ die CSS-Schreibweise. LAB, LCH und LUV verwenden wie CSS den Weißpunkt D50, XYZ verwendet D65. CMYK ist eine Näherung ohne Druckprofil.",
     inUse: "Im Einsatz",
     textOnWhite: "Text auf Weiß",
     textOnBlack: "Text auf Schwarz",
