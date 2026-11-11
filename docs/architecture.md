@@ -21,6 +21,10 @@ Each language is a route group with its own root layout, so `<html lang>` is alr
 prerendered HTML. Both render the same `HomePage` component with a different locale. `trailingSlash: true`
 turns every page into `<path>/index.html`, which any static host can serve.
 
+Without a server there is no language negotiation. `BrowserLanguageRedirect` in the English layout does it in
+the browser: on `/`, when no language was picked with the switch and `navigator.languages` names German before
+English, it replaces the page with `/de/` and keeps the fragment. The English page shows briefly before that.
+
 `src/lib/metadata.ts` builds title, description, canonical and `hreflang` links per language. The link
 preview image is a static PNG per language, because a static site cannot render one per palette.
 
@@ -31,6 +35,7 @@ preview image is a static PNG per language, because a static site cannot render 
 | Colors and their names | URL fragment and browser history | `src/lib/palette-store.ts`, `src/lib/color/url.ts` |
 | Lock flags, color ids | Browser history state only, not part of the link | `src/lib/palette-store.ts` |
 | Saved palettes | `localStorage`, key `hueproof:saved-palettes:v1` | `src/lib/storage.ts` |
+| Language picked with the switch | `localStorage`, key `hueproof:locale` | `src/i18n/locales.ts` |
 | Light or dark theme | `localStorage`, through `next-themes` | `src/components/providers.tsx` |
 | Selected tab, vision simulation, open dialog | React state, reset on reload | `src/components/palette-app.tsx` |
 

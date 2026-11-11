@@ -16,7 +16,8 @@ color conversions and export. No backend: the palette lives in the URL fragment
 - Warm/cool balance; preview as business card, presentation slide and pattern with role assignment
 - Per color: HEX, RGB, HSL, HWB, CMYK, LAB, LCH, LUV, XYZ, OKLCH; shades, tints, tones, harmonies; sourced notes on meaning
 - Import from pasted text (hex codes separated by commas, spaces or lines, CSS, `name: #hex`, Coolors links)
-- English (`/`) and German (`/de/`), each prerendered, with `hreflang` links; switching keeps the palette
+- English (`/`) and German (`/de/`), each prerendered, with `hreflang` links; switching keeps the palette.
+  A first visit to `/` moves on to `/de/` when the browser prefers German; a language picked with the switch wins
 - Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG
 
 ## Development

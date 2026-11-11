@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { preferredLocale } from "../i18n/locales";
 import { COLOR_MEANINGS } from "./color/meaning";
 import { generateColors, midpoint } from "./color/generate";
 import { normalizeHex } from "./color/hex";
@@ -222,5 +223,24 @@ describe("link preview image", () => {
       expect(existsSync(file), `${locale}: missing public${ogImagePath(locale)}, run pnpm og-image`).toBe(true);
       expect(pngSize(readFileSync(file)), `${locale}: image size`).toEqual(OG_IMAGE_SIZE);
     }
+  });
+});
+
+describe("browser language", () => {
+  it("picks the first supported language the browser asks for", () => {
+    expect(preferredLocale(["de-DE", "en"])).toBe("de");
+    expect(preferredLocale(["en-US", "de"])).toBe("en");
+    expect(preferredLocale(["fr-FR", "de-AT", "en"]), "skips unsupported languages").toBe("de");
+  });
+
+  it("ignores case and stray whitespace", () => {
+    expect(preferredLocale(["DE"])).toBe("de");
+    expect(preferredLocale([" de-CH "])).toBe("de");
+  });
+
+  it("returns null when no supported language is asked for", () => {
+    expect(preferredLocale([])).toBeNull();
+    expect(preferredLocale(["fr", "es-ES", ""])).toBeNull();
+    expect(preferredLocale(["english"]), "only the primary subtag counts").toBeNull();
   });
 });

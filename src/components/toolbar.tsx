@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLocale, useT } from "@/i18n/context";
-import { LOCALE_PATHS, SWITCH_LABELS, type Locale } from "@/i18n/locales";
+import { LOCALE_PATHS, SWITCH_LABELS, writeLocaleChoice, type Locale } from "@/i18n/locales";
 import { DEFAULT_PALETTE, MAX_COLORS } from "@/lib/color/types";
 import { VISION_GROUPS, VISION_TYPES, type VisionId } from "@/lib/color/vision";
 import { paletteActions, type PaletteSnapshot } from "@/lib/palette-store";
@@ -86,6 +86,7 @@ function LanguageSwitch() {
             aria-label={SWITCH_LABELS[target]}
             onClick={(event) => {
               event.preventDefault();
+              writeLocaleChoice(target);
               router.push(`${LOCALE_PATHS[target]}${window.location.hash}`);
             }}
           >
