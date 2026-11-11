@@ -55,5 +55,5 @@ The page width (`max-w-[88rem]`) and side padding are set once, in `src/componen
 
 The palette stacks, with the labels inside the swatches. Below 360 px (`xs`) the picker icon beside the hex
 code is dropped so the label does not run into the actions. The toolbar must fit a 320 px wide screen: below
-768 px import, saved palettes, export, share and the theme toggle move into a menu; below 640 px redo
+1024 px import, saved palettes, export, share and the theme toggle move into a menu; below 640 px redo
 follows and Generate shrinks to an icon. Check both 375 px and 320 px after changing the toolbar.
