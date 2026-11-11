@@ -6,5 +6,12 @@ export const SITE_TAGLINES = {
   en: "Accessible color palette generator & contrast checker",
   de: "Barrierefreie Farbpaletten erstellen & Kontrast prüfen",
 } as const;
-/** Public address of the deployed site; needed for absolute Open Graph image links. */
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/**
+ * Public address of the deployed site without a trailing slash; needed for absolute Open Graph image links.
+ * It may include a path (https://tools.codebrauer.com/hueproof) when the site does not sit at the root of its domain.
+ */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+/** Scheme and host of `SITE_URL`. */
+export const SITE_ORIGIN = new URL(SITE_URL).origin;
+/** Path part of `SITE_URL`, e.g. "/hueproof", or "" at the domain root. Becomes Next's `basePath`. */
+export const BASE_PATH = new URL(SITE_URL).pathname.replace(/\/+$/, "");

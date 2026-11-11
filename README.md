@@ -35,28 +35,34 @@ pnpm dev
 | `pnpm lint` / `pnpm typecheck` | ESLint / TypeScript |
 | `pnpm build` | Static export to `out/` |
 | `pnpm og-image` | Regenerates the app icon and the link preview image of each language from the default palette |
+| `pnpm ship` | Checks, builds and copies the site to the web server (see Deployment) |
 
 ## Configuration
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Public address of the site without a trailing slash. Used for the absolute Open Graph image link, `robots.txt` and the sitemap. Defaults to `http://localhost:3000`. |
+| `NEXT_PUBLIC_SITE_URL` | Public address of the site without a trailing slash. Used for the absolute Open Graph image link, canonical and `hreflang` links, `robots.txt` and the sitemap. Its path, if any, becomes Next's `basePath` (`https://tools.codebrauer.com/hueproof` → `/hueproof`). Defaults to `http://localhost:3000`. |
 
 Copy `.env.example` to `.env.local` for local builds.
 
-## Deployment (GitHub Pages)
+## Deployment
 
-`pnpm build` writes a fully static site to `out/`; any static host works.
+Live at **https://tools.codebrauer.com/hueproof/**, a sub-folder of the `tools.codebrauer.com` site:
+static files served by a web server from
+`/var/www/example.com/hueproof/`.
 
-For GitHub Pages, `.github/workflows/deploy.yml` builds and deploys on every push to `main`:
+```bash
+pnpm ship
+```
 
-1. Repository settings > Pages > Source: **GitHub Actions**.
-2. Add the repository variable `SITE_URL` (for example `https://hueproof.example.com`).
-3. For a custom subdomain, set it under Pages > Custom domain and point a `CNAME` DNS record
-   at `<user>.github.io`.
+`scripts/deploy.sh` runs lint, typecheck and tests, builds with
+`NEXT_PUBLIC_SITE_URL=https://tools.codebrauer.com/hueproof`, copies `out/` with `rsync --delete` over SSH
+and checks that both languages answer. `SITE_URL`, `DEPLOY_HOST` and `DEPLOY_PATH` override the defaults.
+Needs SSH access to the server with your own key.
 
-The site is expected at the root of its domain. Hosting under a sub-path
-(`<user>.github.io/<repo>`) additionally needs `basePath` in `next.config.ts`.
+`pnpm build` writes a fully static site to `out/`, so any other static host works too. To serve it at
+the root of a domain, set `NEXT_PUBLIC_SITE_URL` without a path. `.github/workflows/ci.yml` runs the
+checks and a build on every push; it does not deploy.
 
 Because the site is static, the link preview image is the same for every shared palette (one per language).
 

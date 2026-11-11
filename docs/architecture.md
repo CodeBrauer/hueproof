@@ -11,6 +11,12 @@ Hueproof is a static site. `next build` writes plain HTML, CSS and JS to `out/` 
 | `/de/` | `src/app/(de)/de/` | German |
 | `/icon.svg`, `/robots.txt`, `/sitemap.xml` | `src/app/` | Written at build time |
 
+All paths are relative to the base path. The site is deployed at `/hueproof` on `tools.codebrauer.com`;
+`BASE_PATH` in `src/lib/site.ts` is the path part of `NEXT_PUBLIC_SITE_URL` and goes into `basePath` in
+`next.config.ts`. Next adds it to `<Link>`, `router.push`, assets and file-based images, but not to plain
+`<a href>` or to the canonical and `hreflang` links in `src/lib/metadata.ts`; those add `BASE_PATH`
+themselves. `robots.txt` in a sub-folder is not read by crawlers; the sitemap is still valid.
+
 Each language is a route group with its own root layout, so `<html lang>` is already correct in the
 prerendered HTML. Both render the same `HomePage` component with a different locale. `trailingSlash: true`
 turns every page into `<path>/index.html`, which any static host can serve.

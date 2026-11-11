@@ -39,7 +39,7 @@ import { LOCALE_PATHS, SWITCH_LABELS, type Locale } from "@/i18n/locales";
 import { DEFAULT_PALETTE, MAX_COLORS } from "@/lib/color/types";
 import { VISION_GROUPS, VISION_TYPES, type VisionId } from "@/lib/color/vision";
 import { paletteActions, type PaletteSnapshot } from "@/lib/palette-store";
-import { SITE_NAME } from "@/lib/site";
+import { BASE_PATH, SITE_NAME } from "@/lib/site";
 
 export type DialogId = "import" | "library" | "export";
 
@@ -79,7 +79,8 @@ function LanguageSwitch() {
       <TooltipTrigger asChild>
         <Button variant="ghost" size="icon" asChild>
           <a
-            href={LOCALE_PATHS[target]}
+            // A plain link, so Next does not add the base path; router.push below does.
+            href={`${BASE_PATH}${LOCALE_PATHS[target]}`}
             hrefLang={target}
             lang={target}
             aria-label={SWITCH_LABELS[target]}
