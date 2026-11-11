@@ -2,13 +2,14 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Copy, GripVertical, Info, Lock, LockOpen, Plus, X } from "lucide-react";
+import { Copy, GripVertical, Info, Lock, LockOpen, Pipette, Plus, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useSuggestedName } from "@/hooks/use-color-names";
 import { useCopy } from "@/hooks/use-copy";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useT } from "@/i18n/context";
 import { readableOn } from "@/lib/color/contrast";
 import { displayHex, normalizeHex, sanitizeName } from "@/lib/color/hex";
@@ -18,13 +19,16 @@ import { paletteActions } from "@/lib/palette-store";
 import { cn } from "@/lib/utils";
 
 const HOVER_TINT = "hover:bg-[color-mix(in_srgb,currentColor_14%,transparent)]";
+/** Marks text that can be clicked to change it, visible without hovering. */
+const EDITABLE_UNDERLINE = "underline decoration-current/40 decoration-dotted decoration-1 underline-offset-4";
 
 function ColumnAction({
   label,
+  side,
   className,
   children,
   ...props
-}: React.ComponentProps<"button"> & { label: string }) {
+}: React.ComponentProps<"button"> & { label: string; side: "top" | "left" }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -43,7 +47,7 @@ function ColumnAction({
           {children}
         </button>
       </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
+      <TooltipContent side={side}>{label}</TooltipContent>
     </Tooltip>
   );
 }
@@ -84,6 +88,7 @@ function NameField({ color }: { color: PaletteColor }) {
       }}
       className={cn(
         "w-full min-w-0 truncate rounded-sm bg-transparent outline-none placeholder:text-current placeholder:opacity-50",
+        EDITABLE_UNDERLINE,
         "focus:bg-[color-mix(in_srgb,currentColor_10%,transparent)]",
         HOVER_TINT,
       )}
@@ -122,6 +127,9 @@ export function ColorColumn({
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({
     id: color.id,
   });
+  // The actions stack vertically beside the swatch on wide screens, so their tooltips open sideways
+  // instead of covering the next action.
+  const tooltipSide = useMediaQuery("(min-width: 768px)") ? "left" : "top";
   const shown = simulate(color.hex, vision);
   const ink = readableOn(shown);
   const label = displayHex(color.hex);
@@ -151,6 +159,7 @@ export function ColorColumn({
         <div className="flex shrink-0 items-center md:flex-col-reverse">
           <div className={cn(!color.locked && "column-reveal")}>
             <ColumnAction
+              side={tooltipSide}
               label={color.locked ? t.column.unlock : t.column.lock}
               aria-pressed={color.locked}
               className={cn(color.locked && "opacity-100")}
@@ -160,13 +169,14 @@ export function ColorColumn({
             </ColumnAction>
           </div>
           <div className="column-reveal flex items-center md:flex-col-reverse">
-            <ColumnAction label={t.column.copyHex} onClick={() => copy(`#${label}`)}>
+            <ColumnAction side={tooltipSide} label={t.column.copyHex} onClick={() => copy(`#${label}`)}>
               <Copy />
             </ColumnAction>
-            <ColumnAction label={t.column.details} onClick={() => onShowDetails(color.id)}>
+            <ColumnAction side={tooltipSide} label={t.column.details} onClick={() => onShowDetails(color.id)}>
               <Info />
             </ColumnAction>
             <ColumnAction
+              side={tooltipSide}
               label={t.column.drag}
               ref={setActivatorNodeRef}
               className="cursor-grab touch-none active:cursor-grabbing"
@@ -175,7 +185,7 @@ export function ColorColumn({
             >
               <GripVertical />
             </ColumnAction>
-            <ColumnAction label={t.column.remove} disabled={!canRemove} onClick={() => paletteActions.remove(color.id)}>
+            <ColumnAction side={tooltipSide} label={t.column.remove} disabled={!canRemove} onClick={() => paletteActions.remove(color.id)}>
               <X />
             </ColumnAction>
           </div>
@@ -213,11 +223,15 @@ export function ColorColumn({
               type="button"
               aria-label={t.column.changeColor(label)}
               className={cn(
-                "-ml-1 rounded-md px-1 font-display text-2xl leading-tight focus-visible:outline-2 focus-visible:outline-current md:text-[clamp(1rem,1.9vw,1.7rem)]",
+                "-ml-1 inline-flex items-center gap-1.5 rounded-md px-1 font-display text-2xl leading-tight focus-visible:outline-2 focus-visible:outline-current md:text-[clamp(1rem,1.9vw,1.7rem)]",
                 HOVER_TINT,
               )}
             >
-              {label}
+              <span className={EDITABLE_UNDERLINE}>
+                <span className="opacity-50">#</span>
+                {label}
+              </span>
+              <Pipette className="size-[0.6em] shrink-0 opacity-60 max-xs:hidden" aria-hidden="true" />
             </button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-auto space-y-3 p-3">

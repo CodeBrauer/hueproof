@@ -5,6 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Smallest phones (320 px): below this the palette rows drop the color picker icon to keep the label clear. */
+  --breakpoint-xs: 22.5rem;
   --color-background: var(--background);
   --color-quiet: var(--quiet);
   --color-foreground: var(--foreground);

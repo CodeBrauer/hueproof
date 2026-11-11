@@ -17,6 +17,8 @@ The page is a white sheet on a four-column grid, and the palette is the only col
 - **One accent.** The dot after the wordmark and after the selected tab takes its color from the palette
   (`--palette-accent`, set in `palette-app.tsx`). Nothing else in the interface is colored.
 - **Color is never the only cue.** Contrast levels carry an icon, difference categories a symbol.
+- **Editable text shows it without hovering.** Hex codes and names in the palette have a dotted underline;
+  the hex code also shows its `#` and a picker icon.
 
 ## Type
 
@@ -51,6 +53,7 @@ The page width (`max-w-[88rem]`) and side padding are set once, in `src/componen
 
 ## Small screens
 
-The palette stacks, with the labels inside the swatches. The toolbar must fit a 320 px wide screen: below
+The palette stacks, with the labels inside the swatches. Below 360 px (`xs`) the picker icon beside the hex
+code is dropped so the label does not run into the actions. The toolbar must fit a 320 px wide screen: below
 768 px import, saved palettes, export, share and the theme toggle move into a menu; below 640 px redo
 follows and Generate shrinks to an icon. Check both 375 px and 320 px after changing the toolbar.
