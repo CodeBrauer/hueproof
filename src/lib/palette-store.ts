@@ -39,6 +39,11 @@ let burstKey: string | null = null;
 let burstTimer: ReturnType<typeof setTimeout> | null = null;
 const listeners = new Set<() => void>();
 
+/** Without a palette in the link, the page starts with fresh colors, as many as the default palette has. */
+function randomPalette(): PaletteEntry[] {
+  return generateColors(DEFAULT_PALETTE.map(({ hex }) => ({ hex, locked: false }))).map((hex) => ({ hex, name: "" }));
+}
+
 function hydrate(entries: PaletteEntry[]): PaletteColor[] {
   return entries.map((entry) => ({ id: createId(), hex: entry.hex, name: entry.name, locked: false }));
 }
@@ -130,7 +135,7 @@ function onPopState(event: PopStateEvent): void {
     return;
   }
   index = 0;
-  publish(hydrate(readUrl() ?? DEFAULT_PALETTE));
+  publish(hydrate(readUrl() ?? randomPalette()));
 }
 
 function initialise(): void {
@@ -141,7 +146,7 @@ function initialise(): void {
     lastIndex = index;
     publish(entry.colors);
   } else {
-    const colors = hydrate(readUrl() ?? DEFAULT_PALETTE);
+    const colors = hydrate(readUrl() ?? randomPalette());
     publish(colors);
     // Deferred until the framework's router has hooked into the history API; a write
     // before that would drop the router's own state from this history entry.

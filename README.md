@@ -7,7 +7,8 @@ color conversions and export. No backend: the palette lives in the URL fragment
 
 ## Features
 
-- Palette of 2–10 colors: pick, name, lock, reorder by drag, generate the unlocked ones (Space)
+- Palette of 2–10 colors: pick, name, lock, reorder by drag, generate the unlocked ones (Space).
+  A link without a palette starts with random colors
 - Every change is a browser history entry: undo with the back button or ⌘Z, share by copying the URL.
   The palette sits after the `#`, so it is never sent to a server; older `?c=` links still open
 - Contrast matrix and cards (WCAG 2 or APCA), with fix suggestions for pairs that narrowly miss a level

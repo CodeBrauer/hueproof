@@ -44,6 +44,8 @@ preview image is a static PNG per language, because a static site cannot render 
 `palette-store.ts` is a small store outside React, read through `useSyncExternalStore` (`usePalette`).
 During prerendering and the first client render it returns `null`, and the page shows a skeleton.
 
+- Without a palette in the link the page starts with random colors from the generator, as many as
+  `DEFAULT_PALETTE` has. `DEFAULT_PALETTE` itself only feeds the icon and the link preview images.
 - Link format: `/#d5ac85-f5e9d9-132c29&n=gold,wei%C3%9F,emerald`. Names are only written when one is set.
   A fragment is never sent to a server.
 - Every change is a history entry (`pushState`), so the back button undoes it and any state can be shared
