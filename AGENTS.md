@@ -53,6 +53,9 @@ the browser: light and dark, English and German, and at 375 px and 320 px width.
 - **Color is never the only cue,** and the page has to work with a keyboard and at 320 px width.
 - **Keep three files import-free:** `src/lib/site.ts`, `src/lib/palette-image.ts` and
   `src/lib/color/types.ts` are run directly by `scripts/generate-og-image.mjs`.
+- **One branch and PR per change.** Branch as `type/short-description`, open the PR as a draft. PRs are
+  squash-merged and the PR title becomes the commit message, so it follows Conventional Commits (checked by
+  `.github/workflows/pr-title.yml`).
 - **Docs move with the code.** When behavior, a threshold, a command or a design rule changes, update the
   README and the matching file in `docs/` in the same change.
 
