@@ -11,7 +11,7 @@ color conversions and export. No backend: the palette lives in the URL fragment
   A link without a palette starts with random colors
 - Every change is a browser history entry: undo with the back button or ⌘Z, share by copying the URL.
   The palette sits after the `#`, so it is never sent to a server; older `?c=` links still open
-- Contrast matrix and cards (WCAG 2 or APCA), with fix suggestions for pairs that narrowly miss a level
+- Contrast cards and matrix (WCAG 2 or APCA), with fix suggestions for pairs that narrowly miss a level
 - Color vision: seven simulated deficiencies with how common each group is, pairwise ΔE, largest set
   without a confusable pair
 - Warm/cool balance; preview as business card, presentation slide and pattern with role assignment

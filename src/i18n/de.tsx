@@ -41,7 +41,7 @@ export const de: Dictionary = {
     addColor: "Farbe hinzufügen",
     simulate: "Farbsehen simulieren",
     import: "Import",
-    saved: "Gespeichert",
+    save: "Speichern",
     export: "Export",
     share: "Teilen",
     shareLink: "Link teilen",

@@ -279,7 +279,7 @@ interface ContrastPanelProps {
 export function ContrastPanel({ colors, nameOf }: ContrastPanelProps) {
   const t = useT();
   const [mode, setMode] = useState<ContrastMode>("wcag");
-  const [view, setView] = useState<"matrix" | "cards">("matrix");
+  const [view, setView] = useState<"matrix" | "cards">("cards");
   const [includeExtremes, setIncludeExtremes] = useState(false);
 
   const samples: Sample[] = [

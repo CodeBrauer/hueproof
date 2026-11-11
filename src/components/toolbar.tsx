@@ -117,7 +117,7 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
   const isFull = (snapshot?.colors.length ?? 0) >= MAX_COLORS;
   const dialogLabels: Record<DialogId, string> = {
     import: t.toolbar.import,
-    library: t.toolbar.saved,
+    library: t.toolbar.save,
     export: t.toolbar.export,
   };
 

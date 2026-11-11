@@ -49,7 +49,7 @@ export const en = {
     addColor: "Add color",
     simulate: "Simulate a color vision type",
     import: "Import",
-    saved: "Saved",
+    save: "Save",
     export: "Export",
     share: "Share",
     shareLink: "Share link",
