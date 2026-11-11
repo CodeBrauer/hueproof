@@ -279,6 +279,7 @@ export const en = {
     cardRole: "Design Lead",
     cardStudio: "studio",
     slideKicker: "Brand review",
+    // Two lines on the slide preview; each has to fit beside the chart, about 12 characters at most.
     slideTitle: ["Colors that", "work together"],
     slideText: "One palette for every touchpoint.",
     checksTitle: "Contrast of these roles",

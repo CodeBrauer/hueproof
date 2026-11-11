@@ -270,7 +270,7 @@ export const de: Dictionary = {
     cardRole: "Designleitung",
     cardStudio: "studio",
     slideKicker: "Marken-Check",
-    slideTitle: ["Farben, die", "zusammenpassen"],
+    slideTitle: ["Farben, die", "harmonieren"],
     slideText: "Eine Palette für alle Anwendungen.",
     checksTitle: "Kontrast dieser Rollen",
     checks: {
