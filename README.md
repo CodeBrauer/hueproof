@@ -125,4 +125,10 @@ docs/              Short documents on architecture, color logic, design and comm
   text. All DOIs were checked against Crossref; findings that failed to replicate are either left out or shown
   with that caveat.
 
-`apca-w3` is published under its own license, which limits use to web content contrast checks; see the package.
+## License
+
+Hueproof is licensed under the [GNU Affero General Public License v3.0 or later](LICENSE).
+
+The APCA contrast math comes from the [`apca-w3`](https://github.com/Myndex/apca-w3) package, which has its own
+license: it may be used only to check the contrast of web content, and not commercially without a separate
+agreement. This project's license grants no rights to `apca-w3`.
