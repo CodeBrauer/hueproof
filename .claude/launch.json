@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "hueproof",
-      "runtimeExecutable": "mise",
-      "runtimeArgs": ["exec", "--", "pnpm", "dev", "--port", "4321"],
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev", "--port", "4321"],
       "port": 4321
     }
   ]
