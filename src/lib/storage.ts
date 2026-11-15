@@ -52,4 +52,25 @@ export function writeSavedPalettes(palettes: SavedPalette[]): boolean {
   }
 }
 
+const OMIT_SMALL_INK_KEY = "hueproof:cmyk-omit-small-ink:v1";
+
+/** Only the exact string "true" turns the option on; anything else stored is ignored. */
+export function readOmitSmallInk(): boolean {
+  try {
+    return localStorage.getItem(OMIT_SMALL_INK_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+/** Returns false when the browser refuses to store (private mode, quota). */
+export function writeOmitSmallInk(value: boolean): boolean {
+  try {
+    localStorage.setItem(OMIT_SMALL_INK_KEY, String(value));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export { MAX_TITLE_LENGTH };

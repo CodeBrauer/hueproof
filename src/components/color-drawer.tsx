@@ -3,7 +3,7 @@
 import { ExternalLink, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Segmented } from "@/components/segmented";
+import { Choice, Segmented } from "@/components/segmented";
 import { SourceLink } from "@/components/source-link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import {
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useCopy } from "@/hooks/use-copy";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useOmitSmallInk } from "@/hooks/use-omit-small-ink";
 import { useLocale, useT } from "@/i18n/context";
 import { formatContrast, readableOn, wcagRatio } from "@/lib/color/contrast";
 import { colorFamily } from "@/lib/color/family";
@@ -117,6 +118,7 @@ function UsageTile({ title, detail, children }: { title: string; detail?: string
 function FormatsTab({ hex }: { hex: string }) {
   const t = useT();
   const copy = useCopy();
+  const [omitSmallInk, setOmitSmallInk] = useOmitSmallInk();
   const ink = readableOn(hex);
   const ratio = (text: string, background: string) => t.decimal(formatContrast("wcag", wcagRatio(text, background)));
   const tile = "flex h-14 items-center justify-center rounded-lg text-lg font-semibold ring-1 ring-foreground/15";
@@ -124,7 +126,7 @@ function FormatsTab({ hex }: { hex: string }) {
     <div className="space-y-5">
       <div className="space-y-2">
         <ul className="divide-y divide-border border-y border-border">
-          {colorFormats(hex).map((format) => (
+          {colorFormats(hex, { omitSmallInk }).map((format) => (
             <li key={format.id} className="flex items-center gap-1 hover:bg-muted/60">
               <button
                 type="button"
@@ -139,6 +141,10 @@ function FormatsTab({ hex }: { hex: string }) {
                 <Button variant="ghost" size="xs" onClick={() => copy(`#${format.plain}`)} aria-label={t.drawer.copyWithHash}>
                   {t.drawer.withHash}
                 </Button>
+              ) : format.id === "cmyk" ? (
+                <Choice size="sm" pressed={omitSmallInk} onClick={() => setOmitSmallInk(!omitSmallInk)} className="shrink-0 px-1">
+                  {t.drawer.omitSmallInk}
+                </Choice>
               ) : (
                 format.css && (
                   <Button

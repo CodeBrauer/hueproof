@@ -25,8 +25,23 @@ function round(value: number | undefined, digits = 0): number {
   return Math.round((value ?? 0) * factor) / factor + 0;
 }
 
+export type Cmyk = [number, number, number, number];
+
+/**
+ * Ink percentage below which a channel can be left out. Print guidance, not a standard of this tool: the
+ * smallest dot that prints reliably depends on process, screen ruling and plate (Kodak gives about 4 % to 10 %
+ * for flexographic LAMS plates and says dots below the minimum "form unreliably and unstably",
+ * https://workflowhelp.kodak.com/x/x4URE), so 5 % is a conservative common choice.
+ */
+export const CMYK_SMALL_INK_THRESHOLD = 5;
+
+/** Sets every channel below `CMYK_SMALL_INK_THRESHOLD` to 0 and leaves the others as they are. */
+export function omitSmallInk(cmyk: Cmyk): Cmyk {
+  return cmyk.map((value) => (value < CMYK_SMALL_INK_THRESHOLD ? 0 : value)) as Cmyk;
+}
+
 /** Simple CMYK without a print profile: fine as a starting point, not colour-accurate for print. */
-function toCmyk(r: number, g: number, b: number): [number, number, number, number] {
+function toCmyk(r: number, g: number, b: number): Cmyk {
   const k = 1 - Math.max(r, g, b);
   if (k === 1) return [0, 0, 0, 100];
   return [
@@ -37,7 +52,7 @@ function toCmyk(r: number, g: number, b: number): [number, number, number, numbe
   ];
 }
 
-export function colorFormats(hex: string): ColorFormat[] {
+export function colorFormats(hex: string, options: { omitSmallInk?: boolean } = {}): ColorFormat[] {
   const rgb = toRgb(hex)!;
   const hsl = toHsl(hex)!;
   const hwb = toHwb(hex)!;
@@ -55,7 +70,8 @@ export function colorFormats(hex: string): ColorFormat[] {
   const luvValues = [round(luv.l, 1), round(luv.u, 1), round(luv.v, 1)];
   const xyzValues = [round(xyz.x * 100, 2), round(xyz.y * 100, 2), round(xyz.z * 100, 2)];
   const oklchValues = [round(oklch.l, 3), round(oklch.c, 3), round(oklch.h, 1)];
-  const cmyk = toCmyk(rgb.r, rgb.g, rgb.b);
+  const baseCmyk = toCmyk(rgb.r, rgb.g, rgb.b);
+  const cmyk = options.omitSmallInk ? omitSmallInk(baseCmyk) : baseCmyk;
 
   return [
     { id: "hex", label: "HEX", plain: displayHex(hex), css: hex },

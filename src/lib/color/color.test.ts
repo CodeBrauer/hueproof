@@ -3,7 +3,7 @@ import { apcaLc, contrastTier, formatContrast, nearMissTarget, pairContrast, rea
 import { analyzePairs, largestSafeSet } from "./difference";
 import { colorFamily } from "./family";
 import { ensureContrast, fixConfusablePair, fixContrast } from "./fix";
-import { colorFormats } from "./formats";
+import { CMYK_SMALL_INK_THRESHOLD, colorFormats, omitSmallInk } from "./formats";
 import { isFullHex, normalizeHex, sanitizeName } from "./hex";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
@@ -213,5 +213,38 @@ describe("variations and formats", () => {
     expect(formats.cmyk.plain).toBe("15, 0, 23, 44");
     expect(formats.hex.plain).toBe("7A8F6E");
     expect(formats.xyz.plain).toBe("20.66, 24.91, 18.47");
+  });
+
+  describe("small CMYK ink", () => {
+    const T = CMYK_SMALL_INK_THRESHOLD;
+
+    it("sets channels below the threshold to 0", () => {
+      expect(omitSmallInk([T - 1, 40, 0, 2])).toEqual([0, 40, 0, 0]);
+    });
+
+    it("keeps channels at and above the threshold", () => {
+      expect(omitSmallInk([T, T + 1, 100, T])).toEqual([T, T + 1, 100, T]);
+    });
+
+    it("leaves all-zero and pure black alone", () => {
+      expect(omitSmallInk([0, 0, 0, 0])).toEqual([0, 0, 0, 0]);
+      expect(omitSmallInk([0, 0, 0, 100])).toEqual([0, 0, 0, 100]);
+    });
+
+    it("does not mutate its input", () => {
+      const input: [number, number, number, number] = [1, 2, 30, 4];
+      omitSmallInk(input);
+      expect(input).toEqual([1, 2, 30, 4]);
+    });
+
+    it("applies to the CMYK format only when asked", () => {
+      const cmyk = (hex: string, omit: boolean) =>
+        colorFormats(hex, { omitSmallInk: omit }).find((format) => format.id === "cmyk")!.plain;
+      expect(cmyk("#f2ffe6", false)).toBe("5, 0, 10, 0");
+      expect(cmyk("#f7ffee", false)).toBe("3, 0, 7, 0");
+      expect(cmyk("#f7ffee", true)).toBe("0, 0, 7, 0");
+      expect(cmyk("#f2ffe6", true)).toBe("5, 0, 10, 0");
+      expect(cmyk(mint, true)).toBe("15, 0, 23, 44");
+    });
   });
 });
