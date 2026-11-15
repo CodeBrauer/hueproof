@@ -1,6 +1,12 @@
 import { MAX_NAME_LENGTH } from "./types";
 
 const HEX_PATTERN = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i;
+const FULL_HEX_PATTERN = /^#?[0-9a-f]{6}$/i;
+
+/** True for a complete six-digit hex code, with or without `#`. */
+export function isFullHex(input: string): boolean {
+  return FULL_HEX_PATTERN.test(input);
+}
 
 /** Returns lowercase `#rrggbb`, or null when the input is not a 3- or 6-digit hex color. */
 export function normalizeHex(input: string): string | null {

@@ -4,7 +4,7 @@ import { analyzePairs, largestSafeSet } from "./difference";
 import { colorFamily } from "./family";
 import { fixConfusablePair, fixContrast } from "./fix";
 import { colorFormats } from "./formats";
-import { normalizeHex, sanitizeName } from "./hex";
+import { isFullHex, normalizeHex, sanitizeName } from "./hex";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
 import { parsePalette, serializePalette } from "./url";
@@ -25,6 +25,17 @@ describe("normalizeHex", () => {
 
   it.each(["", "#12", "#12345", "#1234567", "#gggggg", "rgb(1,2,3)", "<script>"])("rejects %j", (input) => {
     expect(normalizeHex(input)).toBeNull();
+  });
+});
+
+describe("isFullHex", () => {
+  it.each(["#d5ac85", "D5AC85"])("accepts %s", (input) => {
+    expect(isFullHex(input)).toBe(true);
+  });
+
+  // The shorthand is also the first half of a six-digit code that is still being typed.
+  it.each(["#abc", "abc", "#d5ac8", "", "#gggggg", "#d5ac85ff"])("rejects %j", (input) => {
+    expect(isFullHex(input)).toBe(false);
   });
 });
 
