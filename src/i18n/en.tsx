@@ -55,7 +55,9 @@ export const en = {
     shareLink: "Share link",
     sharedWhat: "the link to this palette",
     more: "More actions",
-    theme: "Switch between light and dark interface",
+    theme: "Light/dark",
+    lightTheme: "Light",
+    darkTheme: "Dark",
     paletteFull: (max: number) => `A palette holds up to ${max} colors`,
   },
 
@@ -465,6 +467,8 @@ export const en = {
       },
     },
     footer: `${SITE_NAME} runs in your browser. Nothing you enter is sent anywhere.`,
+    sourceCode: "Source code on GitHub",
+    feedback: "Feedback and ideas (Google Forms)",
   },
 };
 

@@ -1,8 +1,9 @@
 import { PaletteApp } from "@/components/palette-app";
 import { SiteInfo } from "@/components/site-info";
+import { SourceLink } from "@/components/source-link";
 import { getDictionary } from "@/i18n/dictionaries";
 import { LOCALE_PATHS, type Locale } from "@/i18n/locales";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { FEEDBACK_URL, REPOSITORY_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 /** The one page of the site, rendered once per language. */
 export function HomePage({ locale }: { locale: Locale }) {
@@ -27,7 +28,13 @@ export function HomePage({ locale }: { locale: Locale }) {
           <PaletteApp />
           <SiteInfo locale={locale} />
         </main>
-        <footer className="border-t border-border py-5 text-xs text-muted-foreground">{t.info.footer}</footer>
+        <footer className="flex flex-wrap justify-between gap-x-8 gap-y-2 border-t border-border py-5 text-xs text-muted-foreground">
+          <p>{t.info.footer}</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <SourceLink reference={{ label: t.info.sourceCode, url: REPOSITORY_URL }} />
+            <SourceLink reference={{ label: t.info.feedback, url: FEEDBACK_URL }} />
+          </div>
+        </footer>
       </div>
     </>
   );

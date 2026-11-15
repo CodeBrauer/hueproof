@@ -15,7 +15,10 @@ The page is a white sheet on a four-column grid, and the palette is the only col
 - **Small, consistent radii.** 10 px for buttons, pictures and the outer corners of the palette, 8 px for
   cells and strips, a few pixels for badges and swatch squares. Only dots are round. No pills.
 - **One accent.** The dot after the wordmark and after the selected tab takes its color from the palette
-  (`--palette-accent`, set in `palette-app.tsx`). Nothing else in the interface is colored.
+  (`--palette-accent`, set in `palette-app.tsx`). Besides that, only the logo wears the palette: from 768 px the
+  name in the toolbar, its letters in the hues of the palette in order, each moved in lightness just far enough
+  to reach 4.5:1 on the page background of the current theme; below that, and as the icon, the ring. Nothing
+  else in the interface is colored.
 - **Color is never the only cue.** Contrast levels carry an icon, difference categories a symbol.
 - **Editable text shows it without hovering.** Hex codes and names in the palette have a dotted underline;
   the hex code also shows its `#` and a picker icon.
@@ -55,5 +58,6 @@ The page width (`max-w-[88rem]`) and side padding are set once, in `src/componen
 
 The palette stacks, with the labels inside the swatches. Below 360 px (`xs`) the picker icon beside the hex
 code is dropped so the label does not run into the actions. The toolbar must fit a 320 px wide screen: below
-1024 px import, saved palettes, export, share and the theme toggle move into a menu; below 640 px redo
-follows and Generate shrinks to an icon. Check both 375 px and 320 px after changing the toolbar.
+1280 px import, saved palettes, export, share and the theme toggle move into a menu; below 768 px the name in the
+toolbar gives way to the ring; below 640 px redo follows and Generate shrinks to an icon. Check both 375 px and
+320 px after changing the toolbar.

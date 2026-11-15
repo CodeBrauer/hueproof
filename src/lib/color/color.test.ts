@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { apcaLc, contrastTier, formatContrast, nearMissTarget, pairContrast, readableOn, wcagRatio } from "./contrast";
 import { analyzePairs, largestSafeSet } from "./difference";
 import { colorFamily } from "./family";
-import { fixConfusablePair, fixContrast } from "./fix";
+import { ensureContrast, fixConfusablePair, fixContrast } from "./fix";
 import { colorFormats } from "./formats";
-import { normalizeHex, sanitizeName } from "./hex";
+import { isFullHex, normalizeHex, sanitizeName } from "./hex";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
 import { parsePalette, serializePalette } from "./url";
@@ -25,6 +25,17 @@ describe("normalizeHex", () => {
 
   it.each(["", "#12", "#12345", "#1234567", "#gggggg", "rgb(1,2,3)", "<script>"])("rejects %j", (input) => {
     expect(normalizeHex(input)).toBeNull();
+  });
+});
+
+describe("isFullHex", () => {
+  it.each(["#d5ac85", "D5AC85"])("accepts %s", (input) => {
+    expect(isFullHex(input)).toBe(true);
+  });
+
+  // The shorthand is also the first half of a six-digit code that is still being typed.
+  it.each(["#abc", "abc", "#d5ac8", "", "#gggggg", "#d5ac85ff"])("rejects %j", (input) => {
+    expect(isFullHex(input)).toBe(false);
   });
 });
 
@@ -120,6 +131,18 @@ describe("auto-fix", () => {
 
   it("returns null when no lightness can reach the target", () => {
     expect(fixContrast("wcag", "#808080", "#777777", 21, "text")).toBeNull();
+  });
+
+  it("keeps a color that reaches the target and fixes one that does not", () => {
+    expect(ensureContrast("wcag", "#000000", "#ffffff", 4.5)).toBe("#000000");
+    const pale = ensureContrast("wcag", "#f5e9d9", "#ffffff", 4.5);
+    expect(wcagRatio(pale, "#ffffff"), "pale beige on white").toBeGreaterThanOrEqual(4.5);
+    const dark = ensureContrast("wcag", "#132c29", "#0e0e0e", 4.5);
+    expect(wcagRatio(dark, "#0e0e0e"), "dark green on near black").toBeGreaterThanOrEqual(4.5);
+  });
+
+  it("falls back to black or white when no lightness can reach the target", () => {
+    expect(ensureContrast("wcag", "#808080", "#777777", 21)).toBe(readableOn("#777777"));
   });
 
   it("separates a confusable pair without creating a new conflict", () => {

@@ -1,5 +1,5 @@
 import { clampChroma, converter, formatHex } from "culori";
-import { contrastValue, type ContrastMode } from "./contrast";
+import { contrastValue, readableOn, type ContrastMode } from "./contrast";
 import { CONFUSABLE_BELOW, worstCaseDifference } from "./difference";
 
 const LIGHTNESS_STEP = 0.004;
@@ -43,6 +43,15 @@ export function fixContrast(
   return adjust === "text"
     ? findLightnessFix(text, (candidate) => contrastValue(mode, candidate, background) >= target)
     : findLightnessFix(background, (candidate) => contrastValue(mode, text, candidate) >= target);
+}
+
+/**
+ * The text color itself when it reaches the target contrast on the background, otherwise its smallest lightness
+ * fix, and black or white when no lightness reaches the target.
+ */
+export function ensureContrast(mode: ContrastMode, text: string, background: string, target: number): string {
+  if (contrastValue(mode, text, background) >= target) return text;
+  return fixContrast(mode, text, background, target, "text")?.hex ?? readableOn(background);
 }
 
 /**

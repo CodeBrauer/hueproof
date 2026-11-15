@@ -1,6 +1,10 @@
 // No imports on purpose: the Open Graph image script runs this file directly in Node.
 
 export const SITE_NAME = "Hueproof";
+export const REPOSITORY_URL = "https://github.com/CodeBrauer/hueproof";
+/** Google Form for feedback and ideas, so giving feedback needs no GitHub account. */
+export const FEEDBACK_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeKnjhZZ8r9Hwb-GOTJxly8u_9XvMAJ4ZAZ3_7kr9cTJiCMLA/viewform";
 /** Short description per language, shown below the name on the link preview image. */
 export const SITE_TAGLINES = {
   en: "Accessible color palette generator & contrast checker",

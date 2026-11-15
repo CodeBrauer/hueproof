@@ -8,7 +8,7 @@ import { suggestRoles } from "./color/roles";
 import { DEFAULT_PALETTE } from "./color/types";
 import { EXPORT_FORMATS, toSlug, uniqueSlugs } from "./export";
 import { parseImportText } from "./import";
-import { renderPaletteSvg } from "./palette-image";
+import { renderPaletteSvg, wordmarkColors } from "./palette-image";
 import { OG_IMAGE_SIZE, ogImagePath, SITE_TAGLINES } from "./site";
 
 const build = (id: string) => EXPORT_FORMATS.find((format) => format.id === id)!.build;
@@ -223,6 +223,24 @@ describe("link preview image", () => {
       expect(existsSync(file), `${locale}: missing public${ogImagePath(locale)}, run pnpm og-image`).toBe(true);
       expect(pngSize(readFileSync(file)), `${locale}: image size`).toEqual(OG_IMAGE_SIZE);
     }
+  });
+});
+
+describe("wordmark colors", () => {
+  it("gives every letter a color, in palette order", () => {
+    expect(wordmarkColors(["#111111", "#222222"], 8)).toEqual([...Array(4).fill("#111111"), ...Array(4).fill("#222222")]);
+    expect(wordmarkColors(["#111111", "#222222", "#333333"], 8)).toEqual([
+      "#111111", "#111111", "#111111", "#222222", "#222222", "#222222", "#333333", "#333333",
+    ]);
+  });
+
+  it("still gives one color per letter when there are more colors than letters", () => {
+    const colors = Array.from({ length: 10 }, (_, index) => `#00000${index}`);
+    expect(wordmarkColors(colors, 8)).toEqual(["#000000", "#000001", "#000002", "#000003", "#000005", "#000006", "#000007", "#000008"]);
+  });
+
+  it("returns no colors for an empty palette", () => {
+    expect(wordmarkColors([], 8)).toEqual([]);
   });
 });
 

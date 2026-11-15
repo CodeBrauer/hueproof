@@ -12,7 +12,7 @@ import { useCopy } from "@/hooks/use-copy";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useT } from "@/i18n/context";
 import { readableOn } from "@/lib/color/contrast";
-import { displayHex, normalizeHex, sanitizeName } from "@/lib/color/hex";
+import { displayHex, isFullHex, normalizeHex, sanitizeName } from "@/lib/color/hex";
 import { MAX_NAME_LENGTH, type PaletteColor } from "@/lib/color/types";
 import { simulate, type VisionId } from "@/lib/color/vision";
 import { paletteActions } from "@/lib/palette-store";
@@ -240,7 +240,15 @@ export function ColorColumn({
               <span className="text-sm text-muted-foreground tabular-nums">#</span>
               <HexColorInput
                 color={color.hex}
-                onChange={changeHex}
+                // Three digits are also the start of a six-digit code, so the shorthand applies only on Enter or
+                // when leaving the field. Applying it while typing would expand it and cut off the next digits.
+                onChange={(input) => {
+                  if (isFullHex(input)) changeHex(input);
+                }}
+                onBlur={(event) => changeHex(event.currentTarget.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") changeHex(event.currentTarget.value);
+                }}
                 aria-label={t.column.hexCode}
                 className="h-8 w-full rounded-md border border-input bg-transparent px-2 text-sm uppercase tabular-nums outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
               />
