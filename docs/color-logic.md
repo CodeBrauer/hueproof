@@ -38,6 +38,8 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 - **A fix changes lightness only.** `findLightnessFix` walks outward from the current OKLCH lightness in
   steps of 0.004, in both directions, and returns the first candidate that passes. Hue and chroma stay;
   chroma is clamped to sRGB. For a confusable pair the fix must not make any other pair worse than it was.
+  `ensureContrast` applies such a fix only when a color misses the target; the toolbar logo uses it for each
+  letter against the page background of both themes.
 - **The largest safe set** checks every subset. That is fine for at most 10 colors (1,024 subsets).
 - **Warmth** is `0.02 · C^1.07 · cos(h − 50°)` in CIELAB LCh. The constant offset of the published model
   is left out, so near-neutral colors read as neutral.

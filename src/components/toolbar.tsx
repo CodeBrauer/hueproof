@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Logo } from "@/components/logo";
+import { Logo, Wordmark } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -115,6 +115,7 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
   const { resolvedTheme, setTheme } = useTheme();
   const ready = snapshot !== null;
   const isFull = (snapshot?.colors.length ?? 0) >= MAX_COLORS;
+  const logoColors = (snapshot?.colors ?? DEFAULT_PALETTE).map((color) => color.hex);
   const dialogLabels: Record<DialogId, string> = {
     import: t.toolbar.import,
     library: t.toolbar.save,
@@ -124,12 +125,13 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
   return (
     <header className="flex h-[4.5rem] shrink-0 items-center gap-x-1">
       <div className="flex items-center sm:mr-4" role="img" aria-label={SITE_NAME}>
-        {/* The logo wears the current palette. */}
-        <Logo className="size-9" colors={(snapshot?.colors ?? DEFAULT_PALETTE).map((color) => color.hex)} />
+        {/* The logo wears the current palette: the name from md up, the ring below, where the name has no room. */}
+        <Logo className="size-9 md:hidden" colors={logoColors} />
+        <Wordmark className="text-2xl max-md:hidden" colors={logoColors} />
       </div>
 
       {/* Quiet words instead of buttons; the one button in the bar is Generate. */}
-      <div className="hidden items-center lg:flex">
+      <div className="hidden items-center xl:flex">
         {DIALOG_ICONS.map(({ id }) => (
           <Button key={id} variant="ghost" className="px-3" disabled={!ready} onClick={() => onOpenDialog(id)}>
             {dialogLabels[id]}
@@ -162,7 +164,7 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
           {/* A fixed width keeps the toolbar from shifting when the selected label changes. */}
           <SelectTrigger
             aria-label={t.toolbar.simulate}
-            className="justify-start gap-1.5 border-0 bg-transparent px-2 text-[13px] font-bold tracking-[0.03em] text-muted-foreground uppercase hover:text-foreground data-[size=default]:h-9 sm:w-56 dark:bg-transparent dark:hover:bg-transparent"
+            className="justify-start gap-1.5 border-0 bg-transparent px-2 text-[13px] font-bold tracking-[0.03em] text-muted-foreground uppercase hover:text-foreground data-[size=default]:h-9 sm:w-52 dark:bg-transparent dark:hover:bg-transparent"
           >
             <Eye className="shrink-0" />
             <span className="truncate max-sm:hidden">
@@ -186,7 +188,7 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t.toolbar.more} disabled={!ready}>
+            <Button variant="ghost" size="icon" className="xl:hidden" aria-label={t.toolbar.more} disabled={!ready}>
               <Ellipsis />
             </Button>
           </DropdownMenuTrigger>
@@ -213,8 +215,8 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
         </DropdownMenu>
 
         <LanguageSwitch />
-        {/* Below lg the toggle lives in the menu above; the bar has no room for it. */}
-        <ThemeToggle className="max-lg:hidden" />
+        {/* Below xl the toggle lives in the menu above; the bar has no room for it. */}
+        <ThemeToggle className="max-xl:hidden" />
 
         <Tooltip>
           <TooltipTrigger asChild>
