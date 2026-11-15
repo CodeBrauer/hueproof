@@ -465,6 +465,8 @@ export const en = {
       },
     },
     footer: `${SITE_NAME} runs in your browser. Nothing you enter is sent anywhere.`,
+    sourceCode: "Source code on GitHub",
+    feedback: "Feedback and ideas (Google Forms)",
   },
 };
 

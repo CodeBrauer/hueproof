@@ -456,5 +456,7 @@ export const de: Dictionary = {
       },
     },
     footer: `${SITE_NAME} läuft in deinem Browser. Nichts, was du eingibst, wird irgendwohin gesendet.`,
+    sourceCode: "Quellcode auf GitHub",
+    feedback: "Feedback und Ideen (Google Forms)",
   },
 };
