@@ -341,6 +341,7 @@ export const en = {
     paletteReplaced: "Palette replaced",
     harmoniesNote: "Harmonies rotate the hue on the HSL color wheel, the convention most color tools share.",
     visionNote: "Left: the color. Right: how it appears with that type of vision.",
+    hexWord: (word: ReactNode): ReactNode => <>Spells the word {word}</>,
     closestFamily: "Closest basic color",
     families: {
       red: "Red",
