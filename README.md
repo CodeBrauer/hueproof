@@ -73,7 +73,8 @@ to that host with your own key.
 
 `pnpm build` writes a fully static site to `out/`, so any other static host works too. To serve it at
 the root of a domain, set `NEXT_PUBLIC_SITE_URL` without a path. `.github/workflows/ci.yml` runs the
-checks and a build on every push; it does not deploy.
+checks and a build on every push; it does not deploy. Dependabot opens weekly update PRs; minor and patch
+updates merge on their own once CI passes, major updates wait for a review.
 
 Because the site is static, the link preview image is the same for every shared palette (one per language).
 

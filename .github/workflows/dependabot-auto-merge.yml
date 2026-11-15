@@ -1,0 +1,23 @@
+name: Dependabot auto-merge
+
+# pull_request_target, because workflows that Dependabot triggers on pull_request only get a read-only token.
+# Safe here: the job never checks out or runs code from the PR, it only reads Dependabot's metadata.
+on: pull_request_target
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'CodeBrauer/hueproof'
+    steps:
+      - id: metadata
+        uses: dependabot/fetch-metadata@v3
+      # Minor and patch updates merge once the required checks pass; majors and anything unknown wait for a review.
+      - if: steps.metadata.outputs.update-type == 'version-update:semver-minor' || steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ github.token }}
