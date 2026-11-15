@@ -87,7 +87,7 @@ To add a language: add it to `LOCALES` and `LOCALE_PATHS` in `src/i18n/locales.t
 group with its own layout and page under `src/app/` (see `(de)`), translations in `src/data/color-meaning.json`,
 and a tagline in `src/lib/site.ts` (then run `pnpm og-image`).
 
-Suggested color names come from an English list and are not translated.
+Suggested color names and hex words (a code like `#C0FFEE` that spells "coffee") come from English lists and are not translated.
 
 ## Design
 
@@ -116,8 +116,8 @@ src/i18n/          Dictionaries and locale helpers
 src/lib/color/     Color logic without UI: contrast, vision simulation, fixes, formats, URL
 src/lib/           Palette store (URL + history), import, export, storage
 src/components/    UI; analysis/ holds the four analysis tabs, dialogs/ the import, export and library dialogs
-src/data/          Sourced statements shown in the "Meaning" tab, in both languages
-scripts/           Open Graph image generator
+src/data/          Sourced statements for the "Meaning" tab (both languages); the hex word list
+scripts/           Open Graph image and hex word list generators
 docs/              Short documents on architecture, color logic, design and common changes
 ```
 
@@ -131,6 +131,7 @@ docs/              Short documents on architecture, color logic, design and comm
   (NIH), Birch (2012), https://doi.org/10.1364/JOSAA.29.000313; with age: Schneck et al. (2014),
   https://doi.org/10.1097/OPX.0000000000000152
 - Color names: [`color-name-list`](https://github.com/meodai/color-names) (MIT)
+- Hex words: [melted/hexwords](https://github.com/melted/hexwords) (ISC), see `src/data/hex-words.ts`
 - Meaning tab (`src/data/color-meaning.json`): every statement cites a peer-reviewed publication or an official
   text. All DOIs were checked against Crossref; findings that failed to replicate are either left out or shown
   with that caveat.

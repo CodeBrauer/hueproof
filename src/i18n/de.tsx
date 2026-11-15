@@ -330,6 +330,7 @@ export const de: Dictionary = {
     paletteReplaced: "Palette ersetzt",
     harmoniesNote: "Harmonien drehen den Farbton auf dem HSL-Farbkreis, wie es die meisten Farbwerkzeuge tun.",
     visionNote: "Links: die Farbe. Rechts: wie sie mit dieser Art des Farbsehens erscheint.",
+    hexWord: (word) => <>Ergibt das Wort {word}</>,
     closestFamily: "Nächste Grundfarbe",
     families: {
       red: "Rot",

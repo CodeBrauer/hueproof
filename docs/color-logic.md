@@ -14,6 +14,7 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 | `roles.ts` | Which color could be background, text, primary? | Sorted by OKLCH lightness and chroma |
 | `generate.ts` | New colors for the unlocked slots | Hue scheme around a locked color, in OKLCH |
 | `naming.ts` | A name for a color | Nearest entry of `color-name-list` in OKLab, loaded on demand |
+| `hexword.ts` | Does the hex code spell a word (`#C0FFEE`)? | Exact lookup in `src/data/hex-words.ts`, a static list of 556 six-letter words (ISC, from [melted/hexwords](https://github.com/melted/hexwords)) |
 | `family.ts` | Which basic color term (red, brown, …)? | Boundaries in OKLCH; selects the notes in the Meaning tab |
 | `formats.ts`, `variations.ts` | Conversions, shades, tints, tones, harmonies | `culori` |
 
@@ -40,6 +41,9 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
   chroma is clamped to sRGB. For a confusable pair the fix must not make any other pair worse than it was.
   `ensureContrast` applies such a fix only when a color misses the target; the toolbar logo uses it for each
   letter against the page background of both themes.
+- **Hex words** read the letters o, l, z, s and g as 0, 1, 2, 5 and 9. Only six-digit codes count; a shorthand like
+  `#bad` expands to `#bbaadd` and never spells anything. The list is generated once with
+  `scripts/generate-hex-words.mjs`; its header names the source, license and filter.
 - **The largest safe set** checks every subset. That is fine for at most 10 colors (1,024 subsets).
 - **Warmth** is `0.02 · C^1.07 · cos(h − 50°)` in CIELAB LCh. The constant offset of the published model
   is left out, so near-neutral colors read as neutral.
