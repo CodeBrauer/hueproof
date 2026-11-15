@@ -63,3 +63,12 @@ See "Languages" in the [README](../README.md).
 
 `pnpm exec shadcn add <name>` writes it to `src/components/ui/`. Afterwards bring it in line with
 [design.md](design.md): radii from the tokens, no shadow, no filled background bands.
+
+## Release a version
+
+1. Set `version` in `package.json` in a PR titled `chore: release X.Y.Z`.
+2. After the merge, tag and publish from `main`:
+   `gh release create vX.Y.Z --target main --generate-notes --notes "<one-paragraph summary>"`.
+   The generated notes list the merged PRs by title, which follow Conventional Commits; the summary goes
+   above them.
+3. Deploy with `pnpm ship`.

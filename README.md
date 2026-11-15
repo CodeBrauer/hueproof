@@ -5,7 +5,8 @@ text contrast (WCAG 2 and APCA), color blindness simulation, one-click lightness
 color conversions and export. No backend: the palette lives in the URL fragment
 (`/#d5ac85-f5e9d9-132c29`), saved palettes in `localStorage`.
 
-**Try it: https://tools.codebrauer.com/hueproof/** (English and German)
+**Try it: https://tools.codebrauer.com/hueproof/** (English and German) ·
+[Latest release and changes](https://github.com/CodeBrauer/hueproof/releases/latest)
 
 <a href="https://tools.codebrauer.com/hueproof/">
   <picture>
