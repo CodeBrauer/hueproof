@@ -5,6 +5,7 @@ import { colorFamily } from "./family";
 import { ensureContrast, fixConfusablePair, fixContrast } from "./fix";
 import { colorFormats } from "./formats";
 import { isFullHex, normalizeHex, sanitizeName } from "./hex";
+import { hexWord } from "./hexword";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
 import { parsePalette, serializePalette } from "./url";
@@ -213,5 +214,35 @@ describe("variations and formats", () => {
     expect(formats.cmyk.plain).toBe("15, 0, 23, 44");
     expect(formats.hex.plain).toBe("7A8F6E");
     expect(formats.xyz.plain).toBe("20.66, 24.91, 18.47");
+  });
+});
+
+describe("hexWord", () => {
+  it("finds the word a hex code spells", () => {
+    expect(hexWord("#c0ffee")).toBe("coffee");
+    expect(hexWord("#bada55")).toBe("badass");
+    expect(hexWord("#decade")).toBe("decade");
+  });
+
+  it("ignores case, the leading # and surrounding whitespace", () => {
+    expect(hexWord("#C0FFEE")).toBe("coffee");
+    expect(hexWord("c0ffee")).toBe("coffee");
+    expect(hexWord("  #BaDa55 ")).toBe("badass");
+  });
+
+  it("returns null for codes that spell nothing", () => {
+    expect(hexWord("#123456")).toBeNull();
+    expect(hexWord(gold)).toBeNull();
+  });
+
+  it("does not expand three-digit shorthands", () => {
+    expect(hexWord("#bad")).toBeNull();
+    expect(hexWord("#fee")).toBeNull();
+  });
+
+  it("returns null for malformed input", () => {
+    for (const input of ["", "#", "#c0ffe", "#c0ffee0", "#c0ffeg", "coffee", "constructor", "__proto__"]) {
+      expect(hexWord(input), input).toBeNull();
+    }
   });
 });

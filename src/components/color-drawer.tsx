@@ -22,6 +22,7 @@ import { formatContrast, readableOn, wcagRatio } from "@/lib/color/contrast";
 import { colorFamily } from "@/lib/color/family";
 import { colorFormats } from "@/lib/color/formats";
 import { displayHex } from "@/lib/color/hex";
+import { hexWord } from "@/lib/color/hexword";
 import { COLOR_MEANINGS } from "@/lib/color/meaning";
 import { classifyTemperature } from "@/lib/color/temperature";
 import { MAX_COLORS, type PaletteColor } from "@/lib/color/types";
@@ -317,6 +318,7 @@ export function ColorDrawer({ color, open, colorCount, nameOf, onClose }: ColorD
   const t = useT();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [tab, setTab] = useState<DrawerTab>("formats");
+  const word = color && hexWord(color.hex);
 
   return (
     // Not modal: the palette stays visible and usable, so a replaced color shows its effect at once.
@@ -334,7 +336,7 @@ export function ColorDrawer({ color, open, colorCount, nameOf, onClose }: ColorD
         {color && (
           <>
             <SheetHeader
-              className="relative flex h-28 shrink-0 flex-col justify-end gap-0 p-4"
+              className="relative flex min-h-28 shrink-0 flex-col justify-end gap-0 p-4"
               style={{ backgroundColor: color.hex, color: readableOn(color.hex) }}
             >
               <SheetTitle className="font-display text-3xl" style={{ color: "inherit" }}>
@@ -343,6 +345,11 @@ export function ColorDrawer({ color, open, colorCount, nameOf, onClose }: ColorD
               <SheetDescription className="opacity-80" style={{ color: "inherit" }}>
                 {nameOf(color)}
               </SheetDescription>
+              {word && (
+                <p className="text-sm opacity-80">
+                  {t.drawer.hexWord(<span lang="en">{word}</span>)}
+                </p>
+              )}
               <SheetClose asChild>
                 <button
                   type="button"
