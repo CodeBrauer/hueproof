@@ -302,7 +302,8 @@ export const de: Dictionary = {
     withHash: "mit #",
     copyWithHash: "Hex-Code mit # kopieren",
     formatsNote:
-      "Wähle eine Zeile, um ihre Werte kommagetrennt zu kopieren; „mit #“ kopiert den Hex-Code mit Raute, „CSS“ die CSS-Schreibweise. LAB, LCH und LUV verwenden wie CSS den Weißpunkt D50, XYZ verwendet D65. CMYK ist eine Näherung ohne Druckprofil.",
+      "Wähle eine Zeile, um ihre Werte kommagetrennt zu kopieren; „mit #“ kopiert den Hex-Code mit Raute, „CSS“ die CSS-Schreibweise. LAB, LCH und LUV verwenden wie CSS den Weißpunkt D50, XYZ verwendet D65. CMYK ist eine Näherung ohne Druckprofil; „< 5 % weglassen“ setzt Farbanteile unter 5 % auf 0, da sehr kleine Anteile unzuverlässig drucken (Druckempfehlung, kein Standard).",
+    omitSmallInk: "< 5 % weglassen",
     inUse: "Im Einsatz",
     textOnWhite: "Text auf Weiß",
     textOnBlack: "Text auf Schwarz",

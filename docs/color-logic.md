@@ -28,6 +28,7 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 | ΔE below 10 is "hard to tell apart", below 20 "close" | `CONFUSABLE_BELOW`, `MARGINAL_BELOW` | Heuristic |
 | Severity 0.5 for the "-anomaly" types | `ANOMALY_SEVERITY` | Choice within the Machado model (0 to 1) |
 | Neutral band of ±0.12 warmth | `NEUTRAL_BAND` | Heuristic |
+| CMYK channels below 5 % can be left out | `CMYK_SMALL_INK_THRESHOLD` | Print guidance, not a standard (see below) |
 
 ## Details worth knowing
 
@@ -41,6 +42,14 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
   chroma is clamped to sRGB. For a confusable pair the fix must not make any other pair worse than it was.
   `ensureContrast` applies such a fix only when a color misses the target; the toolbar logo uses it for each
   letter against the page background of both themes.
+- **CMYK has no print profile.** `formats.ts` converts from RGB with the plain formula, so the value is an
+  approximation. The optional "omit < 5 %" setting (`omitSmallInk`) sets every channel below
+  `CMYK_SMALL_INK_THRESHOLD` to 0 and keeps the rest; the copied value follows it. The choice is remembered in
+  `localStorage` (`readOmitSmallInk`, default off). The threshold is print guidance: very small dots print
+  unreliably, and the smallest dot that holds depends on process, screen ruling and plate. Kodak gives about
+  4 % to 10 % for flexographic LAMS plates and says dots below the minimum "form unreliably and unstably"
+  ([Kodak ColorFlow, LAMS plates](https://workflowhelp.kodak.com/x/x4URE)); 5 % is a conservative common choice,
+  so check your printer's own minimum.
 - **Hex words** read the letters o, l, z, s and g as 0, 1, 2, 5 and 9. Only six-digit codes count; a shorthand like
   `#bad` expands to `#bbaadd` and never spells anything. The list is generated once with
   `scripts/generate-hex-words.mjs`; its header names the source, license and filter.
