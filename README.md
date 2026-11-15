@@ -95,7 +95,8 @@ Paper and ink: the interface has no hue of its own, so it never tints the colors
 on a four-column grid, without boxes or shadows; hairline rules between rows, tabs and settings as words,
 small consistent corner radii. The one accent, the dot after the wordmark and the selected tab, takes its
 color from the palette. Two typefaces: Cal Sans for headlines and Fira Sans for everything else. The logo
-is a ring of the current palette's colors with a check mark. The rules are in [docs/design.md](docs/design.md).
+is a ring of the current palette's colors with a check mark, and the letters of the large wordmark below the tool
+take the palette's colors in order. The rules are in [docs/design.md](docs/design.md).
 
 ## Documentation
 

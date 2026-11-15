@@ -42,6 +42,15 @@ export function logoArcs(count: number): string[] {
   });
 }
 
+/**
+ * One color per letter of the wordmark: the palette in order, split into runs of about equal length, as the
+ * logo ring splits it into segments. With more colors than letters, some colors are left out.
+ */
+export function wordmarkColors(colors: readonly string[], letterCount: number): string[] {
+  if (colors.length === 0) return [];
+  return Array.from({ length: letterCount }, (_, index) => colors[Math.floor((index * colors.length) / letterCount)]);
+}
+
 /** The logo as SVG markup without the outer `<svg>` element, for the icon file and the preview image. */
 export function renderLogoMark(colors: string[], checkColor: string): string {
   const ring = logoArcs(colors.length)

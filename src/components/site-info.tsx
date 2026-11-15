@@ -33,7 +33,20 @@ export function SiteInfo({ locale }: { locale: Locale }) {
         <p className="font-display uppercase">
           <span className="block text-2xl leading-none">{info.kicker}</span>
           <span className="block text-[clamp(3.25rem,16.5vw,9.5rem)] leading-[0.9] whitespace-nowrap">
-            {SITE_NAME}
+            <span className="sr-only">{SITE_NAME}</span>
+            {/* Each letter wears a palette color (set in palette-app.tsx). A logotype has no contrast requirement
+                (WCAG 2.2, SC 1.4.3), but a faint outline, like the ring behind the logo, keeps colors close to the
+                page background visible. The name is read out from the hidden text above, not letter by letter. */}
+            <span
+              aria-hidden="true"
+              className="[-webkit-text-stroke:3px_color-mix(in_oklab,var(--foreground)_25%,transparent)] [paint-order:stroke_fill]"
+            >
+              {[...SITE_NAME].map((letter, index) => (
+                <span key={index} style={{ color: `var(--wordmark-${index}, currentColor)` }}>
+                  {letter}
+                </span>
+              ))}
+            </span>
             <span
               className="ml-[0.05em] inline-block size-[0.2em] rounded-full"
               style={{ backgroundColor: "var(--palette-accent, currentColor)" }}

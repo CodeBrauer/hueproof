@@ -15,7 +15,9 @@ The page is a white sheet on a four-column grid, and the palette is the only col
 - **Small, consistent radii.** 10 px for buttons, pictures and the outer corners of the palette, 8 px for
   cells and strips, a few pixels for badges and swatch squares. Only dots are round. No pills.
 - **One accent.** The dot after the wordmark and after the selected tab takes its color from the palette
-  (`--palette-accent`, set in `palette-app.tsx`). Nothing else in the interface is colored.
+  (`--palette-accent`, set in `palette-app.tsx`). Besides the logo, only the letters of the large wordmark below
+  the tool wear the palette: its colors in order (`--wordmark-0` and on), with a faint outline so colors close to
+  the page background stay visible. Nothing else in the interface is colored.
 - **Color is never the only cue.** Contrast levels carry an icon, difference categories a symbol.
 - **Editable text shows it without hovering.** Hex codes and names in the palette have a dotted underline;
   the hex code also shows its `#` and a picker icon.

@@ -35,7 +35,9 @@ import { suggestRoles } from "@/lib/color/roles";
 import { temperatureBalance } from "@/lib/color/temperature";
 import { MAX_COLORS, MIN_COLORS } from "@/lib/color/types";
 import type { VisionId } from "@/lib/color/vision";
+import { wordmarkColors } from "@/lib/palette-image";
 import { paletteActions } from "@/lib/palette-store";
+import { SITE_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type AnalysisTab = "contrast" | "vision" | "temperature" | "preview";
@@ -101,6 +103,12 @@ export function PaletteApp() {
   useEffect(() => {
     if (accent) document.documentElement.style.setProperty("--palette-accent", accent);
   }, [accent]);
+  // So do the letters of that wordmark, like the logo ring.
+  useEffect(() => {
+    wordmarkColors(hexes, SITE_NAME.length).forEach((hex, index) =>
+      document.documentElement.style.setProperty(`--wordmark-${index}`, hex),
+    );
+  }, [hexes]);
 
   // The headline finding of each tab, shown on the tab itself.
   const readable = pairs.filter((pair) => wcagRatio(hexes[pair.a], hexes[pair.b]) >= CONTRAST_THRESHOLDS.wcag[1]).length;
