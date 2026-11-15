@@ -7,10 +7,11 @@ import {
   Ellipsis,
   Eye,
   Link2,
+  Moon,
   Plus,
   Redo2,
   Shuffle,
-  SunMoon,
+  Sun,
   Undo2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -113,6 +114,7 @@ interface ToolbarProps {
 export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd, onShare }: ToolbarProps) {
   const t = useT();
   const { resolvedTheme, setTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
   const ready = snapshot !== null;
   const isFull = (snapshot?.colors.length ?? 0) >= MAX_COLORS;
   const logoColors = (snapshot?.colors ?? DEFAULT_PALETTE).map((color) => color.hex);
@@ -207,9 +209,10 @@ export function Toolbar({ snapshot, vision, onVisionChange, onOpenDialog, onAdd,
               <Link2 />
               {t.toolbar.shareLink}
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}>
-              <SunMoon />
-              {t.toolbar.theme}
+            {/* The menu only opens after hydration, so it can name the theme it switches to. */}
+            <DropdownMenuItem onSelect={() => setTheme(isDark ? "light" : "dark")}>
+              {isDark ? <Sun /> : <Moon />}
+              {isDark ? t.toolbar.lightTheme : t.toolbar.darkTheme}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -55,7 +55,9 @@ export const en = {
     shareLink: "Share link",
     sharedWhat: "the link to this palette",
     more: "More actions",
-    theme: "Switch between light and dark interface",
+    theme: "Light/dark",
+    lightTheme: "Light",
+    darkTheme: "Dark",
     paletteFull: (max: number) => `A palette holds up to ${max} colors`,
   },
 

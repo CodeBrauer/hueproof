@@ -47,7 +47,9 @@ export const de: Dictionary = {
     shareLink: "Link teilen",
     sharedWhat: "Link zu dieser Palette",
     more: "Weitere Aktionen",
-    theme: "Zwischen heller und dunkler Oberfläche wechseln",
+    theme: "Hell/Dunkel",
+    lightTheme: "Hell",
+    darkTheme: "Dunkel",
     paletteFull: (max) => `Eine Palette fasst höchstens ${max} Farben`,
   },
 
