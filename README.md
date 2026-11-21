@@ -5,10 +5,10 @@ text contrast (WCAG 2 and APCA), color blindness simulation, one-click lightness
 color conversions and export. No backend: the palette lives in the URL fragment
 (`/#d5ac85-f5e9d9-132c29`), saved palettes in `localStorage`.
 
-**Try it: https://tools.codebrauer.com/hueproof/** (English and German) ·
+**Try it: https://hueproof.codebrauer.com/** (English and German) ·
 [Latest release and changes](https://github.com/CodeBrauer/hueproof/releases/latest)
 
-<a href="https://tools.codebrauer.com/hueproof/">
+<a href="https://hueproof.codebrauer.com/">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/images/screenshot-dark.png">
     <img src="docs/images/screenshot-light.png" width="1440" alt="Hueproof with a palette of five colors, their hex codes and names, and the Contrast, Color vision, Temperature and Preview tabs below.">
@@ -53,7 +53,7 @@ pnpm dev
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Public address of the site without a trailing slash. Used for the absolute Open Graph image link, canonical and `hreflang` links, `robots.txt` and the sitemap. Its path, if any, becomes Next's `basePath` (`https://tools.codebrauer.com/hueproof` → `/hueproof`). Defaults to `http://localhost:3000`. |
+| `NEXT_PUBLIC_SITE_URL` | Public address of the site without a trailing slash. Used for the absolute Open Graph image link, canonical and `hreflang` links, `robots.txt` and the sitemap. Its path, if any, becomes Next's `basePath` (`https://example.com/hueproof` → `/hueproof`). Defaults to `http://localhost:3000`. |
 
 | `DEPLOY_HOST`, `DEPLOY_PATH` | Only for `pnpm ship`: the SSH target (`user@host`) and the directory on it that `out/` is copied to. No defaults. |
 
@@ -61,14 +61,14 @@ Copy `.env.example` to `.env.local` for local builds and deploys; `.env.local` i
 
 ## Deployment
 
-Live at **https://tools.codebrauer.com/hueproof/**.
+Live at **https://hueproof.codebrauer.com/**.
 
 ```bash
 pnpm ship
 ```
 
 `scripts/deploy.sh` runs lint, typecheck and tests, builds with
-`NEXT_PUBLIC_SITE_URL=https://tools.codebrauer.com/hueproof` (override with `SITE_URL`), copies `out/` with
+`NEXT_PUBLIC_SITE_URL=https://hueproof.codebrauer.com` (override with `SITE_URL`), copies `out/` with
 `rsync --delete` over SSH to `DEPLOY_HOST:DEPLOY_PATH` and checks that both languages answer. Needs SSH access
 to that host with your own key.
 
