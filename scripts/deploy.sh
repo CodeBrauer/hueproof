@@ -11,7 +11,7 @@ if [[ -f .env.local ]]; then
   set +a
 fi
 
-SITE_URL="${SITE_URL:-https://tools.codebrauer.com/hueproof}"
+SITE_URL="${SITE_URL:-https://hueproof.codebrauer.com}"
 : "${DEPLOY_HOST:?Set DEPLOY_HOST (user@host) in .env.local or the environment}"
 : "${DEPLOY_PATH:?Set DEPLOY_PATH (target directory on the host) in .env.local or the environment}"
 

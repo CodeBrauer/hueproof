@@ -52,7 +52,7 @@ crop it to 1190 px height (`sips -c 1190 2880 --cropOffset 0 0 <file>` on macOS)
 ```bash
 npx playwright screenshot --channel chrome --device "Desktop Chrome HiDPI" --viewport-size 1440,700 \
   --lang en-US --color-scheme light --wait-for-timeout 3000 \
-  "https://tools.codebrauer.com/hueproof/#d5ac85-f5e9d9-132c29-751729-7a8f6e" screenshot-light.png
+  "https://hueproof.codebrauer.com/#d5ac85-f5e9d9-132c29-751729-7a8f6e" screenshot-light.png
 ```
 
 ## Add a language

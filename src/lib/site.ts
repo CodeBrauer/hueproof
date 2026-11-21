@@ -16,7 +16,7 @@ export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const;
 export const ogImagePath = (locale: keyof typeof SITE_TAGLINES) => `/og/${locale}.png`;
 /**
  * Public address of the deployed site without a trailing slash; needed for absolute Open Graph image links.
- * It may include a path (https://tools.codebrauer.com/hueproof) when the site does not sit at the root of its domain.
+ * It may include a path (https://example.com/hueproof) when the site does not sit at the root of its domain.
  */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 /** Scheme and host of `SITE_URL`. */
