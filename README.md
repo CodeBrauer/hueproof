@@ -29,7 +29,8 @@ color conversions and export. No backend: the palette lives in the URL fragment
 - Import from pasted text (hex codes separated by commas, spaces or lines, CSS, `name: #hex`, Coolors links)
 - English (`/`) and German (`/de/`), each prerendered, with `hreflang` links; switching keeps the palette.
   A first visit to `/` moves on to `/de/` when the browser prefers German; a language picked with the switch wins
-- Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG
+- Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG. The design tokens file imports into
+  Figma as variables: drag it into the Variables view ([Figma help](https://help.figma.com/hc/en-us/articles/15343816063383-Modes-for-variables))
 
 ## Compared with other palette tools
 
