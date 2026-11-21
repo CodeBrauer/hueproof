@@ -31,6 +31,40 @@ color conversions and export. No backend: the palette lives in the URL fragment
   A first visit to `/` moves on to `/de/` when the browser prefers German; a language picked with the switch wins
 - Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG
 
+## Compared with other palette tools
+
+Checked on 21 November 2026 by using each tool in the browser without an account; Coolors' plans are taken
+from its [pricing page](https://coolors.co/pricing). Tools change: if a cell is wrong or out of date, please
+[open an issue](https://github.com/CodeBrauer/hueproof/issues).
+
+✅ yes · ❌ no, or not found · 💎 paid plan only · 🔑 needs an account · ➖ partly
+
+| | Hueproof | [Coolors](https://coolors.co) | [Adobe Color](https://color.adobe.com) | [Realtime Colors](https://www.realtimecolors.com) | [Paletton](https://paletton.com) |
+| --- | --- | --- | --- | --- | --- |
+| Price | Free | Free, Pro €3 a month | Free | Free | Free |
+| Without ads | ✅ | 💎 | ✅ | ✅ | ❌ |
+| Open source | ✅ AGPL-3.0 | ❌ | ❌ | ❌ | ❌ |
+| Colors per palette | 2–10 | 5, 10 with 💎 ¹ | 5 | 5 roles | 1–4 hues × 5 shades |
+| Palette in the link | ✅ after the `#`, never sent to a server | ✅ | ❌ | ✅ | ✅ |
+| Save palettes | ✅ in the browser, unlimited | 🔑 10, unlimited with 💎 | 🔑 | ❌ | ❌ |
+| WCAG 2 contrast of all pairs | ✅ | 💎, a checker for two colors is free | ✅ | ➖ each color on the background | ✅ |
+| APCA contrast | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Suggestions to fix a failing pair | ✅ | ✅ in the two-color checker | ✅ | ❌ | ❌ |
+| Color vision simulation | ✅ 7 types, with how common each is | ✅ 4 types | ✅ 3 types | ❌ | ✅ 8 types |
+| Warns about colors that look alike | ✅ per pair (CIEDE2000) | ❌ | ✅ | ❌ | ❌ |
+| Preview on designs | ✅ business card, slide, pattern | ➖ some layouts, all with 💎 | ✅ one sample page | ✅ a website | ✅ examples |
+| Export | CSS, SCSS, Tailwind v4, JSON, W3C design tokens, SVG, PNG | PDF, image, CSS, ASE, SVG, code, Tailwind; advanced options 💎 | ASE, JPEG | CSS, SCSS, Tailwind, framework themes, PNG | HTML, CSS, LESS, XML, text, PNG, ACO, GPL |
+
+¹ The pricing page lists 5 colors for Free and 10 for Pro; when checked, the generator also let a visitor
+without an account add more than 5.
+
+Only with Coolors Pro: the contrast check of the whole palette, palette variations (shades, tints and
+more), all Visualizer layouts, no ads, more than 10 saved palettes, the AI features, advanced export options
+and a custom logo on PDF exports.
+
+Hueproof has no color picking from images and no library of community palettes, which Coolors and Adobe
+Color both offer; Coolors also has AI generation and plugins for design tools.
+
 ## Development
 
 Node 24+ and pnpm.
