@@ -15,6 +15,7 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 | `generate.ts` | New colors for the unlocked slots | Hue scheme around a locked color, in OKLCH |
 | `naming.ts` | A name for a color | Nearest entry of `color-name-list` in OKLab, loaded on demand |
 | `hexword.ts` | Does the hex code spell a word (`#C0FFEE`)? | Exact lookup in `src/data/hex-words.ts`, a static list of 556 six-letter words (ISC, from [melted/hexwords](https://github.com/melted/hexwords)) |
+| `image.ts` | Which colors dominate an image, and which color is under a point? | Modified median cut (MMCQ) in OKLCH through [`colorthief`](https://github.com/lokesh/color-thief), on a scaled-down copy of the image |
 | `family.ts` | Which basic color term (red, brown, …)? | Boundaries in OKLCH; selects the notes in the Meaning tab |
 | `formats.ts`, `variations.ts` | Conversions, shades, tints, tones, harmonies | `culori` |
 
@@ -29,6 +30,9 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 | Severity 0.5 for the "-anomaly" types | `ANOMALY_SEVERITY` | Choice within the Machado model (0 to 1) |
 | Neutral band of ±0.12 warmth | `NEUTRAL_BAND` | Heuristic |
 | CMYK channels below 5 % can be left out | `CMYK_SMALL_INK_THRESHOLD` | Print guidance, not a standard (see below) |
+| Images are read at most 512 px on the longer side | `MAX_IMAGE_SIDE` in `src/lib/image.ts` | Heuristic |
+| At most 65,536 pixels of an image are sampled | `MAX_SAMPLED_PIXELS` | Heuristic |
+| Pixels with an alpha below 125 count as transparent | `MIN_VISIBLE_ALPHA` | Heuristic, colorthief's default |
 
 ## Details worth knowing
 
@@ -58,6 +62,10 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
   is left out, so near-neutral colors read as neutral.
 - **Roles are a first guess:** lightest color as background, darkest as text, with five or more colors the
   second lightest as surface, then the most colorful of the rest as primary and accent.
+- **Colors from an image** come from a copy at most 512 px on its longer side, of which at most 65,536 pixels
+  are sampled. They are listed most common first. White counts like any other color (colorthief would skip it).
+  An image with no more distinct colors than asked for, such as a logo, gives exactly those. A picked point reads one
+  pixel of the copy, which already averages the area of the original beneath it.
 
 Sources for every method are listed in the README and, for links shown in the interface, in
 `src/lib/references.ts`.

@@ -27,6 +27,9 @@ color conversions and export. No backend: the palette lives in the URL fragment
 - Warm/cool balance; preview as business card, presentation slide and pattern with role assignment
 - Per color: HEX, RGB, HSL, HWB, CMYK, LAB, LCH, LUV, XYZ, OKLCH; shades, tints, tones, harmonies; sourced notes on meaning
 - Import from pasted text (hex codes separated by commas, spaces or lines, CSS, `name: #hex`, Coolors links)
+- Colors from an image: choose a file, drop or paste it, or take a photo on a phone. Start from its dominant colors,
+  pick more from a point on the image (mouse, touch or arrow keys), take out the ones you don't want, and use them as
+  the palette; a picked color can also go straight into the current palette. The image stays in the browser
 - English (`/`) and German (`/de/`), each prerendered, with `hreflang` links; switching keeps the palette.
   A first visit to `/` moves on to `/de/` when the browser prefers German; a language picked with the switch wins
 - Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG
@@ -45,6 +48,7 @@ from its [pricing page](https://coolors.co/pricing). Tools change: if a cell is 
 | Without ads | ✅ | 💎 | ✅ | ✅ | ❌ |
 | Open source | ✅ AGPL-3.0 | ❌ | ❌ | ❌ | ❌ |
 | Colors per palette | 2–10 | 5, 10 with 💎 ¹ | 5 | 5 roles | 1–4 hues × 5 shades |
+| Colors from an image | ✅ dominant colors or single points, the image stays in the browser | ✅ | ✅ | ➖ an eyedropper picks one color from the screen | ❌ |
 | Palette in the link | ✅ after the `#`, never sent to a server | ✅ | ❌ | ✅ | ✅ |
 | Save palettes | ✅ in the browser, unlimited | 🔑 10, unlimited with 💎 | 🔑 | ❌ | ❌ |
 | WCAG 2 contrast of all pairs | ✅ | 💎, a checker for two colors is free | ✅ | ➖ each color on the background | ✅ |
@@ -62,8 +66,8 @@ Only with Coolors Pro: the contrast check of the whole palette, palette variatio
 more), all Visualizer layouts, no ads, more than 10 saved palettes, the AI features, advanced export options
 and a custom logo on PDF exports.
 
-Hueproof has no color picking from images and no library of community palettes, which Coolors and Adobe
-Color both offer; Coolors also has AI generation and plugins for design tools.
+Hueproof has no library of community palettes, which Coolors and Adobe Color both offer; Coolors also has AI
+generation and plugins for design tools.
 
 ## Development
 
@@ -166,6 +170,7 @@ docs/              Short documents on architecture, color logic, design and comm
 - How common color vision deficiencies are: [MedlinePlus Genetics](https://medlineplus.gov/genetics/condition/color-vision-deficiency/)
   (NIH), Birch (2012), https://doi.org/10.1364/JOSAA.29.000313; with age: Schneck et al. (2014),
   https://doi.org/10.1097/OPX.0000000000000152
+- Dominant colors of an image: modified median cut (MMCQ) in OKLCH, via [`colorthief`](https://github.com/lokesh/color-thief) (MIT)
 - Color names: [`color-name-list`](https://github.com/meodai/color-names) (MIT)
 - Hex words: [melted/hexwords](https://github.com/melted/hexwords) (ISC), see `src/data/hex-words.ts`
 - Meaning tab (`src/data/color-meaning.json`): every statement cites a peer-reviewed publication or an official
