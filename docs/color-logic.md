@@ -15,7 +15,7 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 | `generate.ts` | New colors for the unlocked slots | Hue scheme around a locked color, in OKLCH |
 | `naming.ts` | A name for a color | Nearest entry of `color-name-list` in OKLab, loaded on demand |
 | `hexword.ts` | Does the hex code spell a word (`#C0FFEE`)? | Exact lookup in `src/data/hex-words.ts`, a static list of 556 six-letter words (ISC, from [melted/hexwords](https://github.com/melted/hexwords)) |
-| `image.ts` | Which colors dominate an image, and which color is under a point? | Modified median cut (MMCQ) in OKLCH through [`colorthief`](https://github.com/lokesh/color-thief), on a scaled-down copy of the image |
+| `image.ts` | Which colors dominate an image, where do they sit, and which color is under a point? | Modified median cut (MMCQ) in OKLCH through [`colorthief`](https://github.com/lokesh/color-thief), on a scaled-down copy of the image; locations by distance in OKLab on a grid |
 | `family.ts` | Which basic color term (red, brown, …)? | Boundaries in OKLCH; selects the notes in the Meaning tab |
 | `formats.ts`, `variations.ts` | Conversions, shades, tints, tones, harmonies | `culori` |
 
@@ -33,6 +33,8 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 | Images are read at most 512 px on the longer side | `MAX_IMAGE_SIDE` in `src/lib/image.ts` | Heuristic |
 | At most 65,536 pixels of an image are sampled | `MAX_SAMPLED_PIXELS` | Heuristic |
 | Pixels with an alpha below 125 count as transparent | `MIN_VISIBLE_ALPHA` | Heuristic, colorthief's default |
+| Markers search a grid of about 32 × 32 cells | `LOCATION_GRID` | Heuristic |
+| Cells within 0.02 (OKLab) of the best match count as equally good | `LOCATION_TOLERANCE` | Heuristic, about one just noticeable difference |
 
 ## Details worth knowing
 
@@ -66,6 +68,12 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
   are sampled. They are listed most common first. White counts like any other color (colorthief would skip it).
   An image with no more distinct colors than asked for, such as a logo, gives exactly those. A picked point reads one
   pixel of the copy, which already averages the area of the original beneath it.
+- **Markers on the image** show where each color of the selection comes from. A picked color is marked where it was
+  picked. For a dominant color, the copy is divided into a grid and each cell averaged; of the cells closest to the
+  color, the marker takes the one nearest to their middle, so it sits inside the area rather than at its edge. A
+  dominant color is an average and may not occur exactly in the image, so its marker shows the closest match. A
+  marker that is moved takes the color of the pixel under it and keeps its number; on a transparent spot it keeps the
+  color it had. A new number of colors drops the moves, since the dominant colors are found again.
 
 Sources for every method are listed in the README and, for links shown in the interface, in
 `src/lib/references.ts`.

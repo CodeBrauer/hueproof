@@ -28,8 +28,9 @@ color conversions and export. No backend: the palette lives in the URL fragment
 - Per color: HEX, RGB, HSL, HWB, CMYK, LAB, LCH, LUV, XYZ, OKLCH; shades, tints, tones, harmonies; sourced notes on meaning
 - Import from pasted text (hex codes separated by commas, spaces or lines, CSS, `name: #hex`, Coolors links)
 - Colors from an image: choose a file, drop or paste it, or take a photo on a phone. Start from its dominant colors,
-  pick more from a point on the image (mouse, touch or arrow keys), take out the ones you don't want, and use them as
-  the palette; a picked color can also go straight into the current palette. The image stays in the browser
+  numbered on the image where they come from. Drag a marker to change its color, pick more from a point on the image,
+  take out the ones you don't want, and use them as the palette (mouse, touch or arrow keys); a picked color can also
+  go straight into the current palette. The image stays in the browser
 - English (`/`) and German (`/de/`), each prerendered, with `hreflang` links; switching keeps the palette.
   A first visit to `/` moves on to `/de/` when the browser prefers German; a language picked with the switch wins
 - Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG
