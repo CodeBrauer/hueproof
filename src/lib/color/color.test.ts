@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { apcaLc, contrastTier, formatContrast, nearMissTarget, pairContrast, readableOn, wcagRatio } from "./contrast";
-import { analyzePairs, largestSafeSet } from "./difference";
+import { analyzePairs, colorDifference, largestSafeSet } from "./difference";
 import { colorFamily } from "./family";
 import { ensureContrast, fixConfusablePair, fixContrast } from "./fix";
 import { CMYK_SMALL_INK_THRESHOLD, colorFormats, omitSmallInk } from "./formats";
 import { isFullHex, normalizeHex, sanitizeName } from "./hex";
 import { hexWord } from "./hexword";
+import { colorAt, dominantColors, MAX_SAMPLED_PIXELS, MIN_VISIBLE_ALPHA, type Pixels } from "./image";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
 import { parsePalette, serializePalette } from "./url";
@@ -247,6 +248,85 @@ describe("variations and formats", () => {
       expect(cmyk("#f2ffe6", true)).toBe("5, 0, 10, 0");
       expect(cmyk(mint, true)).toBe("15, 0, 23, 44");
     });
+  });
+});
+
+describe("colors from an image", () => {
+  type Rgba = [number, number, number, number?];
+  const OPAQUE = 255;
+
+  function image(width: number, height: number, fill: (x: number, y: number) => Rgba): Pixels {
+    const data = new Uint8ClampedArray(width * height * 4);
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const [r, g, b, a = OPAQUE] = fill(x, y);
+        data.set([r, g, b, a], (y * width + x) * 4);
+      }
+    }
+    return { data, width, height };
+  }
+
+  // Half white, 30 % navy, 20 % orange, in vertical bands.
+  const bands = image(10, 4, (x) => (x < 5 ? [255, 255, 255] : x < 8 ? [20, 30, 90] : [240, 120, 20]));
+
+  it("returns the exact colors of a flat image, the largest area first and white included", () => {
+    expect(dominantColors(bands, 5)).toEqual(["#ffffff", "#141e5a", "#f07814"]);
+  });
+
+  it("samples large images without losing their colors or order", () => {
+    const side = Math.ceil(Math.sqrt(MAX_SAMPLED_PIXELS * 3));
+    const large = image(side, side, (x) => (x < side * 0.6 ? [20, 30, 90] : [240, 120, 20]));
+    expect(dominantColors(large, 5)).toEqual(["#141e5a", "#f07814"]);
+  });
+
+  it("finds the main colors of a noisy image", () => {
+    const noise = (x: number, y: number) => ((x * 7 + y * 13) % 21) - 10;
+    const sky: Rgba = [80, 140, 210];
+    const grass: Rgba = [60, 120, 50];
+    const photo = image(64, 64, (x, y) => {
+      const [r, g, b] = y < 40 ? sky : grass;
+      const n = noise(x, y);
+      return [r + n, g + n, b + n];
+    });
+    const found = dominantColors(photo, 2);
+    expect(found).toHaveLength(2);
+    expect(colorDifference(found[0], "#508cd2"), "the sky covers most of the image").toBeLessThan(3);
+    expect(colorDifference(found[1], "#3c7832"), "then the grass").toBeLessThan(3);
+  });
+
+  it("returns at most the requested number of colors, within the palette size", () => {
+    const gradient = image(100, 1, (x) => [x * 2, 255 - x * 2, 128]);
+    expect(dominantColors(gradient, 4)).toHaveLength(4);
+    expect(dominantColors(gradient, 50), "capped at the largest palette").toHaveLength(10);
+    expect(dominantColors(gradient, 1), "raised to the smallest palette").toHaveLength(2);
+  });
+
+  it("leaves transparent pixels out", () => {
+    const logo = image(10, 1, (x) => (x < 7 ? [0, 0, 0, 0] : [200, 0, 0]));
+    expect(dominantColors(logo, 5)).toEqual(["#c80000"]);
+    expect(dominantColors(image(4, 4, () => [0, 0, 0, 0]), 5), "a fully transparent image").toEqual([]);
+  });
+
+  it("reads the pixel under a point", () => {
+    expect(colorAt(bands, { x: 0, y: 0 })).toBe("#ffffff");
+    expect(colorAt(bands, { x: 0.6, y: 0.5 })).toBe("#141e5a");
+    expect(colorAt(bands, { x: 1, y: 1 }), "the far edge belongs to the last pixel").toBe("#f07814");
+  });
+
+  it("keeps points outside the image on its edge", () => {
+    expect(colorAt(bands, { x: -3, y: 0.5 })).toBe("#ffffff");
+    expect(colorAt(bands, { x: 7, y: 2 })).toBe("#f07814");
+  });
+
+  it("picks nothing where the image is transparent", () => {
+    const fading = image(2, 1, (x) => [10, 20, 30, x === 0 ? MIN_VISIBLE_ALPHA - 1 : MIN_VISIBLE_ALPHA]);
+    expect(colorAt(fading, { x: 0, y: 0 })).toBeNull();
+    expect(colorAt(fading, { x: 1, y: 0 })).toBe("#0a141e");
+  });
+
+  it("picks nothing from an empty image", () => {
+    expect(colorAt({ data: new Uint8ClampedArray(0), width: 0, height: 0 }, { x: 0.5, y: 0.5 })).toBeNull();
+    expect(dominantColors({ data: new Uint8ClampedArray(0), width: 0, height: 0 }, 5)).toEqual([]);
   });
 });
 

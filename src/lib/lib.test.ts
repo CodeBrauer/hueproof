@@ -7,6 +7,7 @@ import { normalizeHex } from "./color/hex";
 import { suggestRoles } from "./color/roles";
 import { DEFAULT_PALETTE } from "./color/types";
 import { EXPORT_FORMATS, toSlug, uniqueSlugs } from "./export";
+import { fitWithin, firstImageFile, MAX_IMAGE_SIDE } from "./image";
 import { parseImportText } from "./import";
 import { renderPaletteSvg, wordmarkColors } from "./palette-image";
 import { OG_IMAGE_SIZE, ogImagePath, SITE_TAGLINES } from "./site";
@@ -96,6 +97,30 @@ describe("import", () => {
     expect(parseImportText("hello world")).toEqual([]);
     expect(parseImportText("")).toEqual([]);
     expect(parseImportText(Array.from({ length: 15 }, (_, index) => `#0000${index + 10}`).join("\n"))).toHaveLength(10);
+  });
+});
+
+describe("image import", () => {
+  it("scales the longer side down to the limit and keeps the aspect ratio", () => {
+    expect(fitWithin(4000, 3000, MAX_IMAGE_SIDE)).toEqual({ width: 512, height: 384 });
+    expect(fitWithin(1080, 1920, MAX_IMAGE_SIDE)).toEqual({ width: 288, height: 512 });
+  });
+
+  it("leaves small images at their size", () => {
+    expect(fitWithin(300, 200, MAX_IMAGE_SIDE)).toEqual({ width: 300, height: 200 });
+  });
+
+  it("never scales a side below one pixel", () => {
+    expect(fitWithin(10_000, 1, MAX_IMAGE_SIDE)).toEqual({ width: 512, height: 1 });
+  });
+
+  it("takes the first image among the dropped or pasted files", () => {
+    const text = new File(["gold: #d5ac85"], "colors.txt", { type: "text/plain" });
+    const photo = new File([""], "photo.jpg", { type: "image/jpeg" });
+    const logo = new File([""], "logo.png", { type: "image/png" });
+    expect(firstImageFile([text, photo, logo])).toBe(photo);
+    expect(firstImageFile([text]), "no image").toBeNull();
+    expect(firstImageFile([new File([""], "photo.jpg")]), "a file without a type").toBeNull();
   });
 });
 

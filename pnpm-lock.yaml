@@ -187,6 +187,9 @@ importers:
       color-name-list:
         specifier: ^14.86.0
         version: 14.86.0
+      colorthief:
+        specifier: ^3.5.0
+        version: 3.5.0(sharp@0.35.5(@types/node@24.19.2))
       culori:
         specifier: ^4.0.2
         version: 4.0.2
@@ -2188,6 +2191,15 @@ packages:
 
   colorparsley@0.1.8:
     resolution: {integrity: sha512-rObESTTTE6G5qO5WFwFxWPggpw4KfpxnLC6Ssl8bITBnNVRhDsyCeTRAUxWQNVTx2pRknKlO2nddYTxjkdNFaw==}
+
+  colorthief@3.5.0:
+    resolution: {integrity: sha512-wV/6Rnkqdx07CAuv8O3WYKBU/j5QdSXbYUfGp26seMIqze5Q40C9ovBSZB9PeVV6XkGe3VWb4zUEtQCYzCfyEA==}
+    hasBin: true
+    peerDependencies:
+      sharp: '>=0.33.0'
+    peerDependenciesMeta:
+      sharp:
+        optional: true
 
   commander@11.1.0:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
@@ -5873,6 +5885,10 @@ snapshots:
   color-name@1.1.4: {}
 
   colorparsley@0.1.8: {}
+
+  colorthief@3.5.0(sharp@0.35.5(@types/node@24.19.2)):
+    optionalDependencies:
+      sharp: 0.35.5(@types/node@24.19.2)
 
   commander@11.1.0: {}
 
