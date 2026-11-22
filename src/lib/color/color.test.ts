@@ -6,7 +6,7 @@ import { ensureContrast, fixConfusablePair, fixContrast } from "./fix";
 import { CMYK_SMALL_INK_THRESHOLD, colorFormats, omitSmallInk } from "./formats";
 import { isFullHex, normalizeHex, sanitizeName } from "./hex";
 import { hexWord } from "./hexword";
-import { colorAt, dominantColors, MAX_SAMPLED_PIXELS, MIN_VISIBLE_ALPHA, type Pixels } from "./image";
+import { colorAt, colorLocations, dominantColors, MAX_SAMPLED_PIXELS, MIN_VISIBLE_ALPHA, type Pixels } from "./image";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
 import { parsePalette, serializePalette } from "./url";
@@ -322,6 +322,31 @@ describe("colors from an image", () => {
     const fading = image(2, 1, (x) => [10, 20, 30, x === 0 ? MIN_VISIBLE_ALPHA - 1 : MIN_VISIBLE_ALPHA]);
     expect(colorAt(fading, { x: 0, y: 0 })).toBeNull();
     expect(colorAt(fading, { x: 1, y: 0 })).toBe("#0a141e");
+  });
+
+  it("places each marker inside the area of its color, in the order asked for", () => {
+    const [orange, white, navy] = colorLocations(bands, ["#f07814", "#ffffff", "#141e5a"]);
+    expect(white!.x, "white covers the left half").toBeLessThan(0.5);
+    expect(navy!.x, "navy starts at the middle").toBeGreaterThanOrEqual(0.5);
+    expect(navy!.x, "navy ends at 80 %").toBeLessThan(0.8);
+    expect(orange!.x, "orange covers the last 20 %").toBeGreaterThanOrEqual(0.8);
+  });
+
+  it("puts the marker in the middle of a small area, not at its edge", () => {
+    const stamp = image(64, 64, (x, y) => (x >= 40 && x < 52 && y >= 8 && y < 20 ? [200, 0, 0] : [255, 255, 255]));
+    const [red] = colorLocations(stamp, ["#c80000"]);
+    expect(Math.abs(red!.x * 64 - 46), "horizontally").toBeLessThanOrEqual(2);
+    expect(Math.abs(red!.y * 64 - 14), "vertically").toBeLessThanOrEqual(2);
+  });
+
+  it("finds a color on a gradient where it occurs", () => {
+    const gradient = image(64, 8, (x) => [x * 4, x * 4, x * 4]);
+    const [gray] = colorLocations(gradient, ["#808080"]);
+    expect(Math.abs(gray!.x - 0.5)).toBeLessThan(0.05);
+  });
+
+  it("has no place for a color in a fully transparent image", () => {
+    expect(colorLocations(image(4, 4, () => [0, 0, 0, 0]), ["#000000"])).toEqual([null]);
   });
 
   it("picks nothing from an empty image", () => {

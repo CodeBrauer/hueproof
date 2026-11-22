@@ -403,6 +403,8 @@ export const en = {
     colorCount: "Colors",
     point: "Point in the image",
     pointHint: "Click, tap or use the arrow keys to move the point. Enter adds its color to the selection.",
+    markerHint: "Move a numbered marker the same way to change its color.",
+    marker: (number: number) => `Color ${number} in the image`,
     pointValue: (color: string, fromLeft: string, fromTop: string) => `${color}, ${fromLeft} from the left, ${fromTop} from the top`,
     transparent: "Transparent",
     addToSelection: "Add to selection",

@@ -1,4 +1,4 @@
-import type { Pixels } from "./color/image";
+import type { ImagePoint, Pixels } from "./color/image";
 
 /** Longer side, in pixels, of the copy that colors are read from: enough to aim at small details, few pixels to analyze. Heuristic. */
 export const MAX_IMAGE_SIDE = 512;
@@ -23,6 +23,54 @@ export function firstImageFile(files: Iterable<File>): File | null {
     if (file.type.startsWith(IMAGE_TYPE_PREFIX)) return file;
   }
   return null;
+}
+
+/** A color of the selection taken from an image, and the point it comes from, if known. */
+export interface SelectedColor {
+  id: string;
+  hex: string;
+  point: ImagePoint | null;
+}
+
+/** What was changed on top of the dominant colors: colors moved to another point or taken out (by id), and colors picked. */
+export interface SelectionEdits {
+  moved: Readonly<Record<string, SelectedColor>>;
+  removed: readonly string[];
+  picked: readonly SelectedColor[];
+}
+
+export const NO_EDITS: SelectionEdits = { moved: {}, removed: [], picked: [] };
+
+/**
+ * The selection: the dominant colors where they sit, or where they were moved to, then the picked colors, without the
+ * ones taken out. A moved color keeps its place, so its number on the image stays the same.
+ */
+export function selectionFrom(
+  dominant: readonly string[],
+  locations: readonly (ImagePoint | null)[],
+  edits: SelectionEdits,
+): SelectedColor[] {
+  const fromImage = dominant.map((hex, index) => {
+    const id = `dominant-${index}`;
+    return edits.moved[id] ?? { id, hex, point: locations[index] ?? null };
+  });
+  return [...fromImage, ...edits.picked].filter((color) => !edits.removed.includes(color.id));
+}
+
+/** Puts a color of the selection at a new point, with the color found there. */
+export function moveInSelection(edits: SelectionEdits, color: SelectedColor): SelectionEdits {
+  if (edits.picked.some((pick) => pick.id === color.id)) {
+    return { ...edits, picked: edits.picked.map((pick) => (pick.id === color.id ? color : pick)) };
+  }
+  return { ...edits, moved: { ...edits.moved, [color.id]: color } };
+}
+
+/** Takes a color out of the selection. A picked color is dropped and frees its place for another. */
+export function removeFromSelection(edits: SelectionEdits, id: string): SelectionEdits {
+  if (edits.picked.some((pick) => pick.id === id)) {
+    return { ...edits, picked: edits.picked.filter((pick) => pick.id !== id) };
+  }
+  return { ...edits, removed: [...edits.removed, id] };
 }
 
 /**

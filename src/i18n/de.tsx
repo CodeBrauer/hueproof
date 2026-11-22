@@ -394,6 +394,8 @@ export const de: Dictionary = {
     point: "Punkt im Bild",
     pointHint:
       "Klicke, tippe oder nutze die Pfeiltasten, um den Punkt zu bewegen. Enter fügt seine Farbe zur Auswahl hinzu.",
+    markerHint: "Eine nummerierte Markierung bewegst du genauso, um ihre Farbe zu ändern.",
+    marker: (number) => `Farbe ${number} im Bild`,
     pointValue: (color, fromLeft, fromTop) => `${color}, ${fromLeft} von links, ${fromTop} von oben`,
     transparent: "Transparent",
     addToSelection: "Zur Auswahl",

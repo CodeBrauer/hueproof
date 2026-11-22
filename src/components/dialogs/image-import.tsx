@@ -10,17 +10,21 @@ import { Button } from "@/components/ui/button";
 import { usePalette } from "@/hooks/use-palette";
 import { useLocale, useT } from "@/i18n/context";
 import { formatPercent } from "@/i18n/locales";
+import { readableOn } from "@/lib/color/contrast";
 import { displayHex } from "@/lib/color/hex";
 import { clampPoint, colorAt, type ImagePoint } from "@/lib/color/image";
 import { MAX_COLORS, MIN_COLORS } from "@/lib/color/types";
-import type { LoadedImage } from "@/lib/image";
+import type { LoadedImage, SelectedColor } from "@/lib/image";
 import { paletteActions } from "@/lib/palette-store";
+import { cn } from "@/lib/utils";
 
-/** Arrow keys move the point by this share of the image; with Shift by the larger one. */
+/** Arrow keys move a point by this share of the image; with Shift by the larger one. */
 const POINT_STEP = 0.01;
 const POINT_STEP_LARGE = 0.1;
 /** The image never takes more than this of the screen height, so the colors below it stay in view. */
 const IMAGE_MAX_HEIGHT = "45dvh";
+/** Half a marker (size-5), so a marker at the edge of the image stays on it. */
+const MARKER_INSET = "0.625rem";
 const CENTER: ImagePoint = { x: 0.5, y: 0.5 };
 const ARROWS: Record<string, ImagePoint> = {
   ArrowLeft: { x: -1, y: 0 },
@@ -36,18 +40,112 @@ function countOptions(max: number) {
   });
 }
 
-interface PointPickerProps {
-  image: LoadedImage;
-  selection: readonly string[];
-  selectionFull: boolean;
-  onSelect: (hex: string) => void;
+/** The point moved by an arrow key, or null for any other key. */
+function movedByKey(event: React.KeyboardEvent, point: ImagePoint): ImagePoint | null {
+  const arrow = ARROWS[event.key];
+  if (!arrow) return null;
+  const step = event.shiftKey ? POINT_STEP_LARGE : POINT_STEP;
+  return clampPoint({ x: point.x + arrow.x * step, y: point.y + arrow.y * step });
 }
 
 /**
- * The image with a point on it: drag or tap to move the point, or use the arrow keys.
- * Its color can join the selection that replaces the palette, or go straight into the current palette.
+ * Pointer handlers that follow a pressed pointer over the image and report the point under it. `focusTarget` names
+ * the control that takes the focus, so the keyboard carries on where the pointer left off.
  */
-function PointPicker({ image, selection, selectionFull, onSelect }: PointPickerProps) {
+function dragOnImage(onMove: (point: ImagePoint) => void, focusTarget: (element: HTMLElement) => HTMLElement | null) {
+  function report(event: React.PointerEvent<HTMLElement>) {
+    const area = event.currentTarget.closest("[data-image-area]") ?? event.currentTarget;
+    const box = area.getBoundingClientRect();
+    if (box.width === 0 || box.height === 0) return;
+    onMove(clampPoint({ x: (event.clientX - box.left) / box.width, y: (event.clientY - box.top) / box.height }));
+  }
+  return {
+    onPointerDown(event: React.PointerEvent<HTMLElement>) {
+      if (event.button !== 0) return;
+      // Keeps the browser from selecting text or moving the focus to the image itself.
+      event.preventDefault();
+      event.stopPropagation();
+      event.currentTarget.setPointerCapture(event.pointerId);
+      focusTarget(event.currentTarget)?.focus({ preventScroll: true });
+      report(event);
+    },
+    onPointerMove(event: React.PointerEvent<HTMLElement>) {
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) report(event);
+    },
+  };
+}
+
+/** Keeps a marker on the image even where its point lies on the edge. */
+function markerPosition({ x, y }: ImagePoint): React.CSSProperties {
+  return {
+    left: `clamp(${MARKER_INSET}, ${x * 100}%, 100% - ${MARKER_INSET})`,
+    top: `clamp(${MARKER_INSET}, ${y * 100}%, 100% - ${MARKER_INSET})`,
+  };
+}
+
+interface MarkerProps {
+  color: SelectedColor;
+  point: ImagePoint;
+  number: number;
+  highlighted: boolean;
+  describedBy: string;
+  onMove: (color: SelectedColor, point: ImagePoint) => void;
+}
+
+/** A numbered marker where a color of the selection comes from. Dragging it, or moving it with the arrow keys, changes the color. */
+function Marker({ color, point, number, highlighted, describedBy, onMove }: MarkerProps) {
+  const t = useT();
+  const locale = useLocale();
+
+  return (
+    <span
+      role="slider"
+      tabIndex={0}
+      aria-label={t.importDialog.marker(number)}
+      aria-valuenow={Math.round(point.x * 100)}
+      aria-valuetext={t.importDialog.pointValue(
+        `#${displayHex(color.hex)}`,
+        formatPercent(locale, point.x),
+        formatPercent(locale, point.y),
+      )}
+      aria-describedby={describedBy}
+      {...dragOnImage(
+        (next) => onMove(color, next),
+        (element) => element,
+      )}
+      onKeyDown={(event) => {
+        const next = movedByKey(event, point);
+        if (!next) return;
+        event.preventDefault();
+        onMove(color, next);
+      }}
+      className={cn(
+        // The invisible frame around it makes the marker easier to catch with a finger.
+        "absolute flex size-5 -translate-x-1/2 -translate-y-1/2 cursor-grab items-center justify-center rounded-full border border-background text-[10px] font-semibold tabular-nums ring-1 ring-foreground/60 transition-transform before:absolute before:-inset-2.5 focus:z-30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:cursor-grabbing",
+        highlighted && "z-10 scale-150 ring-2 ring-foreground",
+      )}
+      style={{ ...markerPosition(point), backgroundColor: color.hex, color: readableOn(color.hex) }}
+    >
+      {number}
+    </span>
+  );
+}
+
+interface PointPickerProps {
+  image: LoadedImage;
+  selection: readonly SelectedColor[];
+  selectionFull: boolean;
+  /** Position of the color whose marker stands out, while its entry in the list is hovered or focused. */
+  highlighted: number | null;
+  onSelect: (hex: string, point: ImagePoint) => void;
+  onMove: (color: SelectedColor, point: ImagePoint) => void;
+}
+
+/**
+ * The image with a point to pick from and a numbered marker for each color of the selection. The point's color can
+ * join the selection or go straight into the current palette; moving a marker changes its color.
+ */
+function PointPicker({ image, selection, selectionFull, highlighted, onSelect, onMove }: PointPickerProps) {
   const t = useT();
   const locale = useLocale();
   const hintId = useId();
@@ -56,14 +154,14 @@ function PointPicker({ image, selection, selectionFull, onSelect }: PointPickerP
   const [status, setStatus] = useState("");
   const hex = colorAt(image.pixels, point);
   const label = hex ? `#${displayHex(hex)}` : t.importDialog.transparent;
-  const inSelection = hex !== null && selection.includes(hex);
+  const inSelection = hex !== null && selection.some((color) => color.hex === hex);
   const canSelect = hex !== null && !inSelection && !selectionFull;
   const isPaletteFull = colors.length >= MAX_COLORS;
   const ratio = image.pixels.width / image.pixels.height;
 
   function select() {
     if (!hex || !canSelect) return;
-    onSelect(hex);
+    onSelect(hex, point);
     setStatus(t.importDialog.addedToSelection(label));
   }
 
@@ -75,18 +173,11 @@ function PointPicker({ image, selection, selectionFull, onSelect }: PointPickerP
     });
   }
 
-  function moveTo(event: React.PointerEvent<HTMLDivElement>) {
-    const box = event.currentTarget.getBoundingClientRect();
-    if (box.width === 0 || box.height === 0) return;
-    setPoint(clampPoint({ x: (event.clientX - box.left) / box.width, y: (event.clientY - box.top) / box.height }));
-  }
-
-  function onKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    const arrow = ARROWS[event.key];
-    if (arrow) {
+  function onKeyDown(event: React.KeyboardEvent<HTMLSpanElement>) {
+    const next = movedByKey(event, point);
+    if (next) {
       event.preventDefault();
-      const step = event.shiftKey ? POINT_STEP_LARGE : POINT_STEP;
-      setPoint((current) => clampPoint({ x: current.x + arrow.x * step, y: current.y + arrow.y * step }));
+      setPoint(next);
     } else if (event.key === "Enter") {
       event.preventDefault();
       select();
@@ -95,38 +186,50 @@ function PointPicker({ image, selection, selectionFull, onSelect }: PointPickerP
 
   return (
     <div className="space-y-3">
-      {/* One control for both axes, like the saturation area of the color picker. The value text names both. */}
       <div
-        role="slider"
-        tabIndex={0}
-        aria-label={t.importDialog.point}
-        aria-valuenow={Math.round(point.x * 100)}
-        aria-valuetext={t.importDialog.pointValue(label, formatPercent(locale, point.x), formatPercent(locale, point.y))}
-        aria-describedby={hintId}
-        onPointerDown={(event) => {
-          if (event.button !== 0) return;
-          event.currentTarget.setPointerCapture(event.pointerId);
-          moveTo(event);
-        }}
-        onPointerMove={(event) => {
-          if (event.currentTarget.hasPointerCapture(event.pointerId)) moveTo(event);
-        }}
-        onKeyDown={onKeyDown}
-        className="relative mx-auto cursor-crosshair touch-none rounded-[10px] select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        data-image-area
+        {...dragOnImage(setPoint, (area) => area.querySelector<HTMLElement>("[data-point]"))}
+        className="relative mx-auto cursor-crosshair touch-none rounded-[10px] select-none"
         style={{ aspectRatio: ratio, width: `min(100%, ${IMAGE_MAX_HEIGHT} * ${ratio})` }}
       >
         {/* An object URL of a local file; next/image has nothing to optimize. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={image.url} alt="" draggable={false} className="size-full rounded-[10px] object-cover" />
-        {/* Two rings in the page colors keep the point visible on any image. */}
+        {/*
+          The point to pick from: one control for both axes, like the saturation area of the color picker; the value
+          text names both. Two rings in the page colors keep it visible on any image. The image moves it, so a marker
+          beneath it can still be grabbed.
+        */}
         <span
-          className="pointer-events-none absolute size-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background ring-2 ring-foreground"
+          data-point
+          role="slider"
+          tabIndex={0}
+          aria-label={t.importDialog.point}
+          aria-valuenow={Math.round(point.x * 100)}
+          aria-valuetext={t.importDialog.pointValue(label, formatPercent(locale, point.x), formatPercent(locale, point.y))}
+          aria-describedby={hintId}
+          onKeyDown={onKeyDown}
+          className="pointer-events-none absolute z-20 size-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-background ring-2 ring-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
           style={{ left: `${point.x * 100}%`, top: `${point.y * 100}%`, backgroundColor: hex ?? "transparent" }}
-          aria-hidden="true"
         />
+        {/* Where the colors of the selection come from, numbered like the list below the image. */}
+        {selection.map(
+          (color, index) =>
+            color.point && (
+              <Marker
+                key={color.id}
+                color={color}
+                point={color.point}
+                number={index + 1}
+                highlighted={index === highlighted}
+                describedBy={hintId}
+                onMove={onMove}
+              />
+            ),
+        )}
       </div>
       <p id={hintId} className="text-muted-foreground">
-        {t.importDialog.pointHint}
+        {t.importDialog.pointHint} {t.importDialog.markerHint}
       </p>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         {hex ? (
@@ -159,15 +262,12 @@ function PointPicker({ image, selection, selectionFull, onSelect }: PointPickerP
   );
 }
 
-interface ImageImportProps {
+interface ImageImportProps extends Omit<PointPickerProps, "image"> {
   image: LoadedImage | null;
   count: number;
   /** Largest number of dominant colors that still leaves room for the picked ones. */
   maxCount: number;
   onCountChange: (count: number) => void;
-  selection: readonly string[];
-  selectionFull: boolean;
-  onSelect: (hex: string) => void;
   onChoose: () => void;
   onTakePhoto: () => void;
 }
@@ -178,11 +278,9 @@ export function ImageImport({
   count,
   maxCount,
   onCountChange,
-  selection,
-  selectionFull,
-  onSelect,
   onChoose,
   onTakePhoto,
+  ...picker
 }: ImageImportProps) {
   const t = useT();
 
@@ -208,13 +306,7 @@ export function ImageImport({
   return (
     <>
       {/* A new image starts with the point in the middle again. */}
-      <PointPicker
-        key={image.url}
-        image={image}
-        selection={selection}
-        selectionFull={selectionFull}
-        onSelect={onSelect}
-      />
+      <PointPicker key={image.url} image={image} {...picker} />
       <Field label={t.importDialog.colorCount} className="pb-0">
         <Segmented
           size="sm"

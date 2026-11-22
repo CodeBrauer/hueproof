@@ -7,7 +7,15 @@ import { normalizeHex } from "./color/hex";
 import { suggestRoles } from "./color/roles";
 import { DEFAULT_PALETTE } from "./color/types";
 import { EXPORT_FORMATS, toSlug, uniqueSlugs } from "./export";
-import { fitWithin, firstImageFile, MAX_IMAGE_SIDE } from "./image";
+import {
+  fitWithin,
+  firstImageFile,
+  MAX_IMAGE_SIDE,
+  moveInSelection,
+  NO_EDITS,
+  removeFromSelection,
+  selectionFrom,
+} from "./image";
 import { parseImportText } from "./import";
 import { renderPaletteSvg, wordmarkColors } from "./palette-image";
 import { OG_IMAGE_SIZE, ogImagePath, SITE_TAGLINES } from "./site";
@@ -112,6 +120,45 @@ describe("image import", () => {
 
   it("never scales a side below one pixel", () => {
     expect(fitWithin(10_000, 1, MAX_IMAGE_SIDE)).toEqual({ width: 512, height: 1 });
+  });
+
+  describe("selection", () => {
+    const dominant = ["#ebc34a", "#1a2033", "#075aad"];
+    const locations = [
+      { x: 0.25, y: 0.5 },
+      { x: 0.75, y: 0.5 },
+      null,
+    ];
+    const picked = { id: "pick", hex: "#c82c25", point: { x: 0.7, y: 0.7 } };
+
+    it("starts with the dominant colors where they sit", () => {
+      expect(selectionFrom(dominant, locations, NO_EDITS)).toEqual([
+        { id: "dominant-0", hex: "#ebc34a", point: { x: 0.25, y: 0.5 } },
+        { id: "dominant-1", hex: "#1a2033", point: { x: 0.75, y: 0.5 } },
+        { id: "dominant-2", hex: "#075aad", point: null },
+      ]);
+    });
+
+    it("keeps a moved color at its place, with the color of its new point", () => {
+      const moved = { id: "dominant-0", hex: "#ffffff", point: { x: 0.1, y: 0.1 } };
+      const selection = selectionFrom(dominant, locations, moveInSelection(NO_EDITS, moved));
+      expect(selection.map((color) => color.hex)).toEqual(["#ffffff", "#1a2033", "#075aad"]);
+      expect(selection[0].point).toEqual({ x: 0.1, y: 0.1 });
+    });
+
+    it("adds picked colors after the dominant ones and moves them in place", () => {
+      const withPick = { ...NO_EDITS, picked: [picked] };
+      const moved = moveInSelection(withPick, { ...picked, hex: "#000000", point: { x: 0, y: 0 } });
+      expect(moved.picked).toEqual([{ id: "pick", hex: "#000000", point: { x: 0, y: 0 } }]);
+      expect(moved.moved, "a picked color is not a moved dominant one").toEqual({});
+      expect(selectionFrom(dominant, locations, moved).at(-1)?.hex).toBe("#000000");
+    });
+
+    it("takes out a dominant color by its id and drops a picked one entirely", () => {
+      const edits = removeFromSelection(removeFromSelection({ ...NO_EDITS, picked: [picked] }, "dominant-1"), "pick");
+      expect(selectionFrom(dominant, locations, edits).map((color) => color.id)).toEqual(["dominant-0", "dominant-2"]);
+      expect(edits.picked, "the dropped pick frees its place").toEqual([]);
+    });
   });
 
   it("takes the first image among the dropped or pasted files", () => {

@@ -17,10 +17,20 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useT } from "@/i18n/context";
-import { displayHex } from "@/lib/color/hex";
-import { dominantColors } from "@/lib/color/image";
+import { createId, displayHex } from "@/lib/color/hex";
+import { colorAt, colorLocations, dominantColors, type ImagePoint } from "@/lib/color/image";
 import { DEFAULT_PALETTE, MAX_COLORS, MIN_COLORS, type PaletteEntry } from "@/lib/color/types";
-import { firstImageFile, readImage, type LoadedImage } from "@/lib/image";
+import {
+  firstImageFile,
+  moveInSelection,
+  NO_EDITS,
+  readImage,
+  removeFromSelection,
+  selectionFrom,
+  type LoadedImage,
+  type SelectedColor,
+  type SelectionEdits,
+} from "@/lib/image";
 import { parseImportText } from "@/lib/import";
 import { paletteActions } from "@/lib/palette-store";
 import { cn } from "@/lib/utils";
@@ -42,21 +52,19 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
   const [text, setText] = useState("");
   const [image, setImage] = useState<LoadedImage | null>(null);
   const [count, setCount] = useState(DEFAULT_PALETTE.length);
-  // Colors picked from the image, and dominant colors taken out of the selection.
-  const [picked, setPicked] = useState<string[]>([]);
-  const [removed, setRemoved] = useState<string[]>([]);
+  // Colors moved, taken out or picked on top of the dominant colors of the image.
+  const [edits, setEdits] = useState<SelectionEdits>(NO_EDITS);
+  const [highlighted, setHighlighted] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const cameraInput = useRef<HTMLInputElement>(null);
   const parsed = useMemo(() => parseImportText(text), [text]);
   const dominant = useMemo(() => (image ? dominantColors(image.pixels, count) : []), [image, count]);
-  const selection = useMemo(
-    () => [...new Set([...dominant.filter((hex) => !removed.includes(hex)), ...picked])],
-    [dominant, removed, picked],
-  );
-  const colors = source === "text" ? parsed : selection.map((hex) => ({ hex, name: "" }));
+  const locations = useMemo(() => (image ? colorLocations(image.pixels, dominant) : []), [image, dominant]);
+  const selection = useMemo(() => selectionFrom(dominant, locations, edits), [dominant, locations, edits]);
+  const colors = source === "text" ? parsed : selection.map(({ hex }) => ({ hex, name: "" }));
   // The dominant colors and the picked ones together never exceed a palette.
-  const selectionFull = count + picked.length >= MAX_COLORS;
+  const selectionFull = count + edits.picked.length >= MAX_COLORS;
   const nothingFound =
     source === "text" ? text.trim() !== "" && parsed.length === 0 : image !== null && dominant.length === 0;
   const hasColors = source === "text" ? parsed.length > 0 : image !== null && !nothingFound;
@@ -70,8 +78,7 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
 
   function showImage(next: LoadedImage | null) {
     setImage(next);
-    setPicked([]);
-    setRemoved([]);
+    setEdits(NO_EDITS);
   }
 
   function changeOpen(next: boolean) {
@@ -79,15 +86,16 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
     onOpenChange(next);
   }
 
-  // A new number of colors brings back dominant colors that were taken out before.
+  // New dominant colors: changes to the old ones no longer apply, picked colors stay.
   function changeCount(next: number) {
     setCount(next);
-    setRemoved([]);
+    setEdits((current) => ({ ...NO_EDITS, picked: current.picked }));
   }
 
-  function removeFromSelection(hex: string) {
-    setPicked((current) => current.filter((candidate) => candidate !== hex));
-    setRemoved((current) => [...current, hex]);
+  function moveColor(color: SelectedColor, point: ImagePoint) {
+    // On a transparent spot the marker moves on and keeps its color.
+    const hex = (image && colorAt(image.pixels, point)) ?? color.hex;
+    setEdits((current) => moveInSelection(current, { ...color, hex, point }));
   }
 
   function replacePalette(entries: PaletteEntry[]) {
@@ -185,11 +193,15 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
           <ImageImport
             image={image}
             count={count}
-            maxCount={MAX_COLORS - picked.length}
+            maxCount={MAX_COLORS - edits.picked.length}
             onCountChange={changeCount}
             selection={selection}
             selectionFull={selectionFull}
-            onSelect={(hex) => setPicked((current) => [...current, hex])}
+            highlighted={highlighted}
+            onSelect={(hex, point) =>
+              setEdits((current) => ({ ...current, picked: [...current.picked, { id: createId(), hex, point }] }))
+            }
+            onMove={moveColor}
             onChoose={() => fileInput.current?.click()}
             onTakePhoto={() => cameraInput.current?.click()}
           />
@@ -203,7 +215,18 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
             </div>
             <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
               {colors.map((color, index) => (
-                <li key={index} className="flex items-center gap-0.5">
+                <li
+                  key={index}
+                  className="flex items-center gap-0.5"
+                  onMouseEnter={() => setHighlighted(index)}
+                  onMouseLeave={() => setHighlighted(null)}
+                  onFocus={() => setHighlighted(index)}
+                  onBlur={() => setHighlighted(null)}
+                >
+                  {/* The number of its marker on the image. */}
+                  {source === "image" && (
+                    <span className="mr-1 text-xs text-muted-foreground tabular-nums">{index + 1}</span>
+                  )}
                   <SwatchLabel hex={color.hex}>{color.name || `#${displayHex(color.hex)}`}</SwatchLabel>
                   {/* Text is edited in the field above; the colors of an image are taken out one by one. */}
                   {source === "image" && (
@@ -211,7 +234,7 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
                       variant="ghost"
                       size="icon-xs"
                       aria-label={t.importDialog.removeFromSelection(`#${displayHex(color.hex)}`)}
-                      onClick={() => removeFromSelection(color.hex)}
+                      onClick={() => setEdits((current) => removeFromSelection(current, selection[index].id))}
                     >
                       <X />
                     </Button>
