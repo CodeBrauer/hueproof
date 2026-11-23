@@ -7,6 +7,16 @@ import { normalizeHex } from "./color/hex";
 import { suggestRoles } from "./color/roles";
 import { DEFAULT_PALETTE } from "./color/types";
 import { EXPORT_FORMATS, toSlug, uniqueSlugs } from "./export";
+import {
+  fitWithin,
+  firstImageFile,
+  isHeic,
+  MAX_IMAGE_SIDE,
+  moveInSelection,
+  NO_EDITS,
+  removeFromSelection,
+  selectionFrom,
+} from "./image";
 import { parseImportText } from "./import";
 import { renderPaletteSvg, wordmarkColors } from "./palette-image";
 import { OG_IMAGE_SIZE, ogImagePath, SITE_TAGLINES } from "./site";
@@ -96,6 +106,84 @@ describe("import", () => {
     expect(parseImportText("hello world")).toEqual([]);
     expect(parseImportText("")).toEqual([]);
     expect(parseImportText(Array.from({ length: 15 }, (_, index) => `#0000${index + 10}`).join("\n"))).toHaveLength(10);
+  });
+});
+
+describe("image import", () => {
+  it("scales the longer side down to the limit and keeps the aspect ratio", () => {
+    expect(fitWithin(4000, 3000, MAX_IMAGE_SIDE)).toEqual({ width: 512, height: 384 });
+    expect(fitWithin(1080, 1920, MAX_IMAGE_SIDE)).toEqual({ width: 288, height: 512 });
+  });
+
+  it("leaves small images at their size", () => {
+    expect(fitWithin(300, 200, MAX_IMAGE_SIDE)).toEqual({ width: 300, height: 200 });
+  });
+
+  it("never scales a side below one pixel", () => {
+    expect(fitWithin(10_000, 1, MAX_IMAGE_SIDE)).toEqual({ width: 512, height: 1 });
+  });
+
+  describe("selection", () => {
+    const dominant = ["#ebc34a", "#1a2033", "#075aad"];
+    const locations = [
+      { x: 0.25, y: 0.5 },
+      { x: 0.75, y: 0.5 },
+      null,
+    ];
+    const picked = { id: "pick", hex: "#c82c25", point: { x: 0.7, y: 0.7 } };
+
+    it("starts with the dominant colors where they sit", () => {
+      expect(selectionFrom(dominant, locations, NO_EDITS)).toEqual([
+        { id: "dominant-0", hex: "#ebc34a", point: { x: 0.25, y: 0.5 } },
+        { id: "dominant-1", hex: "#1a2033", point: { x: 0.75, y: 0.5 } },
+        { id: "dominant-2", hex: "#075aad", point: null },
+      ]);
+    });
+
+    it("keeps a moved color at its place, with the color of its new point", () => {
+      const moved = { id: "dominant-0", hex: "#ffffff", point: { x: 0.1, y: 0.1 } };
+      const selection = selectionFrom(dominant, locations, moveInSelection(NO_EDITS, moved));
+      expect(selection.map((color) => color.hex)).toEqual(["#ffffff", "#1a2033", "#075aad"]);
+      expect(selection[0].point).toEqual({ x: 0.1, y: 0.1 });
+    });
+
+    it("adds picked colors after the dominant ones and moves them in place", () => {
+      const withPick = { ...NO_EDITS, picked: [picked] };
+      const moved = moveInSelection(withPick, { ...picked, hex: "#000000", point: { x: 0, y: 0 } });
+      expect(moved.picked).toEqual([{ id: "pick", hex: "#000000", point: { x: 0, y: 0 } }]);
+      expect(moved.moved, "a picked color is not a moved dominant one").toEqual({});
+      expect(selectionFrom(dominant, locations, moved).at(-1)?.hex).toBe("#000000");
+    });
+
+    it("takes out a dominant color by its id and drops a picked one entirely", () => {
+      const edits = removeFromSelection(removeFromSelection({ ...NO_EDITS, picked: [picked] }, "dominant-1"), "pick");
+      expect(selectionFrom(dominant, locations, edits).map((color) => color.id)).toEqual(["dominant-0", "dominant-2"]);
+      expect(edits.picked, "the dropped pick frees its place").toEqual([]);
+    });
+  });
+
+  it("takes the first image among the dropped or pasted files", () => {
+    const text = new File(["gold: #d5ac85"], "colors.txt", { type: "text/plain" });
+    const photo = new File([""], "photo.jpg", { type: "image/jpeg" });
+    const logo = new File([""], "logo.png", { type: "image/png" });
+    expect(firstImageFile([text, photo, logo])).toBe(photo);
+    expect(firstImageFile([text]), "no image").toBeNull();
+  });
+
+  it("recognizes an image without a type by its extension, in any case", () => {
+    const untyped = new File([""], "IMG_0042.HEIC");
+    const octetStream = new File([""], "photo.avif", { type: "application/octet-stream" });
+    expect(firstImageFile([untyped])).toBe(untyped);
+    expect(firstImageFile([octetStream]), "a generic binary type").toBe(octetStream);
+    expect(firstImageFile([new File([""], "notes")]), "no type and no extension").toBeNull();
+    expect(firstImageFile([new File([""], "notes.txt")]), "no type and not an image extension").toBeNull();
+  });
+
+  it("tells HEIC photos apart by type or extension", () => {
+    expect(isHeic(new File([""], "photo", { type: "image/heic" }))).toBe(true);
+    expect(isHeic(new File([""], "photo", { type: "image/HEIF" })), "type in capitals").toBe(true);
+    expect(isHeic(new File([""], "IMG_0042.HEIC"))).toBe(true);
+    expect(isHeic(new File([""], "photo.jpg", { type: "image/jpeg" }))).toBe(false);
   });
 });
 

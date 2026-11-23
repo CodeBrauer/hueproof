@@ -38,6 +38,7 @@ preview image is a static PNG per language, because a static site cannot render 
 | Language picked with the switch | `localStorage`, key `hueproof:locale` | `src/i18n/locales.ts` |
 | Light or dark theme | `localStorage`, through `next-themes` | `src/components/providers.tsx` |
 | Selected tab, vision simulation, open dialog | React state, reset on reload | `src/components/palette-app.tsx` |
+| Image in the import dialog | Memory only, while the dialog is open; never uploaded | `src/components/dialogs/import-dialog.tsx` |
 
 ## The palette store
 
@@ -56,8 +57,9 @@ During prerendering and the first client render it returns `null`, and the page 
   write before that would drop the router's own state from the entry.
 - Links from before the fragment format (`?c=…&n=…`) still open.
 
-Everything that comes from outside is validated before use: the URL, history state, `localStorage` and
-pasted text (`src/lib/import.ts`).
+Everything that comes from outside is validated before use: the URL, history state, `localStorage`,
+pasted text (`src/lib/import.ts`) and images, of which only files with an image type or, lacking one, an image
+extension are decoded (`src/lib/image.ts`). The browser decodes them, so it decides which formats work.
 
 ## Layers
 

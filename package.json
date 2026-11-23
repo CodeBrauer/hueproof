@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.2",
     "color-name-list": "^14.86.0",
+    "colorthief": "^3.5.0",
     "culori": "^4.0.2",
     "lucide-react": "^1.76.0",
     "next": "16.4.6",
