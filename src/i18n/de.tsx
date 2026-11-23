@@ -386,7 +386,7 @@ export const de: Dictionary = {
     chooseImage: "Bild auswählen",
     takePhoto: "Foto aufnehmen",
     otherImage: "Anderes Bild",
-    dropHint: "Oder zieh ein Bild in dieses Fenster oder füge es ein.",
+    dropHint: "Oder zieh ein Bild in diesen Dialog oder füge es ein.",
     notAnImage: "Diese Datei ist kein Bild.",
     imageFailed: "Dieses Bild konnte nicht gelesen werden. Versuch es mit einer JPEG-, PNG- oder WebP-Datei.",
     noColors: "In diesem Bild wurden keine Farben gefunden.",

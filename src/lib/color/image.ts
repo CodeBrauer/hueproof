@@ -1,4 +1,4 @@
-import { extractPalette, MmcqQuantizer, validateOptions } from "colorthief/internals";
+import type * as Colorthief from "colorthief/internals";
 import { converter, differenceEuclidean, formatHex, type Oklab } from "culori";
 import { MAX_COLORS, MIN_COLORS } from "./types";
 
@@ -28,36 +28,46 @@ const CHANNELS = 4;
 const ALPHA_OFFSET = 3;
 const BYTE_MAX = 255;
 
-const quantizer = new MmcqQuantizer();
 const toOklab = converter("oklab");
 const oklabDistance = differenceEuclidean("oklab");
+
+let colorthief: typeof Colorthief | null = null;
 
 interface GridCell {
   center: ImagePoint;
   color: Oklab;
 }
 
-function hasVisiblePixel({ data }: Pixels): boolean {
-  for (let offset = ALPHA_OFFSET; offset < data.length; offset += CHANNELS) {
+/** Loads colorthief on demand: only the image import needs it, and most visits never open it. */
+export async function loadImageAnalysis(): Promise<void> {
+  colorthief ??= await import("colorthief/internals");
+}
+
+/** Whether any of the pixels looked at, every `step`-th, is visible. */
+function hasVisiblePixel({ data }: Pixels, step: number): boolean {
+  for (let offset = ALPHA_OFFSET; offset < data.length; offset += CHANNELS * step) {
     if (data[offset] >= MIN_VISIBLE_ALPHA) return true;
   }
   return false;
 }
 
 /**
- * The dominant colors of an image, most common first: median cut in OKLCH, through colorthief.
- * An image with no more distinct colors than asked for returns exactly those.
+ * The dominant colors of an image, most common first: median cut in OKLCH, through colorthief. Empty until
+ * `loadImageAnalysis` has finished. An image with no more distinct colors than asked for returns exactly those.
  */
 export function dominantColors(pixels: Pixels, count: number): string[] {
-  if (!hasVisiblePixel(pixels)) return [];
-  const options = validateOptions({
+  if (!colorthief || !hasVisiblePixel(pixels, 1)) return [];
+  const step = Math.max(1, Math.ceil((pixels.width * pixels.height) / MAX_SAMPLED_PIXELS));
+  const options = colorthief.validateOptions({
     colorCount: Math.min(Math.max(count, MIN_COLORS), MAX_COLORS),
-    quality: Math.max(1, Math.ceil((pixels.width * pixels.height) / MAX_SAMPLED_PIXELS)),
+    // Sampling must not skip every visible pixel, or colorthief falls back to the transparent ones.
+    quality: hasVisiblePixel(pixels, step) ? step : 1,
     // White is a palette color like any other. colorthief leaves it out by default.
     ignoreWhite: false,
     alphaThreshold: MIN_VISIBLE_ALPHA,
   });
-  const colors = extractPalette(pixels.data, pixels.width, pixels.height, options, quantizer) ?? [];
+  const quantizer = new colorthief.MmcqQuantizer();
+  const colors = colorthief.extractPalette(pixels.data, pixels.width, pixels.height, options, quantizer) ?? [];
   const byShare = [...colors].sort((a, b) => b.population - a.population);
   return [...new Set(byShare.map((color) => color.hex()))];
 }

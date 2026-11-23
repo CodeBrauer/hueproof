@@ -65,9 +65,11 @@ All of it lives in `src/lib/color/` as pure functions. Colors are lowercase `#rr
 - **Roles are a first guess:** lightest color as background, darkest as text, with five or more colors the
   second lightest as surface, then the most colorful of the rest as primary and accent.
 - **Colors from an image** come from a copy at most 512 px on its longer side, of which at most 65,536 pixels
-  are sampled. They are listed most common first. White counts like any other color (colorthief would skip it).
-  An image with no more distinct colors than asked for, such as a logo, gives exactly those. A picked point reads one
-  pixel of the copy, which already averages the area of the original beneath it.
+  are sampled. If the sampled pixels are all transparent, every pixel is read, so a sparse image does not turn into
+  the black of its transparent pixels. They are listed most common first. White counts like any other color
+  (colorthief would skip it). An image with no more distinct colors than asked for, such as a logo, gives exactly
+  those. A picked point reads one pixel of the copy, which already averages the area of the original beneath it.
+  colorthief is loaded with the first image (`loadImageAnalysis`), not with the page.
 - **Markers on the image** show where each color of the selection comes from. A picked color is marked where it was
   picked. For a dominant color, the copy is divided into a grid and each cell averaged; of the cells closest to the
   color, the marker takes the one nearest to their middle, so it sits inside the area rather than at its edge. A

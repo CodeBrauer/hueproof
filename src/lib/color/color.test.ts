@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { apcaLc, contrastTier, formatContrast, nearMissTarget, pairContrast, readableOn, wcagRatio } from "./contrast";
 import { analyzePairs, colorDifference, largestSafeSet } from "./difference";
 import { colorFamily } from "./family";
@@ -6,7 +6,15 @@ import { ensureContrast, fixConfusablePair, fixContrast } from "./fix";
 import { CMYK_SMALL_INK_THRESHOLD, colorFormats, omitSmallInk } from "./formats";
 import { isFullHex, normalizeHex, sanitizeName } from "./hex";
 import { hexWord } from "./hexword";
-import { colorAt, colorLocations, dominantColors, MAX_SAMPLED_PIXELS, MIN_VISIBLE_ALPHA, type Pixels } from "./image";
+import {
+  colorAt,
+  colorLocations,
+  dominantColors,
+  loadImageAnalysis,
+  MAX_SAMPLED_PIXELS,
+  MIN_VISIBLE_ALPHA,
+  type Pixels,
+} from "./image";
 import { classifyTemperature } from "./temperature";
 import { DEFAULT_PALETTE } from "./types";
 import { parsePalette, serializePalette } from "./url";
@@ -255,6 +263,8 @@ describe("colors from an image", () => {
   type Rgba = [number, number, number, number?];
   const OPAQUE = 255;
 
+  beforeAll(() => loadImageAnalysis());
+
   function image(width: number, height: number, fill: (x: number, y: number) => Rgba): Pixels {
     const data = new Uint8ClampedArray(width * height * 4);
     for (let y = 0; y < height; y++) {
@@ -299,6 +309,12 @@ describe("colors from an image", () => {
     expect(dominantColors(gradient, 4)).toHaveLength(4);
     expect(dominantColors(gradient, 50), "capped at the largest palette").toHaveLength(10);
     expect(dominantColors(gradient, 1), "raised to the smallest palette").toHaveLength(2);
+  });
+
+  it("finds the colors of a large image whose visible pixels fall between the sampled ones", () => {
+    const side = Math.ceil(Math.sqrt(MAX_SAMPLED_PIXELS * 4));
+    const sparse = image(side, side, (x) => (x % 4 === 1 ? [255, 0, 0] : [0, 0, 0, 0]));
+    expect(dominantColors(sparse, 5), "not the black of the transparent pixels").toEqual(["#ff0000"]);
   });
 
   it("leaves transparent pixels out", () => {

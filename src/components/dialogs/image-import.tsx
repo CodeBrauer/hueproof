@@ -189,12 +189,12 @@ function PointPicker({ image, selection, selectionFull, highlighted, onSelect, o
       <div
         data-image-area
         {...dragOnImage(setPoint, (area) => area.querySelector<HTMLElement>("[data-point]"))}
-        className="relative mx-auto cursor-crosshair touch-none rounded-[10px] select-none"
+        className="relative mx-auto cursor-crosshair touch-none rounded-lg select-none"
         style={{ aspectRatio: ratio, width: `min(100%, ${IMAGE_MAX_HEIGHT} * ${ratio})` }}
       >
         {/* An object URL of a local file; next/image has nothing to optimize. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image.url} alt="" draggable={false} className="size-full rounded-[10px] object-cover" />
+        <img src={image.url} alt="" draggable={false} className="size-full rounded-lg object-cover" />
         {/*
           The point to pick from: one control for both axes, like the saturation area of the color picker; the value
           text names both. Two rings in the page colors keep it visible on any image. The image moves it, so a marker
@@ -286,7 +286,7 @@ export function ImageImport({
 
   if (!image) {
     return (
-      <div className="flex flex-col items-center gap-3 rounded-[10px] border border-dashed border-border px-4 py-10 text-center">
+      <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-border px-4 py-10 text-center">
         <div className="flex flex-wrap justify-center gap-2">
           <Button variant="outline" onClick={onChoose}>
             <ImageUp />

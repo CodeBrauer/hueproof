@@ -396,7 +396,7 @@ export const en = {
     chooseImage: "Choose image",
     takePhoto: "Take photo",
     otherImage: "Other image",
-    dropHint: "Or drop or paste an image into this window.",
+    dropHint: "Or drop or paste an image into this dialog.",
     notAnImage: "That file is not an image.",
     imageFailed: "This image could not be read. Try a JPEG, PNG or WebP file.",
     noColors: "No colors found in this image.",

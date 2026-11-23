@@ -18,7 +18,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useT } from "@/i18n/context";
 import { createId, displayHex } from "@/lib/color/hex";
-import { colorAt, colorLocations, dominantColors, type ImagePoint } from "@/lib/color/image";
+import { colorAt, colorLocations, dominantColors, loadImageAnalysis, type ImagePoint } from "@/lib/color/image";
 import { DEFAULT_PALETTE, MAX_COLORS, MIN_COLORS, type PaletteEntry } from "@/lib/color/types";
 import {
   firstImageFile,
@@ -58,13 +58,17 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
   const [dragging, setDragging] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const cameraInput = useRef<HTMLInputElement>(null);
+  // Counts the images asked for, so a slow one cannot replace a newer one or come back after the dialog closed.
+  const imageRequest = useRef(0);
   const parsed = useMemo(() => parseImportText(text), [text]);
-  const dominant = useMemo(() => (image ? dominantColors(image.pixels, count) : []), [image, count]);
+  // Picked colors take their places from the dominant ones, so both together never exceed a palette.
+  const dominantCount = Math.min(count, MAX_COLORS - edits.picked.length);
+  const dominant = useMemo(() => (image ? dominantColors(image.pixels, dominantCount) : []), [image, dominantCount]);
   const locations = useMemo(() => (image ? colorLocations(image.pixels, dominant) : []), [image, dominant]);
   const selection = useMemo(() => selectionFrom(dominant, locations, edits), [dominant, locations, edits]);
   const colors = source === "text" ? parsed : selection.map(({ hex }) => ({ hex, name: "" }));
-  // The dominant colors and the picked ones together never exceed a palette.
-  const selectionFull = count + edits.picked.length >= MAX_COLORS;
+  // Counted by the colors found, not asked for: a logo with three colors leaves room to pick seven more.
+  const selectionFull = dominant.length + edits.picked.length >= MAX_COLORS;
   const nothingFound =
     source === "text" ? text.trim() !== "" && parsed.length === 0 : image !== null && dominant.length === 0;
   const hasColors = source === "text" ? parsed.length > 0 : image !== null && !nothingFound;
@@ -76,13 +80,33 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
     return () => URL.revokeObjectURL(image.url);
   }, [image]);
 
+  // Outside the dialog the browser would open a dropped file in place of the page, so it is refused there. Drops on
+  // the dialog are handled, and marked as such, before they get this far.
+  useEffect(() => {
+    if (!open) return;
+    function refuseFile(event: DragEvent) {
+      if (event.defaultPrevented || !event.dataTransfer?.types.includes(FILES_TYPE)) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = "none";
+    }
+    window.addEventListener("dragover", refuseFile);
+    window.addEventListener("drop", refuseFile);
+    return () => {
+      window.removeEventListener("dragover", refuseFile);
+      window.removeEventListener("drop", refuseFile);
+    };
+  }, [open]);
+
   function showImage(next: LoadedImage | null) {
     setImage(next);
     setEdits(NO_EDITS);
   }
 
   function changeOpen(next: boolean) {
-    if (!next) showImage(null);
+    if (!next) {
+      imageRequest.current += 1;
+      showImage(null);
+    }
     onOpenChange(next);
   }
 
@@ -112,11 +136,18 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
       toast.error(t.importDialog.notAnImage);
       return;
     }
+    const request = ++imageRequest.current;
     try {
-      showImage(await readImage(file));
+      await loadImageAnalysis();
+      const loaded = await readImage(file);
+      if (request !== imageRequest.current) {
+        URL.revokeObjectURL(loaded.url);
+        return;
+      }
+      showImage(loaded);
       setSource("image");
     } catch {
-      toast.error(t.importDialog.imageFailed);
+      if (request === imageRequest.current) toast.error(t.importDialog.imageFailed);
     }
   }
 
@@ -127,8 +158,10 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
     event.target.value = "";
   }
 
-  // Images can be pasted or dropped anywhere in the dialog. Text is left to the text field.
+  // Images can be pasted or dropped anywhere in the dialog. Text is left to the text field, even when an office app
+  // puts a picture of it on the clipboard as well.
   function onPaste(event: React.ClipboardEvent) {
+    if (source === "text" && event.clipboardData.getData("text/plain").trim() !== "") return;
     const file = firstImageFile(event.clipboardData.files);
     if (!file) return;
     event.preventDefault();
@@ -192,7 +225,7 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
         ) : (
           <ImageImport
             image={image}
-            count={count}
+            count={dominantCount}
             maxCount={MAX_COLORS - edits.picked.length}
             onCountChange={changeCount}
             selection={selection}
