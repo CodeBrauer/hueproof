@@ -4,6 +4,16 @@ import type { ImagePoint, Pixels } from "./color/image";
 export const MAX_IMAGE_SIDE = 512;
 
 const IMAGE_TYPE_PREFIX = "image/";
+/** Some systems hand over image files without a type, or as `application/octet-stream`; then the extension decides. */
+const IMAGE_EXTENSIONS = new Set(["avif", "bmp", "gif", "heic", "heif", "jpeg", "jpg", "jxl", "png", "tif", "tiff", "webp"]);
+/** HEIC and HEIF, the format of iPhone photos, which browsers other than Safari cannot show. */
+const HEIC_TYPES = new Set(["image/heic", "image/heif", "image/heic-sequence", "image/heif-sequence"]);
+const HEIC_EXTENSIONS = new Set(["heic", "heif"]);
+
+function extensionOf(name: string): string {
+  const dot = name.lastIndexOf(".");
+  return dot === -1 ? "" : name.slice(dot + 1).trim().toLowerCase();
+}
 
 export interface LoadedImage {
   /** Object URL of the file, to show it. Revoke it once the image is no longer shown. */
@@ -17,12 +27,17 @@ export function fitWithin(width: number, height: number, maxSide: number): { wid
   return { width: Math.max(1, Math.round(width * scale)), height: Math.max(1, Math.round(height * scale)) };
 }
 
-/** The first file that says it is an image. Whether it really is one shows when it is decoded. */
+/** The first file that looks like an image, by its type or its extension. Whether it really is one shows when it is decoded. */
 export function firstImageFile(files: Iterable<File>): File | null {
   for (const file of files) {
-    if (file.type.startsWith(IMAGE_TYPE_PREFIX)) return file;
+    if (file.type.startsWith(IMAGE_TYPE_PREFIX) || IMAGE_EXTENSIONS.has(extensionOf(file.name))) return file;
   }
   return null;
+}
+
+/** Whether a file is a HEIC or HEIF photo, so a failed decoding can say why. */
+export function isHeic(file: File): boolean {
+  return HEIC_TYPES.has(file.type.toLowerCase()) || HEIC_EXTENSIONS.has(extensionOf(file.name));
 }
 
 /** A color of the selection taken from an image, and the point it comes from, if known. */

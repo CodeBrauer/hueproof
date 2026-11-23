@@ -30,7 +30,8 @@ color conversions and export. No backend: the palette lives in the URL fragment
 - Colors from an image: choose a file, drop or paste it, or take a photo on a phone. Start from its dominant colors,
   numbered on the image where they come from. Drag a marker to change its color, pick more from a point on the image,
   take out the ones you don't want, and use them as the palette (mouse, touch or arrow keys); a picked color can also
-  go straight into the current palette. The image stays in the browser
+  go straight into the current palette. The image stays in the browser, which also decides the formats: JPEG, PNG,
+  GIF, WebP and AVIF everywhere, HEIC only in Safari
 - English (`/`) and German (`/de/`), each prerendered, with `hreflang` links; switching keeps the palette.
   A first visit to `/` moves on to `/de/` when the browser prefers German; a language picked with the switch wins
 - Export: CSS variables, SCSS, Tailwind v4 theme, JSON, W3C design tokens, SVG, PNG

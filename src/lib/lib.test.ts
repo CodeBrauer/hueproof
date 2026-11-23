@@ -10,6 +10,7 @@ import { EXPORT_FORMATS, toSlug, uniqueSlugs } from "./export";
 import {
   fitWithin,
   firstImageFile,
+  isHeic,
   MAX_IMAGE_SIDE,
   moveInSelection,
   NO_EDITS,
@@ -167,7 +168,22 @@ describe("image import", () => {
     const logo = new File([""], "logo.png", { type: "image/png" });
     expect(firstImageFile([text, photo, logo])).toBe(photo);
     expect(firstImageFile([text]), "no image").toBeNull();
-    expect(firstImageFile([new File([""], "photo.jpg")]), "a file without a type").toBeNull();
+  });
+
+  it("recognizes an image without a type by its extension, in any case", () => {
+    const untyped = new File([""], "IMG_0042.HEIC");
+    const octetStream = new File([""], "photo.avif", { type: "application/octet-stream" });
+    expect(firstImageFile([untyped])).toBe(untyped);
+    expect(firstImageFile([octetStream]), "a generic binary type").toBe(octetStream);
+    expect(firstImageFile([new File([""], "notes")]), "no type and no extension").toBeNull();
+    expect(firstImageFile([new File([""], "notes.txt")]), "no type and not an image extension").toBeNull();
+  });
+
+  it("tells HEIC photos apart by type or extension", () => {
+    expect(isHeic(new File([""], "photo", { type: "image/heic" }))).toBe(true);
+    expect(isHeic(new File([""], "photo", { type: "image/HEIF" })), "type in capitals").toBe(true);
+    expect(isHeic(new File([""], "IMG_0042.HEIC"))).toBe(true);
+    expect(isHeic(new File([""], "photo.jpg", { type: "image/jpeg" }))).toBe(false);
   });
 });
 

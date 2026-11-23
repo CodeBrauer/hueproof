@@ -58,7 +58,8 @@ During prerendering and the first client render it returns `null`, and the page 
 - Links from before the fragment format (`?c=…&n=…`) still open.
 
 Everything that comes from outside is validated before use: the URL, history state, `localStorage`,
-pasted text (`src/lib/import.ts`) and images, of which only files of an image type are decoded (`src/lib/image.ts`).
+pasted text (`src/lib/import.ts`) and images, of which only files with an image type or, lacking one, an image
+extension are decoded (`src/lib/image.ts`). The browser decodes them, so it decides which formats work.
 
 ## Layers
 

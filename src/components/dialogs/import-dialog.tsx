@@ -22,6 +22,7 @@ import { colorAt, colorLocations, dominantColors, loadImageAnalysis, type ImageP
 import { DEFAULT_PALETTE, MAX_COLORS, MIN_COLORS, type PaletteEntry } from "@/lib/color/types";
 import {
   firstImageFile,
+  isHeic,
   moveInSelection,
   NO_EDITS,
   readImage,
@@ -147,7 +148,8 @@ export function ImportDialog({ open, onOpenChange }: ImportDialogProps) {
       showImage(loaded);
       setSource("image");
     } catch {
-      if (request === imageRequest.current) toast.error(t.importDialog.imageFailed);
+      if (request !== imageRequest.current) return;
+      toast.error(isHeic(file) ? t.importDialog.heicFailed : t.importDialog.imageFailed);
     }
   }
 
