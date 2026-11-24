@@ -19,6 +19,7 @@ import { downloadBlob, svgToPng } from "@/lib/download";
 import { EXPORT_FORMATS, type ExportColor } from "@/lib/export";
 
 const IMAGE_FORMAT_ID = "svg";
+const TOKENS_FORMAT_ID = "tokens";
 const IMAGE_WIDTH = 1200;
 const IMAGE_HEIGHT = 630;
 
@@ -57,6 +58,9 @@ export function ExportDialog({ open, onOpenChange, colors }: ExportDialogProps) 
           onChange={setFormatId}
           options={EXPORT_FORMATS.map((candidate) => ({ value: candidate.id, label: candidate.label }))}
         />
+        {format.id === TOKENS_FORMAT_ID && (
+          <p className="text-sm text-muted-foreground">{t.exportDialog.figmaHint}</p>
+        )}
 
         {isImage ? (
           // A data URL of markup generated here; next/image has nothing to optimize.

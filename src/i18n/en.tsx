@@ -371,6 +371,7 @@ export const en = {
     title: "Export palette",
     description: "Copy the code or download it as a file. Variable names come from the color names.",
     format: "Export format",
+    figmaHint: "For Figma: create a new collection in the Variables view, then drag the downloaded file into it to import the colors as variables.",
     previewAlt: "Preview of the palette image",
     downloadPng: "Download PNG",
     download: (filename: string) => `Download ${filename}`,

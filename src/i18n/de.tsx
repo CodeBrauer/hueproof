@@ -361,6 +361,7 @@ export const de: Dictionary = {
     title: "Palette exportieren",
     description: "Kopiere den Code oder lade ihn als Datei herunter. Die Variablennamen entstehen aus den Farbnamen.",
     format: "Exportformat",
+    figmaHint: "Für Figma: In der Variablenansicht eine neue Sammlung anlegen und die heruntergeladene Datei hineinziehen, um die Farben als Variablen zu importieren.",
     previewAlt: "Vorschau des Palettenbilds",
     downloadPng: "PNG herunterladen",
     download: (filename) => `${filename} herunterladen`,
